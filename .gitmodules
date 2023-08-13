@@ -1,0 +1,3 @@
+[submodule "LinguosityApp"]
+  path = LinguosityApp
+  url = https://github.com/linguosity/LinguosityApp
