@@ -305,7 +305,7 @@ function App() {
   //generate audio from PlayHT's text-to-voice API
   async function playAudio(text, voiceID) {
     // Use the voiceID parameter
-    const voice = voiceID;
+    
     const apiKey = import.meta.env.VITE_APP_PLAYHT_API_KEY;
     const userId = import.meta.env.VITE_APP_PLAYHT_USER_ID; // Add User ID if required
   
@@ -313,14 +313,14 @@ function App() {
       method: 'POST',
       mode: 'no-cors',
       headers: {
-        'accept': 'application/json',
+        'accept': 'audio/mpeg',
         'content-type': 'application/json',
-        'AUTHORIZATION': apiKey,
+        'AUTHORIZATION': `Bearer ${apiKey}`,
         'X-USER-ID': userId // Include User ID if required
       },
       body: JSON.stringify({
         text: text, // Use text as shown in example
-        voice: voice,
+        voice: voiceID,
         quality: 'draft', // Use draft for the fastest latency
         output_format: 'mp3', // Use mp3 or mulaw
         speed: 1, // Use a higher number to speak faster
