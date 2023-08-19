@@ -301,60 +301,44 @@ function App() {
       console.error(`Error: ${error}`);
     }
   }
-
-  //generate audio from PlayHT's text-to-voice API
+  
   async function playAudio(text, voiceID) {
-    // Use the voiceID parameter
-    
     const apiKey = import.meta.env.VITE_APP_PLAYHT_API_KEY;
-    const userId = import.meta.env.VITE_APP_PLAYHT_USER_ID; // Add User ID if required
+    const userId = import.meta.env.VITE_APP_PLAYHT_USER_ID;
   
     const request = {
       method: 'POST',
-      mode: 'no-cors',
       headers: {
-        'accept': 'audio/mpeg',
-        'content-type': 'application/json',
-        'AUTHORIZATION': `Bearer ${apiKey}`,
-        'X-USER-ID': userId // Include User ID if required
+        'Authorization': apiKey,
+        'X-User-ID': userId,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        text: text, // Use text as shown in example
-        voice: voiceID,
-        quality: 'draft', // Use draft for the fastest latency
-        output_format: 'mp3', // Use mp3 or mulaw
-        speed: 1, // Use a higher number to speak faster
-        sample_rate: 24000 // Use 24000 or 8000 depending on your use case
+        "voice": voiceID,
+        "content": text.split(/\.|\?|!/),
+        "title": "Testing conversion"
       })
     };
   
-    // Log the entire request before sending it
-    console.log('Sending request:', request);
-  
     try {
-      const response = await fetch('https://play.ht/api/v2/tts/stream', request);
+      const response = await fetch('https://play.ht/api/v1/convert', request);
+      const jsonResponse = await response.json();
+      const mp3Url = `https://media.play.ht/full_${jsonResponse.transcriptionId}.mp3`;
   
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      while (true) {
+        if ((await fetch(mp3Url)).status === 200) {
+          const audio = new Audio(mp3Url);
+          audio.play();
+          break;
+        }
       }
-  
-      const audioBlob = await response.blob();
-  
-      if (!audioBlob.size) {
-        throw new Error(`No audio data received!`);
-      }
-  
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
-      audio.play();
   
     } catch (error) {
       console.error(`Error: ${error}`);
-      // Display an error message or handle the error in some other way
     }
   }
   
-
+  
 
   // 
   const handleSend = async (message) => {
@@ -488,7 +472,10 @@ function App() {
 
           const userLanguage = parsed.target_language; // target language
            // Get the voices for the user's language
-          const voiceID = getVoiceIDForLanguage(userLanguage);
+          const retrievedVoiceID = getVoiceIDForLanguage(userLanguage);
+          setVoiceID(retrievedVoiceID);
+
+          console.log(voiceID);
       
         } catch (error) {
           console.error('Error Parsing Arguments:', error);
@@ -686,11 +673,12 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
         <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
 
             <div className="tab-shadow">
-              <Tabs
-                story={<TextToVoice story_text={storyText}  voice={voiceID} playAudio={playAudio} />}
-                preReading={<TextToVoice pre_reading={preReadingActivity} voice={voiceID} playAudio={playAudio} />}
-                postReading={<TextToVoice post_reading={postReadingActivity} voice={voiceID} playAudio={playAudio} />}
-              />
+            <Tabs
+              story={<TextToVoice story_text={storyText} voice={voiceID} playAudio={playAudio} />}
+              preReading={<TextToVoice pre_reading={preReadingActivity} voice={voiceID} playAudio={playAudio} />}
+              postReading={<TextToVoice post_reading={postReadingActivity} voice={voiceID} playAudio={playAudio} />}
+            />
+
             </div>
         </div>
 
