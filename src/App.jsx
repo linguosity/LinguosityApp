@@ -268,7 +268,6 @@ function App() {
   const [activeTab, setActiveTab] = useState('story');
   const [isTyping, setIsTyping] = useState(false);
 
-  const [barkOutput, setBarkOutput] = useState(null);
 
   function getVoiceIDForLanguage(targetLanguage) {
     console.log("Target Language:", targetLanguage); // Log the input
@@ -674,10 +673,13 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
 
             <div className="tab-shadow">
             <Tabs
-              story={<TextToVoice story_text={storyText} voice={voiceID} playAudio={playAudio} />}
-              preReading={<TextToVoice pre_reading={preReadingActivity} voice={voiceID} playAudio={playAudio} />}
-              postReading={<TextToVoice post_reading={postReadingActivity} voice={voiceID} playAudio={playAudio} />}
+              story_text={storyText}
+              pre_reading={preReadingActivity}
+              post_reading={postReadingActivity}
+              voice={voiceID}
+              playAudio={playAudio}
             />
+
 
             </div>
         </div>

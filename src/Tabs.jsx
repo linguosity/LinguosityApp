@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import classNames from "classnames";
+import { TextToVoice } from "./texttoVoice";
 
 const TabContent = ({ id, activeTab, children }) => {
     return activeTab === id ? <div>{children}</div> : null;
 }
 
-const Tabs = ({story, preReading, postReading}) => {
+const Tabs = ({story_text, pre_reading, post_reading, voice, playAudio}) => {
     const [activeTab, setActiveTab] = useState('two');
 
     const handleTabClick = tab => {
@@ -21,16 +22,8 @@ const Tabs = ({story, preReading, postReading}) => {
             </ul>
       
             <div id="content">
-                <TabContent id='one' activeTab={activeTab}>
-                    {preReading && <div>{preReading}</div>}
-                </TabContent>
-                <TabContent id='two' activeTab={activeTab}>
-                    {story && <div>{story}</div>}
-                </TabContent>
-                <TabContent id='three' activeTab={activeTab}>
-                    {postReading && <div>{postReading}</div>}
-                </TabContent>
-            </div>
+        <TextToVoice activeTab={activeTab} story_text={story_text} pre_reading={pre_reading} post_reading={post_reading} voice={voice} playAudio={playAudio} />
+      </div>
         </div>
     );
 };

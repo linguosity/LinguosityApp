@@ -1006,6 +1006,21 @@ body .cs-button--attachment {
   visibility: hidden !important;
 }
 
+.play-button {
+  background-color: transparent; /* Removes the default background */
+  border: none; /* Removes the default border */
+  cursor: pointer; /* Makes the cursor a pointer on hover */
+  width: 32px; /* Width of the SVG */
+  height: 32px; /* Height of the SVG */
+  padding: 0; /* Removes the default padding */
+}
+
+.play-button svg {
+  width: 100%; /* Makes the SVG take up the full width of the button */
+  height: 100%; /* Makes the SVG take up the full height of the button */
+}
+
+
 
 
 
