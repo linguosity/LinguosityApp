@@ -168,75 +168,6 @@ const configuration = new Configuration({
   apiKey: import.meta.env.VITE_APP_OPENAI_API_KEY
 });
 
-const Story = ({ story }) => {
-  const titleMatch = story.match(/^Title: '(.*?)'/);
-  let title = '';
-  if (titleMatch) {
-    title = titleMatch[1];
-    story = story.replace(titleMatch[0], '').trim();
-  }
-
-  const paragraphs = story.split('\n\n');
-
-  return (
-    <div id="story-window">
-      {title && <h1>{title}</h1>}
-      
-      {paragraphs.map((paragraph, index) => (
-        <p key={index}>{paragraph}</p>
-      ))}
-    </div>
-  );
-};
-
-const PreReading = ({ preReading }) => {
-  const sections = preReading.split('\n\n');
-  const anticipationGuideTitle = sections[0] || "";
-  const anticipationGuideQuestions = sections[1] ? sections[1].split('\n') : [];
-  const glossaryTitle = sections[2] || "";
-  const glossaryItems = sections[3] ? sections[3].split('\n') : [];
-
-  return (
-    <div id="pre-reading-window">
-      {anticipationGuideTitle && <h2>{anticipationGuideTitle}</h2>}
-      {anticipationGuideQuestions.length > 0 && (
-        <ul>
-          {anticipationGuideQuestions.map((question, index) => (
-            <li key={index}>{question}</li>
-          ))}
-        </ul>
-      )}
-      {glossaryTitle && <h2>{glossaryTitle}</h2>}
-      {glossaryItems.length > 0 && (
-        <ul>
-          {glossaryItems.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-
-const PostReading = ({ postReading }) => {
-  const sections = postReading.split('\n\n');
-  const postReadingTitle = sections[0] || "";
-  const postReadingQuestions = sections[1] ? sections[1].split('\n') : [];
-
-  return (
-    <div id="post-reading-window">
-      {postReadingTitle && <h2>{postReadingTitle}</h2>}
-      {postReadingQuestions.length > 0 && (
-        <ul>
-          {postReadingQuestions.map((question, index) => (
-            <li key={index}>{question}</li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-
 
 
 
@@ -483,6 +414,7 @@ function App() {
 
         const parsedArgs = JSON.parse(json.choices[0].message.function_call.arguments);
         //console.log(JSON.stringify(parsedArgs));
+        const userLanguage2 = parsedArgs.target_language; 
 
         setIsLoading(true);
 
@@ -508,15 +440,18 @@ Advanced: Varied sentence structures, complex characters, and non-linear narrati
 Proficient: Showcase mastery with sophisticated language, multi-dimensional characters, and profound themes or plot twists.
 Expand the narrative's length meaningfully to ensure that the character's problem or problems are solved by specific well-detailed steps of action.
 
-Provide all of the following-
+Provide all of the following written in ${userLanguage2} -
 
 1. PRE-READING ANTICIPATION GUIDE
-Include 5 engaging numbered questions or true-false statements about theme, vocabulary, or structure separated by newline characters/n/
+Include 5 engaging numbered questions and true-false statements about theme, vocabulary, or structure separated by newline characters. Include a summary of the events of the story using emojis. '/n/'
 
 2. PRE-READING GLOSSARY
 Define academic words in an easily understandable, kid-friendly manner separated by newline characters '/n'
 
-3. POST-READING COMPREHENSION QUESTIONS based on BLOOMS TAXONOMY
+3. Emoji Retell
+Effectively retell the story sequence in steps using emojis. '/n'
+
+4. POST-READING COMPREHENSION QUESTIONS based on BLOOMS TAXONOMY
 Create 12 questions of true false, fill in the blank, and open-ended formats, assessing understanding and engagement separated by newline characters.
 
 Ensure all headings are in all caps. Create a clever story title as well. Return the story and its title as a JSON object with the story, anticipation guide, glossary and comprehension questions as properties of story_text, pre_reading and post_reading. 
