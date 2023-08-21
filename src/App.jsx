@@ -241,6 +241,8 @@ function App() {
       console.error(`Error: ${error}`);
     }
   }
+
+
   async function playAudio(text, voiceID) {
     const apiKey = import.meta.env.VITE_APP_PLAYHT_API_KEY;
     const userId = import.meta.env.VITE_APP_PLAYHT_USER_ID;
@@ -259,6 +261,7 @@ function App() {
   
     const request = {
       method: 'POST',
+      mode: 'no-cors',
       headers: {
         'Authorization': apiKey,
         'X-User-ID': userId,
@@ -272,7 +275,7 @@ function App() {
     };
   
     try {
-      const response = await fetch('https://lambent-zuccutto-5bb777.netlify.app/api/convert', request);
+      const response = await fetch('https://play.ht/api/v1/convert', request);
       const jsonResponse = await response.json();
       const mp3Url = `https://media.play.ht/full_${jsonResponse.transcriptionId}.mp3`;
   
