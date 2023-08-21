@@ -199,6 +199,8 @@ function App() {
   const [activeTab, setActiveTab] = useState('story');
   const [isTyping, setIsTyping] = useState(false);
 
+  const [audio, setAudio] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   function getVoiceIDForLanguage(targetLanguage) {
     console.log("Target Language:", targetLanguage); // Log the input
@@ -213,7 +215,15 @@ function App() {
     return null;
   }
 
-
+  useEffect(() => {
+    return () => {
+      if (audio) {
+        audio.pause();
+        setAudio(null);
+      }
+    };
+  }, [audio]);
+  
   //generate Image from OpenAI's DALLE API
   async function generateImage(prompt) {
     try {
@@ -231,10 +241,21 @@ function App() {
       console.error(`Error: ${error}`);
     }
   }
-  
   async function playAudio(text, voiceID) {
     const apiKey = import.meta.env.VITE_APP_PLAYHT_API_KEY;
     const userId = import.meta.env.VITE_APP_PLAYHT_USER_ID;
+  
+    if (audio) {
+      if (isPlaying) {
+        audio.pause();
+        setIsPlaying(false);
+        return;
+      } else {
+        audio.play();
+        setIsPlaying(true);
+        return;
+      }
+    }
   
     const request = {
       method: 'POST',
@@ -257,12 +278,17 @@ function App() {
   
       while (true) {
         if ((await fetch(mp3Url)).status === 200) {
-          const audio = new Audio(mp3Url);
-          audio.play();
+          const newAudio = new Audio(mp3Url);
+          newAudio.onended = () => {
+            setIsPlaying(false);
+            setAudio(null);
+          };
+          newAudio.play();
+          setAudio(newAudio);
+          setIsPlaying(true);
           break;
         }
       }
-  
     } catch (error) {
       console.error(`Error: ${error}`);
     }
