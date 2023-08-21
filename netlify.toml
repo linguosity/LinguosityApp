@@ -1,0 +1,10 @@
+[[redirects]]
+  from = "/api/convert"
+  to = "https://play.ht/api/v1/convert"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://lambent-zuccutto-5bb777.netlify.app"

@@ -272,7 +272,7 @@ function App() {
     };
   
     try {
-      const response = await fetch('https://play.ht/api/v1/convert', request);
+      const response = await fetch('https://lambent-zuccutto-5bb777.netlify.app/api/convert', request);
       const jsonResponse = await response.json();
       const mp3Url = `https://media.play.ht/full_${jsonResponse.transcriptionId}.mp3`;
   
