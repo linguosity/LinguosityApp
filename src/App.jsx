@@ -241,8 +241,6 @@ function App() {
       console.error(`Error: ${error}`);
     }
   }
-
-
   async function playAudio(text, voiceID) {
     const apiKey = import.meta.env.VITE_APP_PLAYHT_API_KEY;
     const userId = import.meta.env.VITE_APP_PLAYHT_USER_ID;
@@ -261,7 +259,6 @@ function App() {
   
     const request = {
       method: 'POST',
-      mode: 'no-cors',
       headers: {
         'Authorization': apiKey,
         'X-User-ID': userId,
