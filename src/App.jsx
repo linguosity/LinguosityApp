@@ -241,59 +241,65 @@ function App() {
       console.error(`Error: ${error}`);
     }
   }
+  
   async function playAudio(text, voiceID) {
+    const context = new AudioContext();
     const apiKey = import.meta.env.VITE_APP_PLAYHT_API_KEY;
     const userId = import.meta.env.VITE_APP_PLAYHT_USER_ID;
-  
-    if (audio) {
-      if (isPlaying) {
-        audio.pause();
-        setIsPlaying(false);
-        return;
-      } else {
-        audio.play();
-        setIsPlaying(true);
-        return;
-      }
-    }
-  
-    const request = {
-      method: 'POST',
-      headers: {
-        'Authorization': apiKey,
-        'X-User-ID': userId,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "voice": voiceID,
-        "content": text.split(/\.|\?|!/),
-        "title": "Testing conversion"
-      })
-    };
-  
-    try {
-      const response = await fetch('https://play.ht/api/v1/convert', request);
+    const textSplit = text.split('.')
+
+    async function fetchAndDecodeSegment(segment) {
+      const request = {
+        method: 'POST',
+        headers: {
+          'Authorization': apiKey,
+          'X-User-ID': userId,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          "voice": voiceID || 'larry',
+          "text": segment
+        })
+      };
+
+      const response = await fetch('https://corsproxy.io/?url=https://play.ht/api/v2/tts', request);
       const jsonResponse = await response.json();
-      const mp3Url = `https://media.play.ht/full_${jsonResponse.transcriptionId}.mp3`;
-  
-      while (true) {
-        if ((await fetch(mp3Url)).status === 200) {
-          const newAudio = new Audio(mp3Url);
-          newAudio.onended = () => {
-            setIsPlaying(false);
-            setAudio(null);
-          };
-          newAudio.play();
-          setAudio(newAudio);
-          setIsPlaying(true);
-          break;
-        }
-      }
-    } catch (error) {
-      console.error(`Error: ${error}`);
+      const mp3Url = "https://corsproxy.io/?url=" + jsonResponse?._links[2]?.href;
+
+      const audioResponse = await fetch(mp3Url, {
+        method: 'GET',
+        headers: {
+          'Authorization': apiKey,
+          'X-User-ID': userId,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      });
+      const audioBuffer = await audioResponse.arrayBuffer();
+      return context.decodeAudioData(audioBuffer);
     }
+
+    async function playSegments() {
+      for (const segment of textSplit) {
+        const decodedBuffer = await fetchAndDecodeSegment(segment);
+
+        const source = context.createBufferSource();
+        source.buffer = decodedBuffer;
+        source.connect(context.destination);
+        source.start();
+
+        // Wait for the current segment to finish playing
+        await new Promise(resolve => {
+          source.onended = resolve;
+        });
+      }
+    }
+
+    playSegments();
   }
-  
+
+
   
 
   // 
