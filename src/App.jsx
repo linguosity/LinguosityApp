@@ -242,7 +242,7 @@ function App() {
     }
   }
 
-  const playAudio = (text, voice) => {
+  const playAudio = (text) => {
     const voice = 'larry'; // Hardcoding the voice to 'larry'
     const apiUrl = `/.netlify/functions/playaudio`;
   

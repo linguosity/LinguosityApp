@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 
 export const handler = async function(event, context) {
+ console.log('Raw body:', event.body);
+
  const { text = 'Default text', voice = 'larry' } = JSON.parse(event.body);
 
   // Logging the values
