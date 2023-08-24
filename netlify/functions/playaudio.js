@@ -30,15 +30,22 @@ export const handler = async function(event, context) {
 
   try {
     const response = await fetch('https://play.ht/api/v2/tts', options);
-    const data = await response.json();
+    const responseText = await response.text(); // Get the raw text
+    console.log('Raw response from play.ht:', responseText);
+
+    // Check if the response is JSON before parsing
+    const data = response.headers.get('content-type').includes('application/json')
+      ? JSON.parse(responseText)
+      : responseText;
+
     return {
       statusCode: 200,
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     };
   } catch (err) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message })
+      body: JSON.stringify({ error: err.message }),
     };
   }
 };
