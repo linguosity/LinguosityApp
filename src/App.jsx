@@ -242,62 +242,24 @@ function App() {
     }
   }
   
-  async function playAudio(text, voiceID) {
-    const context = new AudioContext();
-    const apiKey = import.meta.env.VITE_APP_PLAYHT_API_KEY;
-    const userId = import.meta.env.VITE_APP_PLAYHT_USER_ID;
-    const textSplit = text.split('.')
-
-    async function fetchAndDecodeSegment(segment) {
-      const request = {
-        method: 'POST',
-        headers: {
-          'Authorization': apiKey,
-          'X-User-ID': userId,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          "voice": voiceID || 'larry',
-          "text": segment
-        })
-      };
-
-      const response = await fetch('https://corsproxy.io/?url=https://play.ht/api/v2/tts', request);
-      const jsonResponse = await response.json();
-      const mp3Url = "https://corsproxy.io/?url=" + jsonResponse?._links[2]?.href;
-
-      const audioResponse = await fetch(mp3Url, {
-        method: 'GET',
-        headers: {
-          'Authorization': apiKey,
-          'X-User-ID': userId,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+  const playAudio = (text, voice) => {
+    const apiUrl = `/.netlify/functions/playaudio?text=${encodeURIComponent(text)}&voice=${encodeURIComponent(voice)}`;
+  
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response data (e.g., play the audio)
+        const audioUrl = data.url; // Assuming the response includes the audio URL
+        const audio = new Audio(audioUrl);
+        audio.play();
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error);
+        // Handle any errors
       });
-      const audioBuffer = await audioResponse.arrayBuffer();
-      return context.decodeAudioData(audioBuffer);
-    }
-
-    async function playSegments() {
-      for (const segment of textSplit) {
-        const decodedBuffer = await fetchAndDecodeSegment(segment);
-
-        const source = context.createBufferSource();
-        source.buffer = decodedBuffer;
-        source.connect(context.destination);
-        source.start();
-
-        // Wait for the current segment to finish playing
-        await new Promise(resolve => {
-          source.onended = resolve;
-        });
-      }
-    }
-
-    playSegments();
-  }
+  };
+  
+  
 
 
   
