@@ -1,16 +1,21 @@
 const fetch = require('node-fetch');
 
-exports.handler = async function(event, context) {
+export const handler = async function(event, context) {
   const text = event.queryStringParameters.text || 'Default text';
   const voice = event.queryStringParameters.voice || 'larry';
+  
+  // Logging the values
+  console.log('Text:', text);
+  console.log('Voice:', voice);
 
   const options = {
     method: 'POST',
     headers: {
       accept: 'text/event-stream',
       'content-type': 'application/json',
-      AUTHORIZATION: `Bearer ${process.env.PLAYHT_API_KEY}`,
-      'X-USER-ID': process.env.PLAYHT_USER_ID
+      AUTHORIZATION: `Bearer ${process.env.VITE_APP_PLAYHT_API_KEY}`,
+      'X-USER-ID': process.env.VITE_APP_PLAYHT_USER_ID
+
     },
     body: JSON.stringify({
       text,
