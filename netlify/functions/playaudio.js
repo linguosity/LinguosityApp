@@ -1,8 +1,7 @@
 const fetch = require('node-fetch');
 
 export const handler = async function(event, context) {
-  const text = event.queryStringParameters.text || 'Default text';
-  const voice = 'larry';
+ const { text = 'Default text', voice = 'larry' } = JSON.parse(event.body);
 
   // Logging the values
   console.log('Text:', text);

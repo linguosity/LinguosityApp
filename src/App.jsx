@@ -241,11 +241,18 @@ function App() {
       console.error(`Error: ${error}`);
     }
   }
-  
+
   const playAudio = (text, voice) => {
-    const apiUrl = `/.netlify/functions/playaudio?text=${encodeURIComponent(text)}&voice=${encodeURIComponent(voice)}`;
+    const voice = 'larry'; // Hardcoding the voice to 'larry'
+    const apiUrl = `/.netlify/functions/playaudio`;
   
-    fetch(apiUrl)
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ text, voice }),
+    })
       .then((response) => response.json())
       .then((data) => {
         // Handle the response data (e.g., play the audio)
@@ -258,6 +265,7 @@ function App() {
         // Handle any errors
       });
   };
+  
   
   
 
