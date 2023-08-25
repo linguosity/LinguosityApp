@@ -18,7 +18,7 @@ export const handler = async function (event, context) {
     body: JSON.stringify({
       text,
       voice,
-      quality: 'medium',
+      quality: 'draft',
       output_format: 'mp3',
       speed: 1,
       sample_rate: 24000,
@@ -26,7 +26,7 @@ export const handler = async function (event, context) {
   };
 
   try {
-    const response = await fetch('https://play.ht/api/v2/tts', options);
+    const response = await fetch('https://play.ht/api/v2/tts?format=event-stream', options);
     
     // Extract URL from the event stream
     let audioUrl = null;
