@@ -242,8 +242,8 @@ function App() {
     }
   }
 
-  const playAudio = (text) => {
-    const voice = 'larry'; // Hardcoding the voice to 'larry'
+  const playAudio = (text, voiceID) => {
+    const voice = voiceID; // Hardcoding the voice to 'larry'
     const apiUrl = `/.netlify/functions/playaudio`;
   
     fetch(apiUrl, {
@@ -256,7 +256,10 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response data (e.g., play the audio)
+
+      console.log('Received data:', data);
         const audioUrl = data.url; // Assuming the response includes the audio URL
+        console.log('Audio URL:', audioUrl);
         const audio = new Audio(audioUrl);
         audio.play();
       })
