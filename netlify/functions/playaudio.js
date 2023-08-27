@@ -1,39 +1,42 @@
 const fetch = require('node-fetch');
+const convertUrl = 'https://play.ht/api/v1/convert';
+const getAudioUrl = 'https://play.ht/api/v1/articleStatus?transcriptionId=';
 
-export const handler = async function (event, context) {
-  const { text = 'Default text', voice = 'larry' } = JSON.parse(event.body);
+const options = {
+  headers: {
+    accept: 'application/json',
+    'content-type': 'application/json',
+    AUTHORIZATION: process.env.VITE_APP_PLAYHT_API_KEY,
+    'X-USER-ID': process.env.VITE_APP_PLAYHT_USER_ID
+  }
+};
 
-  // Logging the values
-  console.log('Received text:', text);
-    console.log('Received voice:', voice);
-
-  const options = {
-    method: 'POST',
-    headers: {
-      accept: 'text/event-stream',
-      'content-type': 'application/json',
-      AUTHORIZATION: process.env.VITE_APP_PLAYHT_API_KEY,
-      'X-USER-ID': process.env.VITE_APP_PLAYHT_USER_ID,
-    },
-    body: JSON.stringify({
-      content: [text],
-      voice: voice,
-    }),
-  };
+export const handler = async (event, context) =>  {
+  const { text = 'Default text', voice = 'en-US-JennyNeural' } = JSON.parse(event.body);
 
   try {
-    const response = await fetch('https://play.ht/api/v1/convert', options);
-    
-    // Extract URL from the event stream
-    let audioUrl = null;
-    for await (const chunk of response.body) {
-      const textChunk = chunk.toString('utf8');
-      if (textChunk.includes('event: completed')) {
-        const match = textChunk.match(/\"url\":\"(.*?)\"/);
-        if (match) {
-          audioUrl = match[1];
-        }
-        break;
+    const response = await fetch(convertUrl, {
+      ...options,
+      method: 'POST',
+      body: JSON.stringify({
+        content: [text],
+        voice: voice
+      })
+    })
+    const data = await response.json()
+    const transcriptionId = data.transcriptionId
+
+    let audioUrl
+    while(true) {
+      await new Promise(r => setTimeout(r, 2000))
+      const responseB = await fetch(`${getAudioUrl}${transcriptionId}`, {
+        ...options,
+        method: 'GET',
+      })
+      const dataB = await responseB.json()
+      if (dataB.converted) {
+        audioUrl = dataB.audioUrl
+        break
       }
     }
 
@@ -47,11 +50,12 @@ export const handler = async function (event, context) {
       statusCode: 200,
       body: JSON.stringify({ url: audioUrl }),
     };
-  } catch (err) {
-    console.error('An error occurred:', err.message);
+
+  } catch (e) {
+    console.error('An error occurred:', e.message);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message }),
+      body: JSON.stringify({ error: e.message }),
     };
   }
-};
+}
