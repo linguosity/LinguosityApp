@@ -202,6 +202,14 @@ function App() {
   const [audio, setAudio] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const [storyTopic, setStoryTopic] = useState("");
+const [storyLength, setStoryLength] = useState("");
+const [readingDifficultyLevel, setReadingDifficultyLevel] = useState("");
+const [storyGenre, setStoryGenre] = useState("");
+const [educationalObjectives, setEducationalObjectives] = useState("");
+const [targetLanguage, setTargetLanguage] = useState("");
+
+
   function getVoiceIDForLanguage(targetLanguage) {
     console.log("Target Language:", targetLanguage); // Log the input
     for (let voice of voicesData[0].voices) {
@@ -243,36 +251,37 @@ function App() {
   }
 
   const playAudio = (text, voiceID) => {
-    const voice = voiceID; // Hardcoding the voice to 'larry'
-    const apiUrl = `/.netlify/functions/playaudio`;
-  
+    const apiUrl = `/.netlify/functions/playaudio`; // Your server-side function endpoint
+      
     fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ text, voice }),
+      body: JSON.stringify({ text, voiceID }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response data (e.g., play the audio)
-
+    .then((response) => response.json())
+    .then((data) => {
+      // Handle the response data from the server-side function
       console.log('Received data:', data);
-        const audioUrl = data.url; // Assuming the response includes the audio URL
-        console.log('Audio URL:', audioUrl);
+  
+      if (data.url) {
+        const audioUrl = data.url;
         const audio = new Audio(audioUrl);
         audio.play();
-      })
-      .catch((error) => {
-        console.error('An error occurred:', error);
-        // Handle any errors
-      });
+        audio.onended = () => {
+          console.log('Audio playback ended');
+          // You can perform additional actions here after audio playback ends
+        };
+      } else {
+        console.error('No audio URL found in response.');
+      }
+    })
+    .catch((error) => {
+      console.error('An error occurred:', error);
+      // Handle any errors
+    });
   };
-  
-  
-  
-
-
   
 
   // 
@@ -291,6 +300,36 @@ function App() {
     //process message to ChatGPT (send it over and see response)
     await processMessageToChatGPT(newMessages);
   }
+
+  const StoryParametersForm = ({ onSubmit }) => {
+    return (
+      
+        <form id="story-params-form" onSubmit={onSubmit}>
+          <input type="text" id="story_topic" placeholder="Story Topic" required /><br />
+          <input type="text" id="story_length" placeholder="Story Length" required /><br />
+          <input type="text" id="reading_difficulty_level" placeholder="Reading Difficulty Level" required /><br />
+          <input type="text" id="story_genre" placeholder="Story Genre" required /><br />
+          <input type="text" id="educational_objectives" placeholder="Educational Objectives" required /><br />
+          <input type="text" id="target_language" placeholder="Target Language" required /><br />
+          <button type="submit">Submit</button>
+        </form>
+      
+    );
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setStoryTopic(document.getElementById("story_topic").value);
+    setStoryLength(document.getElementById("story_length").value);
+    setReadingDifficultyLevel(document.getElementById("reading_difficulty_level").value);
+    setStoryGenre(document.getElementById("story_genre").value);
+    setEducationalObjectives(document.getElementById("educational_objectives").value);
+    setTargetLanguage(document.getElementById("target_language").value);
+    // Hide the form
+    // You can add logic here to remove the form from the UI
+  };
+  
+  
 
   async function processMessageToChatGPT(chatMessages) {
     //chatMessages {sender: user or chatgpt, message: message content}
@@ -592,6 +631,7 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
       <div className="app-container">
         <Sidenav story={story} />
         <div className="right-column">
+        
           <MainContainer>
             <ChatContainer>
               <MessageList typingIndicator={isTyping && <TypingIndicator content="" />} >
@@ -600,8 +640,10 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
                 })}
               </MessageList>
               <MessageInput placeholder='Type message here' onSend={handleSend} />
-              
             </ChatContainer>
+            <div className="overlay-form">  {/* This is the new div for the overlay form */}
+          <StoryParametersForm onSubmit={handleFormSubmit} />
+        </div>
           </MainContainer>
         </div>
         {isLoading &&
