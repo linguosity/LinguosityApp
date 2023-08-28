@@ -12,7 +12,7 @@ import Tabs from './Tabs';
 import { runModel, createPredictionWithWebhook } from './ReplicateAPI';
 import { TextToVoice } from './texttoVoice'; // Adjust the path as needed
 import { voicesData } from './voicesData'; // Adjust the path as needed
-
+import { BiLogOut } from 'react-icons/bi'
 
 //import AzureTTSComponent from './AzureTTSComponent';
 
@@ -21,6 +21,8 @@ import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 
 // Import required icons
 import { AiOutlineMessage, AiOutlineBook, AiOutlineFilePdf } from 'react-icons/ai';
+import { useFirebaseAuth } from './FirebaseContext';
+import AuthComponent from './AuthComponent';
 
 const API_KEY = import.meta.env.VITE_APP_OPENAI_API_KEY;
 
@@ -61,6 +63,7 @@ function Header() {
 
 //left column side nav component
 function Sidenav({ story, audioUrl }) {
+  const { logout } = useFirebaseAuth()
 
   function MyDocument({ text }) {
     return (
@@ -108,6 +111,7 @@ function Sidenav({ story, audioUrl }) {
               </a>
             )}
           </div>
+      <BiLogOut onClick={logout} />
         </div>
       </div>
     </div>
@@ -586,45 +590,53 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
     }
   }
 
+
+  const { user } = useFirebaseAuth()
+
   return (
     <div>
       <Header />
-      <div className="app-container">
-        <Sidenav story={story} />
-        <div className="right-column">
-          <MainContainer>
-            <ChatContainer>
-              <MessageList typingIndicator={isTyping && <TypingIndicator content="" />} >
-                {messages.map((message, i) => {
-                  return <Message key={i} model={message} />
-                })}
-              </MessageList>
-              <MessageInput placeholder='Type message here' onSend={handleSend} />
-              
-            </ChatContainer>
-          </MainContainer>
-        </div>
-        {isLoading &&
-          <div className="logo-container">
-            <img src={linguosityLogo} className="image-6" alt="Loading..." />
-          </div>
-        }
-        <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
+      {
+        user ?
+          <div className="app-container">
+            <Sidenav story={story} />
+            <div className="right-column">
+              <MainContainer>
+                <ChatContainer>
+                  <MessageList typingIndicator={isTyping && <TypingIndicator content="" />} >
+                    {messages.map((message, i) => {
+                      return <Message key={i} model={message} />
+                    })}
+                  </MessageList>
+                  <MessageInput placeholder='Type message here' onSend={handleSend} />
 
-            <div className="tab-shadow">
-            <Tabs
-              story_text={storyText}
-              pre_reading={preReadingActivity}
-              post_reading={postReadingActivity}
-              voice={voiceID}
-              playAudio={playAudio}
-            />
-
-
+                </ChatContainer>
+              </MainContainer>
             </div>
-        </div>
+            {isLoading &&
+              <div className="logo-container">
+                <img src={linguosityLogo} className="image-6" alt="Loading..." />
+              </div>
+            }
+            <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
 
-      </div>
+              <div className="tab-shadow">
+                <Tabs
+                  story_text={storyText}
+                  pre_reading={preReadingActivity}
+                  post_reading={postReadingActivity}
+                  voice={voiceID}
+                  playAudio={playAudio}
+                />
+
+
+              </div>
+            </div>
+
+          </div> :
+          <AuthComponent />
+      }
+      
       <Footer story={story} />
     </div >
   );
