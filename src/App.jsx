@@ -21,9 +21,9 @@ import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 
 // Import required icons
 import { AiOutlineMessage, AiOutlineBook, AiOutlineFilePdf, AiOutlineForm } from 'react-icons/ai';
-import useShow from '../hooks/useShow';
 import ParamsForm from './ParamsForm';
 import ModalComponent from './ModalComponent';
+import useShow from './hooks/useShow';
 
 const API_KEY = import.meta.env.VITE_APP_OPENAI_API_KEY;
 
