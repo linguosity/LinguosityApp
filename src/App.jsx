@@ -22,8 +22,10 @@ import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 // Import required icons
 import { AiOutlineMessage, AiOutlineBook, AiOutlineFilePdf, AiOutlineForm } from 'react-icons/ai';
 import ParamsForm from './ParamsForm';
-import ModalComponent from './ModalComponent';
+import Modal from './Modal';
 import useShow from './hooks/useShow';
+import getWordsCount from './utils/getWordsCount';
+import { Box, Grommet } from 'grommet';
 
 const API_KEY = import.meta.env.VITE_APP_OPENAI_API_KEY;
 
@@ -59,7 +61,7 @@ function Header() {
     </header>
   );
 
-  
+
 }
 
 //left column side nav component
@@ -82,9 +84,9 @@ function Sidenav({ story, audioUrl, handleOpenForm }) {
           <img width="25" src="https://uploads-ssl.webflow.com/643f1edf85eba707f45ddfc3/646255f5e004cd49868bd0df_linguosity_logo.svg" alt="Linguosity logo" className="logo-image" />
           <div className="brand_name">Linguosity</div>
         </a>
-        
+
       </div>
-      
+
       <div className="footer-content">
         <div className="toolbar">
 
@@ -175,6 +177,15 @@ const configuration = new Configuration({
 
 
 
+const customTheme = {
+  global: {
+    colors: {
+      brand: '#FCF6EB',
+    },
+  },
+}
+
+
 function App() {
 
   const [messages, setMessages] = useState([])
@@ -190,7 +201,7 @@ function App() {
   // HERE IS THE NEW CODE
   const [storyText, setStoryText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const [preReadingActivity, setPreReadingActivity] = useState('');
   const [postReadingActivity, setPostReadingActivity] = useState('');
   const [audioUrl, setAudioUrl] = useState("");
@@ -222,7 +233,7 @@ function App() {
       }
     };
   }, [audio]);
-  
+
   //generate Image from OpenAI's DALLE API
   async function generateImage(prompt) {
     try {
@@ -244,7 +255,7 @@ function App() {
   const playAudio = (text, voiceID) => {
     const voice = voiceID; // Hardcoding the voice to 'larry'
     const apiUrl = `/.netlify/functions/playaudio`;
-  
+
     fetch(apiUrl, {
       method: 'POST',
       headers: {
@@ -256,7 +267,7 @@ function App() {
       .then((data) => {
         // Handle the response data (e.g., play the audio)
 
-      console.log('Received data:', data);
+        console.log('Received data:', data);
         const audioUrl = data.url; // Assuming the response includes the audio URL
         console.log('Audio URL:', audioUrl);
         const audio = new Audio(audioUrl);
@@ -267,12 +278,12 @@ function App() {
         // Handle any errors
       });
   };
-  
-  
-  
 
 
-  
+
+
+
+
 
   // 
   const handleSend = async (message) => {
@@ -291,9 +302,9 @@ function App() {
     await processMessageToChatGPT(newMessages);
   }
 
-  async function processMessageToChatGPT() {
-    
-    const retrievedVoiceID = getVoiceIDForLanguage(formData.target_language);
+  async function processMessageToChatGPT(data) {
+
+    const retrievedVoiceID = getVoiceIDForLanguage(data.target_language);
     setVoiceID(retrievedVoiceID);
 
     const apiRequestBody = {
@@ -318,7 +329,7 @@ Advanced: Varied sentence structures, complex characters, and non-linear narrati
 Proficient: Showcase mastery with sophisticated language, multi-dimensional characters, and profound themes or plot twists.
 Expand the narrative's length meaningfully to ensure that the character's problem or problems are solved by specific well-detailed steps of action.
 
-Provide all of the following written in ${formData.target_language} -
+Provide all of the following written in ${data.target_language} -
 
 1. PRE-READING ANTICIPATION GUIDE
 Include 5 engaging numbered questions and true-false statements about theme, vocabulary, or structure separated by newline characters. Include a summary of the events of the story using emojis. '/n/'
@@ -337,7 +348,7 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
         },
         {
           role: "user",
-          content: "Write me a story, pre-reading guide and post-reading questions based on the following parameters paying careful attention to each:" + JSON.stringify(formData)
+          content: "Write me a story, pre-reading guide and post-reading questions based on the following parameters paying careful attention to each:" + JSON.stringify(data)
         }
       ],
 
@@ -412,7 +423,7 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
     } finally {
       setIsLoading(false)
     }
-    
+
 
     // Function to process the function call arguments and generate a response
     function processFunctionCall(functionArguments) {
@@ -430,46 +441,56 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
     }
   }
 
-
-  const { show, open, close, toggle } = useShow(true)
-  const [formData, setFormData] = useState({
+  const formDataDefault = {
     story_topic: '',
     story_length: '',
     reading_difficulty_level: '',
     story_genre: '',
-    educational_objectives: '',
+    lesson_objectives: '',
     target_language: '',
-  });
+  };
+
+  const { show, open, close, toggle } = useShow(true)
+  const [formData, setFormData] = useState(formDataDefault);
+
+  const resetForm = () => setFormData(formDataDefault)
 
   const generateStory = (e) => {
     e.preventDefault()
-    processMessageToChatGPT()
+    const data = { ...formData, story_length: `${getWordsCount(formData.story_length)} words` }
+    processMessageToChatGPT(data)
     close()
+    resetForm()
   }
 
+  const modalRef = useRef()
+
   return (
-    <div>
+    <Grommet theme={customTheme} fill>
       <Header />
       <div className="app-container">
         <Sidenav story={story} handleOpenForm={toggle} />
-        <div className="right-column">
-          <MainContainer>
-
-            {show && (
-            <ModalComponent isOpen={open} onClose={close}>
-              <ParamsForm formData={formData} setFormData={setFormData} handleSubmit={generateStory} />
-            </ModalComponent>
-            )}
-            <ChatContainer>
+        <div className="right-column" ref={modalRef}>
+          <MainContainer >
+              <ChatContainer>
               <MessageList typingIndicator={isTyping && <TypingIndicator content="" />} >
                 {messages.map((message, i) => {
                   return <Message key={i} model={message} />
                 })}
               </MessageList>
               <MessageInput placeholder='Type message here' onSend={handleSend} />
-
-            </ChatContainer>
+              </ChatContainer>
           </MainContainer>
+          {show && (
+            <Modal target={modalRef.current} isOpen={open} onClose={close} position='left'>
+              <ParamsForm
+                formData={formData}
+                setFormData={setFormData}
+                onReset={resetForm}
+                onSubmit={generateStory}
+              />
+            </Modal>
+          )}
         </div>
         {isLoading &&
           <div className="logo-container">
@@ -477,8 +498,7 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
           </div>
         }
         <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
-
-            <div className="tab-shadow">
+          <div className="tab-shadow">
             <Tabs
               story_text={storyText}
               pre_reading={preReadingActivity}
@@ -486,14 +506,13 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
               voice={voiceID}
               playAudio={playAudio}
             />
-
-
-            </div>
+          </div>
         </div>
 
       </div>
       <Footer story={story} />
-    </div >
+    </Grommet>
+
   );
 }
 

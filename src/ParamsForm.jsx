@@ -1,11 +1,38 @@
-import React, { useMemo } from 'react';
-import './ParamsForm.css'; // Importa el archivo CSS
+import React, { useState } from 'react';
+import {
+  Box,
+  Button,
+  Form,
+  FormField,
+  Select,
+  Text,
+  TextArea,
+  TextInput
+} from 'grommet';
+
 
 const options = {
-  story_length: ['Short', 'Medium', 'Long'],
+  story_length: ['Very Short', 'Short', 'Medium', 'Long'],
   reading_difficulty_level: ['Beginner', 'Intermediate', 'Advanced'],
-  story_genre: ['Action', 'Drama', 'Comedy', 'Horror', 'Thriller'],
-  educational_objectives: ['Grammar', 'Vocabulary', 'Pronunciation', 'Reading Comprehension'],
+  story_genre: [
+    "Drama",
+    "Fable",
+    "Fairy Tale",
+    "Fantasy",
+    "Fiction",
+    "Fiction in Verse",
+    "Folklore",
+    "Historical Fiction",
+    "Horror",
+    "Humor",
+    "Legend",
+    "Mystery",
+    "Mythology",
+    "Poetry",
+    "Realistic Fiction",
+    "Science Fiction",
+    "Tall Tale"
+  ],
   target_language: [
     "English (US)",
     "English (UK)",
@@ -158,93 +185,69 @@ const options = {
   ]
 };
 
-function ParamsForm({ formData, setFormData, handleSubmit }) {
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
+export default function ParamsForm({ formData, setFormData, onReset, onSubmit }) {
 
-
-  const isGenerateReady = useMemo(() => {
-    return !!(
-      formData.story_topic &&
-      formData.story_length &&
-      formData.reading_difficulty_level &&
-      formData.story_genre &&
-      formData.educational_objectives &&
-      formData.target_language
-    )
-  }, [formData])
+  const [languageOptions, setLanguageOptions] = useState(options.target_language)
 
   return (
-    <form className="params-form" onSubmit={handleSubmit}>
-      <label>
-        <h3>Story Topic:</h3>
-        <input
-          type="text"
-          name="story_topic"
-          value={formData.story_topic}
-          onChange={handleInputChange}
-        />
-      </label>
-      <label>
-        <h3>Story Length:</h3>
-        <select name="story_length" value={formData.story_length} onChange={handleInputChange}>
-          <option value="">Select an option</option>
-          {options.story_length.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        <h3>Reading Difficulty Level:</h3>
-        <select name="reading_difficulty_level" value={formData.reading_difficulty_level} onChange={handleInputChange}>
-          <option value="">Select an option</option>
-          {options.reading_difficulty_level.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        <h3>Story Genre:</h3>
-        <select name="story_genre" value={formData.story_genre} onChange={handleInputChange}>
-          <option value="">Select an option</option>
-          {options.story_genre.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        <h3>Educational Objectives:</h3>
-        <select name="educational_objectives" value={formData.educational_objectives} onChange={handleInputChange}>
-          <option value="">Select an option</option>
-          {options.educational_objectives.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        <h3>Target Language:</h3>
-        <select name="target_language" value={formData.target_language} onChange={handleInputChange}>
-          <option value="">Select an option</option>
-          {options.target_language.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </label>
-      <button disabled={!isGenerateReady} type="submit">Generate</button>
-    </form>
-  );
+    <Box align="center" justify="center" pad={{horizontal: 'large', vertical: 'medium'}}>
+      <Box width="medium">
+        <Form
+          value={formData}
+          onChange={(nextValue) => setFormData(nextValue)}
+          onReset={onReset}
+          onSubmit={onSubmit}
+        >
+          <FormField label={<Text weight='bold'>Story Topic:</Text>} htmlFor="story_topic" name="story_topic" required>
+            <TextInput id="story_topic" name="story_topic" />
+          </FormField>
+          <FormField label={<Text weight='bold'>Story Length:</Text>} htmlFor="story_length" name="story_length" required>
+            <Select
+              id="story_length"
+              aria-label="story_length"
+              name="story_length"
+              options={options.story_length}
+            />
+          </FormField>
+          <FormField label={<Text weight='bold'>Reading Difficulty Level:</Text>} htmlFor="reading_difficulty_level" name="reading_difficulty_level" required>
+            <Select
+              id="reading_difficulty_level"
+              aria-label="reading_difficulty_level"
+              name="reading_difficulty_level"
+              options={options.reading_difficulty_level}
+            />
+          </FormField>
+          <FormField label={<Text weight='bold'>Story Genre:</Text>} htmlFor="story_genre" name="story_genre" required>
+            <Select
+              id="story_genre"
+              aria-label="story_genre"
+              name="story_genre"
+              options={options.story_genre}
+            />
+          </FormField>
+          <FormField label={<Text weight='bold'>Lesson Objectives:</Text>} htmlFor="lesson_objectives" name="lesson_objectives" required>
+            <TextArea id="lesson_objectives" name="lesson_objectives" />
+          </FormField>
+          <FormField label={<Text weight='bold'>Target Language:</Text>} htmlFor="target_language" name="target_language" required>
+            <Select
+              id="target_language"
+              aria-label="target_language"
+              name="target_language"
+              options={languageOptions}
+              onClose={() => setLanguageOptions(options.target_language)}
+              onSearch={(text) => {
+                const escapedText = text.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
+                const exp = new RegExp(escapedText, 'i');
+                setLanguageOptions(options.target_language.filter((o) => exp.test(o)));
+              }}
+            />
+          </FormField>
+          <Box direction="row" justify="between" margin={{ vertical: 'large' }}>
+            <Button type="reset" label="Reset" />
+            <Button type="submit" label="Generate" primary />
+          </Box>
+        </Form>
+      </Box>
+    </Box>
+  )
 }
-
-export default ParamsForm;
