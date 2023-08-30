@@ -59,12 +59,12 @@ footer {
 }
 
 .toolbar svg {
-  visibility: hidden;
   width: 32px;
   height: 32px;
   padding: 24px 0 0 0;
   stroke-width: 0%;
   color: #CE7B56;
+  cursor: pointer;
 }
 
 svg#prepare-file, svg#book, svg#review {
@@ -411,6 +411,13 @@ background-color: #FDFAF3;
     align-items: center;
   }
 
+    .toolbar {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+  
+    }
 }
 
 @keyframes rotation {
