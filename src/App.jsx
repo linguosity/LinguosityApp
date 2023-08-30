@@ -20,7 +20,12 @@ import { MainContainer, ChatContainer, MessageList, Message, MessageInput, Typin
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 
 // Import required icons
-import { AiOutlineMessage, AiOutlineBook, AiOutlineFilePdf } from 'react-icons/ai';
+import { AiOutlineMessage, AiOutlineBook, AiOutlineFilePdf, AiOutlineForm } from 'react-icons/ai';
+import ParamsForm from './ParamsForm';
+import Modal from './Modal';
+import useShow from './hooks/useShow';
+import getWordsCount from './utils/getWordsCount';
+import { Box, Grommet } from 'grommet';
 
 const API_KEY = import.meta.env.VITE_APP_OPENAI_API_KEY;
 
@@ -56,11 +61,11 @@ function Header() {
     </header>
   );
 
-  
+
 }
 
 //left column side nav component
-function Sidenav({ story, audioUrl }) {
+function Sidenav({ story, audioUrl, handleOpenForm }) {
 
   function MyDocument({ text }) {
     return (
@@ -79,9 +84,9 @@ function Sidenav({ story, audioUrl }) {
           <img width="25" src="https://uploads-ssl.webflow.com/643f1edf85eba707f45ddfc3/646255f5e004cd49868bd0df_linguosity_logo.svg" alt="Linguosity logo" className="logo-image" />
           <div className="brand_name">Linguosity</div>
         </a>
-        
+
       </div>
-      
+
       <div className="footer-content">
         <div className="toolbar">
 
@@ -108,6 +113,7 @@ function Sidenav({ story, audioUrl }) {
               </a>
             )}
           </div>
+          <AiOutlineForm onClick={handleOpenForm} />
         </div>
       </div>
     </div>
@@ -171,14 +177,18 @@ const configuration = new Configuration({
 
 
 
+const customTheme = {
+  global: {
+    colors: {
+      brand: '#FCF6EB',
+    },
+  },
+}
+
+
 function App() {
 
-  const [messages, setMessages] = useState([
-    {
-      message: "Welcome to Linguosity, your AIde to language fluency! Let's create an engaging story. Give me the target language, story topic, genre, difficulty level, any lesson objectives and word count. ",
-      sender: "ChatGPT"
-    }
-  ])
+  const [messages, setMessages] = useState([])
 
   const messagesEndRef = useRef(null);
 
@@ -191,7 +201,7 @@ function App() {
   // HERE IS THE NEW CODE
   const [storyText, setStoryText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const [preReadingActivity, setPreReadingActivity] = useState('');
   const [postReadingActivity, setPostReadingActivity] = useState('');
   const [audioUrl, setAudioUrl] = useState("");
@@ -223,7 +233,7 @@ function App() {
       }
     };
   }, [audio]);
-  
+
   //generate Image from OpenAI's DALLE API
   async function generateImage(prompt) {
     try {
@@ -245,7 +255,7 @@ function App() {
   const playAudio = (text, voiceID) => {
     const voice = voiceID; // Hardcoding the voice to 'larry'
     const apiUrl = `/.netlify/functions/playaudio`;
-  
+
     fetch(apiUrl, {
       method: 'POST',
       headers: {
@@ -257,7 +267,7 @@ function App() {
       .then((data) => {
         // Handle the response data (e.g., play the audio)
 
-      console.log('Received data:', data);
+        console.log('Received data:', data);
         const audioUrl = data.url; // Assuming the response includes the audio URL
         console.log('Audio URL:', audioUrl);
         const audio = new Audio(audioUrl);
@@ -268,12 +278,12 @@ function App() {
         // Handle any errors
       });
   };
-  
-  
-  
 
 
-  
+
+
+
+
 
   // 
   const handleSend = async (message) => {
@@ -292,144 +302,18 @@ function App() {
     await processMessageToChatGPT(newMessages);
   }
 
-  async function processMessageToChatGPT(chatMessages) {
-    //chatMessages {sender: user or chatgpt, message: message content}
-    //apiMessages {role: user , content: the message content}
+  async function processMessageToChatGPT(data) {
 
-    let apiMessages = chatMessages.map((messageObject) => {
-      let role = "";
-      if (messageObject.sender === "ChatGPT") {
-        role = "assistant"
-      } else {
-        role = "user"
-      }
-      return { role: role, content: messageObject.message }
-    });
-
-    const systemMessage = {
-      'role': 'system',
-      'content': `As an accomplished story writer, your task is to create an engaging narrative that will aid the user in learning a target language.
-  
-      Your initial mission is to gather the following story parameters from the user as concisely and swiftly as possible:
-      a. story topic
-      b. story length
-      c. reading difficulty level
-      d. story genre
-      e. educational objectives
-      f. target language
-  
-      Once you have confirmed the parameters, avoid any further brainstorming with the user. You can use yes/no questions to confirm if the parameters are correct before proceeding.
-  
-      You will then return these parameters from the 'define_story' function call in a structured JSON object like the example below:
-  
-      {
-          "story_topic": "Friends on Vacation in Sicily",
-          "story_length": "150 words",
-          "reading_difficulty_level": "Intermediate",
-          "story_genre": "Adventure",
-          "educational_objectives": "Basic tourist vocabulary",
-          "target_language": "Spanish"
-      }
-  `
-    }
+    const retrievedVoiceID = getVoiceIDForLanguage(data.target_language);
+    setVoiceID(retrievedVoiceID);
 
     const apiRequestBody = {
-      "model": "gpt-4-0613",
-      //"model": "gpt-3.5-turbo-0613",
-      "messages": [systemMessage,
-        ...apiMessages],
-      "functions": [
+      // Modify the following code to suit your needs
+      model: "gpt-4-0613",
+      messages: [
         {
-          name: 'define_story',
-          description: 'generates a complete story story_text given set parameters story_topic, story_length, reading_difficulty_level, story_genre, educational_objectives and target_language as well as pre-reading and post-reading activities related to the story. Ensure for certain that the story is written in the requested target_language.',
-          parameters: {
-            type: 'object',
-            properties: {
-              story_topic: {
-                type: 'string',
-                description: 'What the story is about'
-              },
-
-              story_length: {
-                type: 'string',
-                description: 'how many words roughly the story has'
-              },
-
-              reading_difficulty_level: {
-                type: 'string',
-                description: 'the reading comprehension level of the story measured by developmental narratibve level'
-              },
-
-              story_genre: {
-                type: 'string',
-                description: 'the genre or genres whose tropes the story will follow'
-              },
-
-              educational_objectives: {
-                type: 'string',
-                description: 'grammar points that the student needs to focus on that are emphasized throughout the story'
-              },
-
-              target_language: {
-                type: 'string',
-                description: 'the sole language in which the story will be written'
-              }
-
-            },
-            required: ['story_topic', 'story_length', 'reading_difficulty_level', 'story_genre', 'educational_objectives', 'target_language']
-          },
-        },
-
-      ],
-
-      //"max_tokens": 1000
-    }
-
-    await fetch("https://api.openai.com/v1/chat/completions", {
-
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer " + API_KEY,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(apiRequestBody)
-    }).then((response) => {
-      return response.json();
-    }).then((json) => {
-      console.log(json.choices[0]);
-      console.log(`Tokens used: ${json.usage.total_tokens}`);
-      if (json.choices[0].message.function_call) {
-        console.log('Function Call Arguments:', json.choices[0].message.function_call.arguments);
-        
-        try {
-          const parsed = JSON.parse(json.choices[0].message.function_call.arguments);
-          console.log('Parsed Arguments:', parsed);
-
-          const userLanguage = parsed.target_language; // target language
-           // Get the voices for the user's language
-          const retrievedVoiceID = getVoiceIDForLanguage(userLanguage);
-          setVoiceID(retrievedVoiceID);
-
-          console.log(voiceID);
-      
-        } catch (error) {
-          console.error('Error Parsing Arguments:', error);
-        }
-
-
-        const parsedArgs = JSON.parse(json.choices[0].message.function_call.arguments);
-        //console.log(JSON.stringify(parsedArgs));
-        const userLanguage2 = parsedArgs.target_language; 
-
-        setIsLoading(true);
-
-        const newApiRequestBody = {
-          // Modify the following code to suit your needs
-          model: "gpt-4-0613",
-          messages: [
-            {
-              role: "system",
-              content: `
+          role: "system",
+          content: `
               Create an immersive narrative in the user's target language to aid language acquisition. Adhere to specified parameters, including word count.
 
 Shape your narrative using elements like narrative voice (shifting between first and third person), linear or non-linear structure, and varied tense. Use dialogue to enrich characters and propel the plot, or focus on description and action. Vary the level of detail in setting descriptions and develop characters with static or evolving traits.
@@ -445,7 +329,7 @@ Advanced: Varied sentence structures, complex characters, and non-linear narrati
 Proficient: Showcase mastery with sophisticated language, multi-dimensional characters, and profound themes or plot twists.
 Expand the narrative's length meaningfully to ensure that the character's problem or problems are solved by specific well-detailed steps of action.
 
-Provide all of the following written in ${userLanguage2} -
+Provide all of the following written in ${data.target_language} -
 
 1. PRE-READING ANTICIPATION GUIDE
 Include 5 engaging numbered questions and true-false statements about theme, vocabulary, or structure separated by newline characters. Include a summary of the events of the story using emojis. '/n/'
@@ -461,114 +345,85 @@ Create 12 questions of true false, fill in the blank, and open-ended formats, as
 
 Ensure all headings are in all caps. Create a clever story title as well. Return the story and its title as a JSON object with the story, anticipation guide, glossary and comprehension questions as properties of story_text, pre_reading and post_reading. 
               `
-            },
-            {
-              role: "user",
-              content: "Write me a story, pre-reading guide and post-reading questions based on the following parameters paying careful attention to each:" + JSON.stringify(parsedArgs) 
-            }
-          ],
-
-          temperature: 0.9,
-          //max_tokens: 8000,
-
-          functions: [
-            {
-              name: 'write_story_activities',
-              description: 'generates a complete story, story_text, given set parameters and pre-reading and post-reading guides. Only return story_text, pre_reading and post_reading as a JSON object enclosed in curly braces with appropriate formatting.',
-              
-              parameters: {
-                type: 'object',
-
-                properties: {
-                  story_text: {
-                    type: 'string',
-                    description: 'a complete narrative with a story title based on parameters provided by the user: educational_objectives, target_language, story_text, story_genre, reading_difficulty_level, story_length, story_topic'
-                  },
-
-                  pre_reading: {
-                    type: 'string',
-                    description: 'Anticipation guide and glossary of key vocabulary with definitions to prepare the reader for the narrative.'
-                  },
-                  post_reading: {
-                    type: 'string',
-                    description: 'Post-reading comprehension questions based on Blooms taxonomy to evaluate the reader comprehension.'
-                  }
-                
-                },
-                required: ['story_text', 'pre_reading', 'post_reading']
-              }
-            }
-          ],
-
-          //function_call: 'write_story_activities'
+        },
+        {
+          role: "user",
+          content: "Write me a story, pre-reading guide and post-reading questions based on the following parameters paying careful attention to each:" + JSON.stringify(data)
         }
+      ],
 
-        console.log(JSON.stringify(newApiRequestBody))
+      temperature: 0.9,
+      //max_tokens: 8000,
 
-        return fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Authorization": "Bearer " + API_KEY,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(newApiRequestBody)
-        })
-          .then(response => response.json())
-          .then(json => {
-            // Handle the response from the second API call
-            console.log("hello");
-            // Here, you could, for example, set the generated story to a state variable
-            // if (json.choices[0].message.function_call !== undefined) {
+      functions: [
+        {
+          name: 'write_story_activities',
+          description: 'generates a complete story, story_text, given set parameters and pre-reading and post-reading guides. Only return story_text, pre_reading and post_reading as a JSON object enclosed in curly braces with appropriate formatting.',
 
-            const rawArguments = json.choices[0].message.function_call.arguments;
-  
-            // Sanitize the string
-            const sanitizedArguments = rawArguments.replace(/[\u0000-\u0019]+/g,"");
-            console.log(sanitizedArguments);
+          parameters: {
+            type: 'object',
 
-            // Now parse the sanitized string
-            const functionArguments = JSON.parse(sanitizedArguments);
+            properties: {
+              story_text: {
+                type: 'string',
+                description: 'a complete narrative with a story title based on parameters provided by the user: educational_objectives, target_language, story_text, story_genre, reading_difficulty_level, story_length, story_topic'
+              },
 
-            //const functionArguments = JSON.parse(json.choices[0].message.function_call.arguments);
-            console.log(functionArguments.story_text);
-            console.log(functionArguments.pre_reading);
-            console.log(functionArguments.post_reading);
-          
-            // HERE IS THE NEW CODE
-            setPreReadingActivity(functionArguments.pre_reading);
-            setPostReadingActivity(functionArguments.post_reading);
-            setStoryText(functionArguments.story_text);
-            setIsLoading(false);
+              pre_reading: {
+                type: 'string',
+                description: 'Anticipation guide and glossary of key vocabulary with definitions to prepare the reader for the narrative.'
+              },
+              post_reading: {
+                type: 'string',
+                description: 'Post-reading comprehension questions based on Blooms taxonomy to evaluate the reader comprehension.'
+              }
 
-            const story_text = functionArguments.story_text;
-            const pre_reading = functionArguments.pre_reading;
-            const post_reading = functionArguments.post_reading;
+            },
+            required: ['story_text', 'pre_reading', 'post_reading']
+          }
+        }
+      ],
 
-            /*let storyContainer = document.getElementById("actual-story-container");
-      
-              if(storyContainer) {
-                storyContainer.innerText = story_text;
-                console.log("hello");
-              }*/
-          })
-          .catch(error => {
-            console.error(`Error in second API call: ${error}`)
-            setIsLoading(false);
-          });
-      }
+      //function_call: 'write_story_activities'
+    }
 
-      setMessages(
-        [...chatMessages, {
-          message: json.choices[0].message.content,
-          sender: "ChatGPT"
-        }]
-      );
-    }).finally(() => {
-      // We've moved setIsTyping(false) to this place.
-      // It will be called after the API request is finished (whether it's successful or not).
-      setIsTyping(false);
-      console.log("hello");
-    });
+    try {
+      setIsLoading(true);
+      const result = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + API_KEY,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(apiRequestBody)
+      })
+
+      const json = await result.json()
+      const rawArguments = json.choices[0].message.function_call.arguments;
+      const sanitizedArguments = rawArguments.replace(/[\u0000-\u0019]+/g, "");
+      const functionArguments = JSON.parse(sanitizedArguments);
+      console.log(functionArguments.story_text);
+      console.log(functionArguments.pre_reading);
+      console.log(functionArguments.post_reading);
+
+      setPreReadingActivity(functionArguments.pre_reading);
+      setPostReadingActivity(functionArguments.post_reading);
+      setStoryText(functionArguments.story_text);
+
+      /*let storyContainer = document.getElementById("actual-story-container");
+   
+        if(storyContainer) {
+          storyContainer.innerText = story_text;
+          console.log("hello");
+        }*/
+
+
+    } catch (error) {
+      console.log('error on API call', error)
+    } finally {
+      setIsLoading(false)
+    }
+
 
     // Function to process the function call arguments and generate a response
     function processFunctionCall(functionArguments) {
@@ -586,23 +441,56 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
     }
   }
 
+  const formDataDefault = {
+    story_topic: '',
+    story_length: '',
+    reading_difficulty_level: '',
+    story_genre: '',
+    lesson_objectives: '',
+    target_language: '',
+  };
+
+  const { show, open, close, toggle } = useShow(true)
+  const [formData, setFormData] = useState(formDataDefault);
+
+  const resetForm = () => setFormData(formDataDefault)
+
+  const generateStory = (e) => {
+    e.preventDefault()
+    const data = { ...formData, story_length: `${getWordsCount(formData.story_length)} words` }
+    processMessageToChatGPT(data)
+    close()
+    resetForm()
+  }
+
+  const modalRef = useRef()
+
   return (
-    <div>
+    <Grommet theme={customTheme} fill>
       <Header />
       <div className="app-container">
-        <Sidenav story={story} />
-        <div className="right-column">
-          <MainContainer>
-            <ChatContainer>
+        <Sidenav story={story} handleOpenForm={toggle} />
+        <div className="right-column" ref={modalRef}>
+          <MainContainer >
+              <ChatContainer>
               <MessageList typingIndicator={isTyping && <TypingIndicator content="" />} >
                 {messages.map((message, i) => {
                   return <Message key={i} model={message} />
                 })}
               </MessageList>
               <MessageInput placeholder='Type message here' onSend={handleSend} />
-              
-            </ChatContainer>
+              </ChatContainer>
           </MainContainer>
+          {show && (
+            <Modal target={modalRef.current} isOpen={open} onClose={close} position='left'>
+              <ParamsForm
+                formData={formData}
+                setFormData={setFormData}
+                onReset={resetForm}
+                onSubmit={generateStory}
+              />
+            </Modal>
+          )}
         </div>
         {isLoading &&
           <div className="logo-container">
@@ -610,8 +498,7 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
           </div>
         }
         <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
-
-            <div className="tab-shadow">
+          <div className="tab-shadow">
             <Tabs
               story_text={storyText}
               pre_reading={preReadingActivity}
@@ -619,14 +506,13 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
               voice={voiceID}
               playAudio={playAudio}
             />
-
-
-            </div>
+          </div>
         </div>
 
       </div>
       <Footer story={story} />
-    </div >
+    </Grommet>
+
   );
 }
 
