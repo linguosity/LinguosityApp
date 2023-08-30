@@ -12,7 +12,7 @@ import Tabs from './Tabs';
 import { runModel, createPredictionWithWebhook } from './ReplicateAPI';
 import { TextToVoice } from './texttoVoice'; // Adjust the path as needed
 import { voicesData } from './voicesData'; // Adjust the path as needed
-
+import { BiLogOut } from 'react-icons/bi'
 
 //import AzureTTSComponent from './AzureTTSComponent';
 
@@ -20,6 +20,8 @@ import { MainContainer, ChatContainer, MessageList, Message, MessageInput, Typin
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 
 // Import required icons
+import { useFirebaseAuth } from './FirebaseContext';
+import AuthComponent from './AuthComponent';
 import { AiOutlineMessage, AiOutlineBook, AiOutlineFilePdf, AiOutlineForm } from 'react-icons/ai';
 import ParamsForm from './ParamsForm';
 import Modal from './Modal';
@@ -66,7 +68,7 @@ function Header() {
 
 //left column side nav component
 function Sidenav({ story, audioUrl, handleOpenForm }) {
-
+ const { logout } = useFirebaseAuth()
   function MyDocument({ text }) {
     return (
       <Document>
@@ -113,6 +115,7 @@ function Sidenav({ story, audioUrl, handleOpenForm }) {
               </a>
             )}
           </div>
+          <BiLogOut onClick={logout} />
           <AiOutlineForm onClick={handleOpenForm} />
         </div>
       </div>
@@ -441,6 +444,7 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
     }
   }
 
+  const { user } = useFirebaseAuth()
   const formDataDefault = {
     story_topic: '',
     story_length: '',
@@ -468,51 +472,53 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
   return (
     <Grommet theme={customTheme} fill>
       <Header />
-      <div className="app-container">
-        <Sidenav story={story} handleOpenForm={toggle} />
-        <div className="right-column" ref={modalRef}>
-          <MainContainer >
-              <ChatContainer>
-              <MessageList typingIndicator={isTyping && <TypingIndicator content="" />} >
-                {messages.map((message, i) => {
-                  return <Message key={i} model={message} />
-                })}
-              </MessageList>
-              <MessageInput placeholder='Type message here' onSend={handleSend} />
-              </ChatContainer>
-          </MainContainer>
-          {show && (
-            <Modal target={modalRef.current} isOpen={open} onClose={close} position='left'>
-              <ParamsForm
-                formData={formData}
-                setFormData={setFormData}
-                onReset={resetForm}
-                onSubmit={generateStory}
-              />
-            </Modal>
-          )}
-        </div>
-        {isLoading &&
-          <div className="logo-container">
-            <img src={linguosityLogo} className="image-6" alt="Loading..." />
-          </div>
-        }
-        <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
-          <div className="tab-shadow">
-            <Tabs
-              story_text={storyText}
-              pre_reading={preReadingActivity}
-              post_reading={postReadingActivity}
-              voice={voiceID}
-              playAudio={playAudio}
-            />
-          </div>
-        </div>
-
-      </div>
+        {
+          user ? (
+            <div className="app-container">
+              <Sidenav story={story} handleOpenForm={toggle} />
+              <div className="right-column" ref={modalRef}>
+                <MainContainer >
+                  <ChatContainer>
+                    <MessageList typingIndicator={isTyping && <TypingIndicator content="" />} >
+                      {messages.map((message, i) => {
+                        return <Message key={i} model={message} />
+                      })}
+                    </MessageList>
+                    <MessageInput placeholder='Type message here' onSend={handleSend} />
+                  </ChatContainer>
+                </MainContainer>
+                {show && (
+                  <Modal target={modalRef.current} isOpen={open} onClose={close} position='left'>
+                    <ParamsForm
+                      formData={formData}
+                      setFormData={setFormData}
+                      onReset={resetForm}
+                      onSubmit={generateStory}
+                    />
+                  </Modal>
+                )}
+              </div>
+              {isLoading &&
+                <div className="logo-container">
+                  <img src={linguosityLogo} className="image-6" alt="Loading..." />
+                </div>
+              }
+              <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
+                <div className="tab-shadow">
+                  <Tabs
+                    story_text={storyText}
+                    pre_reading={preReadingActivity}
+                    post_reading={postReadingActivity}
+                    voice={voiceID}
+                    playAudio={playAudio}
+                  />
+                </div>
+              </div>
+             </div> ) :
+            <AuthComponent />
+          }
       <Footer story={story} />
     </Grommet>
-
   );
 }
 
