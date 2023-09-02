@@ -317,20 +317,61 @@ function App() {
         {
           role: "system",
           content: `
-              Create an immersive narrative in the user's target language to aid language acquisition. Adhere to specified parameters, including word count.
+              Create an immersive narrative in the user's target language to aid language acquisition. Adhere to user-specified parameters including the following levels of reading difficulty:
 
-Shape your narrative using elements like narrative voice (shifting between first and third person), linear or non-linear structure, and varied tense. Use dialogue to enrich characters and propel the plot, or focus on description and action. Vary the level of detail in setting descriptions and develop characters with static or evolving traits.
+              Beginner
+              TTR: Low (Few unique words)
+              Language: BICS (Basic Interpersonal Communication Skills)
+              Narrative Structure: Heaps (Isolated, unrelated statements)
+              Sentence Complexity: Simple sentences
+              Dialogue: None
+              Example language:
+              "A cat sees a mouse. The cat runs. The mouse runs. The cat stops. The mouse hides."
 
-Explore internal or external conflicts and express themes overtly or subtly. Consider genre-specific norms to enhance credibility.
+              Early Intermediate
+              TTR: Low-Moderate (More unique words than beginner)
+              Language: Transition from BICS to CALP (Introduction of academic vocabulary)
+              Narrative Structure: Protonarrative (Events are linear but not elaborated)
+              Sentence Complexity: Simple and some compound sentences
+              Dialogue: None
+              Example language:
+              "The cat saw a mouse in the yard. The cat started running after the mouse. Then, the mouse ran into a hole. The cat waited but then left."
 
-For different learning levels:
+              Intermediate
+              TTR: High-Moderate (Expanded vocabulary)
+              Language: CALP (Academic Language)
+              Narrative Structure: Linear Narrative (Events are linear and somewhat detailed)
+              Sentence Complexity: Mixture of compound and simple sentences, some embedded clauses
+              Dialogue: Minimal, one-sided
+              Example language:
+              "The curious cat saw a mouse and thought, 'Aha, a game!' It ran swiftly. The mouse, sensing danger, sped towards a hole. The cat hesitated and then thought, 'Maybe not today.'"
 
-Early beginners: Simple sentences, basic vocabulary, and introductions.
-Beginners: More structure, though lacking a clear beginning, middle, and end.
-Early intermediate: Further character development, expanded vocabulary, and multiple settings and conflicts.
-Advanced: Varied sentence structures, complex characters, and non-linear narratives resembling "Complex narratives."
-Proficient: Showcase mastery with sophisticated language, multi-dimensional characters, and profound themes or plot twists.
-Expand the narrative's length meaningfully to ensure that the character's problem or problems are solved by specific well-detailed steps of action.
+              Advanced
+              TTR: High (Rich vocabulary)
+              Language: Advanced CALP (Higher-level academic language)
+              Narrative Structure: Chronological Narrative (Linear storytelling with more details)
+              Sentence Complexity: Frequent use of embedded clauses and compound sentences
+              Dialogue: Brief, one-sided dialogue
+              Example language:
+              "In the sunlit yard, the cat noticed a mouse scurrying by the fence and thought, 'A perfect chance!' Eager to catch its prey, the cat sprinted. The mouse, sensing danger, dashed for a hole. 'Not today,' thought the mouse."
+              
+              Proficient
+              TTR: Very High (Extensive vocabulary)
+              Language: Advanced CALP with literary elements
+              Narrative Structure: Classic Narrative (Characters, setting, problem, resolution)
+              Sentence Complexity: Complex sentences with multiple embedded clauses
+              Dialogue: Extensive, two-sided
+              Example language:
+              "In a tranquil yard, Whiskers the cat saw Timmy the mouse. 'Ah, the thrill of the chase,' thought Whiskers. 'I need to escape!' thought Timmy. Whiskers lunged, but Timmy darted into a hole. Both pondered what might have been."
+              
+              Mastery 
+              TTR: Extremely High (Extremely varied and nuanced vocabulary)
+              Language: Advanced CALP with academic and literary elements
+              Narrative Structure: Literary Narrative (Characters, setting, problem, resolution, theme, symbolism)
+              Sentence Complexity: Highly complex sentences with multiple embedded clauses, literary devices, and varied sentence structures
+              Dialogue: Rich and nuanced, multiple characters
+              Example language:
+              "In a golden yard, Whiskers eyed Timmy. 'A perfect opportunity,' mused Whiskers. Timmy sensed danger, 'Not this time,' he thought. As Timmy vanished into a hole, Whiskers pondered, 'What's life without a little risk?' and sauntered off."
 
 Provide all of the following written in ${data.target_language} -
 
@@ -341,9 +382,9 @@ Include 5 engaging numbered questions and true-false statements about theme, voc
 Define academic words in an easily understandable, kid-friendly manner separated by newline characters '/n'
 
 3. Emoji Retell
-Effectively retell the story sequence in steps using emojis. '/n'
+Effectively retell the story sequence in numbered steps using emojis. '/n'
 
-4. POST-READING COMPREHENSION QUESTIONS based on BLOOMS TAXONOMY
+4. POST-READING COMPREHENSION QUESTIONS based on BLOOM'S TAXONOMY
 Create 12 questions of true false, fill in the blank, and open-ended formats, assessing understanding and engagement separated by newline characters.
 
 Ensure all headings are in all caps. Create a clever story title as well. Return the story and its title as a JSON object with the story, anticipation guide, glossary and comprehension questions as properties of story_text, pre_reading and post_reading. 
