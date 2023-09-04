@@ -59,9 +59,9 @@ footer {
 }
 
 .toolbar svg {
-  width: 32px;
-  height: 32px;
-  padding: 24px 0 0 0;
+  width: 24px;
+  height: 24px;
+  padding: 20px 0 0 0;
   stroke-width: 0%;
   color: #CE7B56;
   cursor: pointer;
@@ -84,12 +84,14 @@ svg#prepare-file, svg#book, svg#review {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 12px 0 0 0;
 }
 
 .toolbar svg#replay {
   width: 25px !important;
   padding-left: 0px;
   padding-right:0px;
+  
 }
 
 .toolbar {
@@ -98,6 +100,23 @@ svg#prepare-file, svg#book, svg#review {
   justify-content: center;
   align-items: center;
   
+}
+
+.home-nav-icon
+{
+  background-color: #ce7b56;
+  width:56px;
+  height:40px;
+  border-radius:8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+svg#homepage {
+  padding:0px;
+  margin: 0px;
+  color:white;
 }
 
 body {
@@ -256,7 +275,10 @@ background-color: #FDFAF3;
   display: flex;
   align-content: center;
   justify-content: space-evenly;
-  padding:0px;
+  padding:0 0 24px 0;
+  margin:0px;
+  border-bottom: solid 0.75px lightgray;
+
 }
 
 .nav-menu-wrap {
@@ -270,6 +292,7 @@ background-color: #FDFAF3;
   justify-content:center;
   text-decoration: none;
   color: #333333;
+  width:px;
 }
 
 @media screen and (max-width: 844px) {
@@ -631,7 +654,7 @@ height: 100vh;
 }
 
 .sidenav-wrapper{
-  width:3%;
+  width:88px;
   height:100vh;
   background-color: whitesmoke;
   z-index: 999999;
