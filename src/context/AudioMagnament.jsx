@@ -20,9 +20,10 @@ export function AudioMagnament({ children }) {
 
   }, [audioUrl])
 
-  const handleGenerateAudio = async (text) => {
+  const handleGenerateAudio = async (text, voice) => {
     setIsGenerating(true)
-    const url = await generateAudio({ text, voiceID })
+    console.log('from handleGenerate', voiceID)
+    const url = await generateAudio({ text, voice })
     setAudioUrl(url)
     setIsGenerating(false)
   }
@@ -49,8 +50,8 @@ export function AudioMagnament({ children }) {
     if (audioUrl) {
       if (isPlaying) handlePause()
       else handlePlay()
-    } else handleGenerateAudio(story)
-  }, [audioUrl, isPlaying])
+    } else handleGenerateAudio(story, voiceID)
+  }, [audioUrl, isPlaying, voiceID])
 
   return (
     <AudioMagnamentContext.Provider value={{
