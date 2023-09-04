@@ -144,3 +144,6 @@ body {
 }
 
 
+.audio-player {
+  display: none;
+}
