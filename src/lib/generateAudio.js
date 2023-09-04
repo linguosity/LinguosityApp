@@ -19,7 +19,7 @@ export default async function generateAudio(params) {
       method: 'POST',
       body: JSON.stringify({
         content: [text],
-        voice: voice
+        voice
       })
     })
     const data = await response.json()
