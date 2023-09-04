@@ -1,7 +1,7 @@
 // AuthComponent.jsx
 import React, { useState } from 'react';
-import { useFirebaseAuth } from './FirebaseContext';
-import './AuthComponent.css'; // Importa los estilos CSS
+import { useFirebaseAuth } from '../context/FirebaseContext';
+import '../styles/AuthComponent.css'; // Importa los estilos CSS
 
 
 function AuthComponent() {
