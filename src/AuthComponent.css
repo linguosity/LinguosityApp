@@ -127,6 +127,7 @@ input[type="email"] {
   background-position: left 10px center;  /* Adjust as needed */
   padding-left: 10px;  /* Make room for the SVG */
   background-size: 25px;
+  color: black;
 }
 
 input[type="password"] {

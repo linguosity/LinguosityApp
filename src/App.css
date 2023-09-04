@@ -143,4 +143,6 @@ body {
   height: 100vh;
 }
 
-
+body .fptPIw {
+  border: none !important;
+}

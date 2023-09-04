@@ -27,7 +27,7 @@ import ParamsForm from './ParamsForm';
 import Modal from './Modal';
 import useShow from './hooks/useShow';
 import getWordsCount from './utils/getWordsCount';
-import { Box, Grommet } from 'grommet';
+import { Box, Grommet, TextInput } from 'grommet';
 
 const API_KEY = import.meta.env.VITE_APP_OPENAI_API_KEY;
 
@@ -382,7 +382,7 @@ Include 5 engaging numbered questions and true-false statements about theme, voc
 Define academic words in an easily understandable, kid-friendly manner separated by newline characters '/n'
 
 3. Emoji Retell
-Effectively retell the story sequence in numbered steps using emojis. '/n'
+Effectively retell the story sequence in numbered steps using emojis with spacing for legibility. '/n'
 
 4. POST-READING COMPREHENSION QUESTIONS based on BLOOM'S TAXONOMY
 Create 12 questions of true false, fill in the blank, and open-ended formats, assessing understanding and engagement separated by newline characters.

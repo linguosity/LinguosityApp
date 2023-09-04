@@ -197,9 +197,33 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
           onChange={(nextValue) => setFormData(nextValue)}
           onReset={onReset}
           onSubmit={onSubmit}
+          style={{
+            backgroundColor: 'transparent',
+            border: 'none',
+            padding: '0px',
+            margin: '0px'
+          }}
         >
-          <FormField label={<Text weight='normal'>Story Topic:</Text>} htmlFor="story_topic" name="story_topic" required>
-            <TextInput id="story_topic" name="story_topic" />
+          <FormField 
+            label={<Text weight='normal'>Story Topic:</Text>} 
+            htmlFor="story_topic" name="story_topic" 
+            required
+            style={{
+              backgroundColor: 'white',
+              border: 'none'
+              }}
+
+            >
+            <TextInput 
+                id="story_topic" 
+                name="story_topic" 
+                style={{
+                  backgroundColor: 'white',
+                  border: '0.5px solid lightgrey',
+                  borderRadius: '8px'
+                
+                }}
+              />
           </FormField>
           <FormField label={<Text weight='normal'>Story Length:</Text>} htmlFor="story_length" name="story_length" required>
             <Select
