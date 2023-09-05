@@ -144,7 +144,7 @@ Dialogue: Rich and nuanced, multiple characters
 Example language:
 "In a golden yard, Whiskers eyed Timmy. 'A perfect opportunity,' mused Whiskers. Timmy sensed danger, 'Not this time,' he thought. As Timmy vanished into a hole, Whiskers pondered, 'What's life without a little risk?' and sauntered off."
 
-Provide all of the following written in ${data.target_language} -
+Provide all of the following headlines and content written in ${data.target_language} -
 
 1. PRE-READING ANTICIPATION GUIDE
 Include 5 engaging numbered questions and true-false statements about theme, vocabulary, or structure separated by newline characters. Include a summary of the events of the story using emojis. '/n/'
