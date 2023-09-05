@@ -61,7 +61,7 @@ footer {
 .toolbar svg {
   width: 24px;
   height: 24px;
-  padding: 20px 0 0 0;
+  padding: 0px 0 0 0;
   stroke-width: 0%;
   color: #CE7B56;
   cursor: pointer;
@@ -84,7 +84,8 @@ svg#prepare-file, svg#book, svg#review {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 12px 0 0 0;
+  padding: 24px 0 0 0;
+  width:240px;
 }
 
 .toolbar svg#replay {
@@ -99,25 +100,43 @@ svg#prepare-file, svg#book, svg#review {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
+  flex-wrap:wrap;
+}
+
+.toolbar div {
+  display: flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content: left;
+  align-items:center;
 }
 
 .home-nav-icon
 {
   background-color: #ce7b56;
-  width:56px;
+  width:208px;
   height:40px;
   border-radius:8px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: left;
+  margin: 0 0 16px 0;
 }
 
-svg#homepage {
-  padding:0px;
-  margin: 0px;
-  color:white;
+.log-out, .build-story, .story-maker, .save-music {
+  width:208px;
+  height:40px;
+  display: flex;
+  justify-content: center;
+  align-items: left;
 }
+
+.toolbar svg {
+  padding: 0 8px 0 16px;
+  color:black;
+}
+
+
 
 body {
   margin: 0;
@@ -281,6 +300,16 @@ background-color: #FDFAF3;
 
 }
 
+.nav-logo-wrap div { 
+  display:flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding:16px 0 0 0;
+  font-size:20px;
+  color: black;
+}
+
 .nav-menu-wrap {
   background-color: rgba(0, 0, 0, 0);
 }
@@ -418,11 +447,6 @@ background-color: #FDFAF3;
   body .right-column {
     width:100vw;
     height:600px;
-  }
-
-  body .sidenav-wrapper {
-    width: 100vw;
-    height: 64px;
   }
 
   body div#content {
@@ -654,7 +678,7 @@ height: 100vh;
 }
 
 .sidenav-wrapper{
-  width:88px;
+  width:240px;
   height:100vh;
   background-color: whitesmoke;
   z-index: 999999;
@@ -1049,6 +1073,10 @@ body .cs-button--attachment {
   width: 100%; /* Makes the SVG take up the full width of the button */
   height: 100%; /* Makes the SVG take up the full height of the button */
   margin: 30px 0 0 30px;
+}
+
+.onboarding-screen {
+  display:none;
 }
 
 

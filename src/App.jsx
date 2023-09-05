@@ -51,6 +51,8 @@ function App() {
   const { user } = useFirebaseAuth()
   const { setVoiceID } = useAudioMagnament()
   const resetForm = () => setFormData(formDataDefault)
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
 
   const handleSend = async (content) => {
     setIsTyping(true);
@@ -229,6 +231,51 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
     postReadingActivity
   ])
 
+  const OnboardingScreen = ({ lottieData, heading, paragraph, onNext, onPrev, onSkip }) => {
+    return (
+      <div className="onboarding-screen">
+        <div className="lottie-container">
+          {/* Insert Lottie component here with lottieData */}
+        </div>
+        <h2>{heading}</h2>
+        <p>{paragraph}</p>
+        <div className="navigation">
+          <button onClick={onPrev}>{"<"}</button>
+          <button onClick={onNext}>{">"}</button>
+        </div>
+        <button className="skip" onClick={onSkip}>Skip</button>
+      </div>
+    );
+  };
+
+  const Onboarding = () => {
+  const [currentScreen, setCurrentScreen] = useState(0);
+  
+  const onNext = () => setCurrentScreen(prev => prev + 1);
+  const onPrev = () => setCurrentScreen(prev => prev - 1);
+  const onSkip = () => {/* Remove onboarding component */};
+
+  const screensData = [
+    { lottieData: {/*...*/}, heading: "Step 1", paragraph: "Step 1 Description" },
+    // ... more screens
+  ];
+
+  const { lottieData, heading, paragraph } = screensData[currentScreen];
+
+  return (
+    <OnboardingScreen 
+      lottieData={lottieData} 
+      heading={heading} 
+      paragraph={paragraph}
+      onNext={onNext}
+      onPrev={onPrev}
+      onSkip={onSkip}
+    /> 
+  );
+};
+
+  
+
   return (
     <div>
       {/* <Header /> */}
@@ -249,6 +296,7 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
             />
             <div className="right-column" ref={modalRef}>
               <MainContainer >
+              {showOnboarding && <Onboarding onSkip={() => setShowOnboarding(false)} />}
                 <ChatContainer>
                   <MessageList typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
                     {messages.map((message, i) => {
