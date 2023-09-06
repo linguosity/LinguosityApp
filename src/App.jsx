@@ -16,17 +16,52 @@ import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer'
 import MyDocument from './components/MyDocument';
 import { AiOutlineFilePdf } from 'react-icons/ai';
 import { useAudioMagnament } from './context/AudioMagnament';
+import { Box } from 'grommet';
 //import AzureTTSComponent from './AzureTTSComponent';
 
-// function MyDocument({ text }) {
-//   return (
-//     <Document>
-//       <Page>
-//         <Text>{text}</Text>
-//       </Page>
-//     </Document>
-//   );
-// }
+const OnboardingScreen = ({ lottieData, heading, paragraph, onNext, onPrev, onSkip }) => {
+  return (
+    <div className="onboarding-screen">
+      <div className="lottie-container">
+        {/* Insert Lottie component here with lottieData */}
+      </div>
+      <h2>{heading}</h2>
+      <p>{paragraph}</p>
+      <div className="navigation">
+        <button onClick={onPrev}>{"<"}</button>
+        <button onClick={onNext}>{">"}</button>
+      </div>
+      <button className="skip" onClick={onSkip}>Skip</button>
+    </div>
+  );
+};
+
+const Onboarding = () => {
+  const [currentScreen, setCurrentScreen] = useState(0);
+
+  const onNext = () => setCurrentScreen(prev => prev + 1);
+  const onPrev = () => setCurrentScreen(prev => prev - 1);
+  const onSkip = () => {/* Remove onboarding component */ };
+
+  const screensData = [
+    { lottieData: {/*...*/ }, heading: "Step 1", paragraph: "Step 1 Description" },
+    // ... more screens
+  ];
+
+  const { lottieData, heading, paragraph } = screensData[currentScreen];
+
+  return (
+    <OnboardingScreen
+      lottieData={lottieData}
+      heading={heading}
+      paragraph={paragraph}
+      onNext={onNext}
+      onPrev={onPrev}
+      onSkip={onSkip}
+    />
+  );
+};
+
 const formDataDefault = {
   story_topic: '',
   story_length: '',
@@ -46,7 +81,7 @@ function App() {
   const [preReadingActivity, setPreReadingActivity] = useState('');
   const [postReadingActivity, setPostReadingActivity] = useState('');
   const [formData, setFormData] = useState(formDataDefault);
-  const { show, open, close, toggle } = useShow(true)
+  const { show, open, close, toggle } = useShow()
   const modalRef = useRef()
   const { user } = useFirebaseAuth()
   const { setVoiceID } = useAudioMagnament()
@@ -56,13 +91,59 @@ function App() {
 
   const handleSend = async (content) => {
     setIsTyping(true);
+    const systemMsg = {
+      role: "system",
+      content: `You are tasked with guiding the user through a story they provide. Your role is to facilitate engagement and understanding of the story.
+
+To begin our storytelling adventure. Give a comment as funny about the history that you have provided. As introduction
+
+Give to ther user options based on story:
+
+Scene Example One
+Scene Example Two
+Character Example One
+Character Example Two
+(And so on, based on the user's story)
+And might you want add some question to the user.
+You must wait the user response to continue
+
+
+Exploration and Engagement:
+As we embark on this narrative journey, you can expect engaging questions and prompts to help us dive deeper into your story:
+
+"As we immerse ourselves in your story, please describe the current scene or setting. What vivid imagery do you associate with this part of the story?"
+
+"Let's delve into your characters. Share insights into their motivations, personalities, or any significant character development in this part of the story."
+
+"Are there specific themes, emotions, or messages you'd like to explore in this section of your story? Your input enriches our discussion."
+
+Reflecting on the Story:
+We'll also take moments to reflect on your story's impact:
+
+"Throughout our journey, consider the broader messages or lessons in your story. How do the characters' experiences resonate with real-life situations or personal insights?"
+
+"Do you have questions or themes you'd like to delve into further as we continue exploring your narrative? Feel free to share your thoughts and questions."
+
+Conclusion:
+To conclude, we're here to enhance your storytelling experience:
+
+This revised prompt system is designed to create a welcoming and engaging atmosphere as the user shares their story and explores it further with the AI system.`
+    }
     const newMessage = {
       role: "user",
       content
     }
-    setMessages(prev => [...prev, newMessage]);
 
-    const result = await callOpenAI([newMessage]);
+
+    setMessages(prev => {
+      if (!prev.length > 0) {
+        return prev
+      } else {
+        return [...prev, newMessage]
+      }
+    });
+
+    const result = await callOpenAI([systemMsg, newMessage], undefined, 0.1);
 
     if (!result) {
       setIsTyping(false);
@@ -87,80 +168,50 @@ function App() {
     const messages = [
       {
         role: "system",
-        content: `
-Create an immersive narrative in the user's target language to aid language acquisition. Adhere to user-specified parameters including the following levels of reading difficulty:
+        content: `Objective:
+According to the parameters provided by the user, your task is to create an engaging narrative in the user's target language to aid language acquisition. Adhere to the user-specified parameters, including different levels of reading difficulty. Please ensure the story has a title formatted as "TITLE: <history title>."
 
-Beginner
-TTR: Low (Few unique words)
-Language: BICS (Basic Interpersonal Communication Skills)
-Narrative Structure: Heaps (Isolated, unrelated statements)
-Sentence Complexity: Simple sentences
-Dialogue: None
-Example language:
-"A cat sees a mouse. The cat runs. The mouse runs. The cat stops. The mouse hides."
+User Input Example:
 
-Early Intermediate
-TTR: Low-Moderate (More unique words than beginner)
-Language: Transition from BICS to CALP (Introduction of academic vocabulary)
-Narrative Structure: Protonarrative (Events are linear but not elaborated)
-Sentence Complexity: Simple and some compound sentences
-Dialogue: None
-Example language:
-"The cat saw a mouse in the yard. The cat started running after the mouse. Then, the mouse ran into a hole. The cat waited but then left."
+json
+{
+  "story_topic": "An history of hobbits",
+  "story_length": "500 words",
+  "reading_difficulty_level": "Beginner",
+  "story_genre": "Fiction",
+  "lesson_objectives": "attention",
+  "target_language": "English (US)"
+}
 
-Intermediate
-TTR: High-Moderate (Expanded vocabulary)
-Language: CALP (Academic Language)
-Narrative Structure: Linear Narrative (Events are linear and somewhat detailed)
-Sentence Complexity: Mixture of compound and simple sentences, some embedded clauses
-Dialogue: Minimal, one-sided
-Example language:
-"The curious cat saw a mouse and thought, 'Aha, a game!' It ran swiftly. The mouse, sensing danger, sped towards a hole. The cat hesitated and then thought, 'Maybe not today.'"
+Parameters:
 
-Advanced
-TTR: High (Rich vocabulary)
-Language: Advanced CALP (Higher-level academic language)
-Narrative Structure: Chronological Narrative (Linear storytelling with more details)
-Sentence Complexity: Frequent use of embedded clauses and compound sentences
-Dialogue: Brief, one-sided dialogue
-Example language:
-"In the sunlit yard, the cat noticed a mouse scurrying by the fence and thought, 'A perfect chance!' Eager to catch its prey, the cat sprinted. The mouse, sensing danger, dashed for a hole. 'Not today,' thought the mouse."
+Story Topic: Una historia de hobbits como la película
+Story Length: 500 words
+Reading Difficulty Level: Beginner
+Story Genre: Fiction
+Lesson Objectives: Attention
+Target Language: Spanish (US)
+Reading Difficulty Levels:
 
-Proficient
-TTR: Very High (Extensive vocabulary)
-Language: Advanced CALP with literary elements
-Narrative Structure: Classic Narrative (Characters, setting, problem, resolution)
-Sentence Complexity: Complex sentences with multiple embedded clauses
-Dialogue: Extensive, two-sided
-Example language:
-"In a tranquil yard, Whiskers the cat saw Timmy the mouse. 'Ah, the thrill of the chase,' thought Whiskers. 'I need to escape!' thought Timmy. Whiskers lunged, but Timmy darted into a hole. Both pondered what might have been."
+Beginner: Low TTR, BICS Language, Heaps Narrative Structure, Simple Sentences, No Dialogue
+Early Intermediate: Low-Moderate TTR, Transition from BICS to CALP Language, Protonarrative Structure, Simple and Some Compound Sentences, No Dialogue
+Intermediate: High-Moderate TTR, CALP Language, Linear Narrative Structure, Mixture of Compound and Simple Sentences, Minimal One-Sided Dialogue
+Advanced: High TTR, Advanced CALP Language, Chronological Narrative Structure, Complex Sentences with Embedded Clauses, Brief One-Sided Dialogue
+Proficient: Very High TTR, Advanced CALP with Literary Elements, Classic Narrative Structure, Complex Sentences with Multiple Embedded Clauses, Extensive Two-Sided Dialogue
+Mastery: Extremely High TTR, Advanced CALP with Academic and Literary Elements, Literary Narrative Structure, Highly Complex Sentences with Literary Devices, Rich and Nuanced Dialogue
+Instructions for Generating the Story:
 
-Mastery 
-TTR: Extremely High (Extremely varied and nuanced vocabulary)
-Language: Advanced CALP with academic and literary elements
-Narrative Structure: Literary Narrative (Characters, setting, problem, resolution, theme, symbolism)
-Sentence Complexity: Highly complex sentences with multiple embedded clauses, literary devices, and varied sentence structures
-Dialogue: Rich and nuanced, multiple characters
-Example language:
-"In a golden yard, Whiskers eyed Timmy. 'A perfect opportunity,' mused Whiskers. Timmy sensed danger, 'Not this time,' he thought. As Timmy vanished into a hole, Whiskers pondered, 'What's life without a little risk?' and sauntered off."
+Create an immersive narrative in target_language according to the specified parameters. Ensure that the story aligns with the "story_length" parameter provided by the user.
 
-Provide all of the following headlines and content written in ${data.target_language} -
+Based on the user's request for a beginner-level story, use simple sentences, basic vocabulary, and a straightforward narrative structure.
 
-1. PRE-READING ANTICIPATION GUIDE
-Include 5 engaging numbered questions and true-false statements about theme, vocabulary, or structure separated by newline characters. Include a summary of the events of the story using emojis. '/n/'
+Follow the genre of fiction and focus on the lesson objective of capturing the reader's attention.
 
-2. PRE-READING GLOSSARY
-Define academic words in an easily understandable, kid-friendly manner separated by newline characters '/n'
+Include a title for the story formatted as "TITLE: <history title>."
 
-3. Emoji Retell
-Effectively retell the story sequence in numbered steps using emojis with spacing for legibility. '/n'
+Tailor the language to the target language specified by the user, which is "target_language" in this case.
 
-4. POST-READING COMPREHENSION QUESTIONS based on BLOOM'S TAXONOMY
-Create 12 questions of true false, fill in the blank, and open-ended formats, assessing understanding and engagement separated by newline characters.
-
-Ensure all headings are in all caps. Create a clever story title as well. Return the story and its title as a JSON object with the story, anticipation guide, glossary and comprehension questions as properties of story_text, pre_reading and post_reading.
-`
-      },
+By following these instructions, you will create a language learning narrative that meets the user's specific requirements for difficulty level and content.`},
       {
         role: "user",
         content: "Write me a story, pre-reading guide and post-reading questions based on the following parameters paying careful attention to each:" + JSON.stringify(data)
@@ -199,7 +250,7 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
     setIsLoading(true);
     close()
 
-    const result = await callOpenAI(messages, functions)
+    const result = await callOpenAI(messages, functions, 0)
 
     if (!result) {
       setIsLoading(false)
@@ -213,7 +264,7 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
     console.log(functionArguments.story_text);
     console.log(functionArguments.pre_reading);
     console.log(functionArguments.post_reading);
-
+    handleSend(sanitizedArguments)
     setPreReadingActivity(functionArguments.pre_reading);
     setPostReadingActivity(functionArguments.post_reading);
     setStoryText(functionArguments.story_text);
@@ -231,108 +282,65 @@ Ensure all headings are in all caps. Create a clever story title as well. Return
     postReadingActivity
   ])
 
-  const OnboardingScreen = ({ lottieData, heading, paragraph, onNext, onPrev, onSkip }) => {
-    return (
-      <div className="onboarding-screen">
-        <div className="lottie-container">
-          {/* Insert Lottie component here with lottieData */}
-        </div>
-        <h2>{heading}</h2>
-        <p>{paragraph}</p>
-        <div className="navigation">
-          <button onClick={onPrev}>{"<"}</button>
-          <button onClick={onNext}>{">"}</button>
-        </div>
-        <button className="skip" onClick={onSkip}>Skip</button>
-      </div>
-    );
-  };
-
-  const Onboarding = () => {
-  const [currentScreen, setCurrentScreen] = useState(0);
-  
-  const onNext = () => setCurrentScreen(prev => prev + 1);
-  const onPrev = () => setCurrentScreen(prev => prev - 1);
-  const onSkip = () => {/* Remove onboarding component */};
-
-  const screensData = [
-    { lottieData: {/*...*/}, heading: "Step 1", paragraph: "Step 1 Description" },
-    // ... more screens
-  ];
-
-  const { lottieData, heading, paragraph } = screensData[currentScreen];
-
-  return (
-    <OnboardingScreen 
-      lottieData={lottieData} 
-      heading={heading} 
-      paragraph={paragraph}
-      onNext={onNext}
-      onPrev={onPrev}
-      onSkip={onSkip}
-    /> 
-  );
-};
-
-  
 
   return (
     <div>
       {/* <Header /> */}
-      {
-        user ? (
-          <div className="app-container">
-            <Sidenav
-              story={story}
-              handleOpenForm={toggle}
-              pdfDocument={
-                documentIsReady ?
-                  <MyDocument pages={[
-                    storyText,
-                    preReadingActivity,
-                    postReadingActivity
-                  ]} /> : undefined
-              }
+      {/* {
+        user ? ( */}
+      <div className="app-container">
+        <Sidenav
+          story={story}
+          toggleForm={toggle}
+          pdfDocument={
+            documentIsReady ?
+              <MyDocument pages={[
+                storyText,
+                preReadingActivity,
+                postReadingActivity
+              ]} /> : undefined
+          }
+        />
+        <div className="right-column">
+          <MainContainer >
+            {showOnboarding && <Onboarding onSkip={() => setShowOnboarding(false)} />}
+            <ChatContainer>
+              <MessageList typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
+                {messages.map((message, i) => {
+                  return <Message key={i} model={{
+                    direction: message.role === "user" ? "outgoing" : "incoming",
+                    message: message.content
+                  }} />
+                })}
+              </MessageList>
+              <MessageInput placeholder='Type message here' onSend={handleSend} />
+            </ChatContainer>
+          </MainContainer>
+          {show && (
+            <Modal target={modalRef} isOpen={open} onClose={close} position='left'>
+              <ParamsForm
+                formData={formData}
+                setFormData={setFormData}
+                onReset={resetForm}
+                onSubmit={handleGenerate}
+              />
+            </Modal>
+          )}
+        </div>
+        <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
+          <div className="tab-shadow">
+            <Tabs
+              story_text={storyText}
+              pre_reading={preReadingActivity}
+              post_reading={postReadingActivity}
             />
-            <div className="right-column" ref={modalRef}>
-              <MainContainer >
-              {showOnboarding && <Onboarding onSkip={() => setShowOnboarding(false)} />}
-                <ChatContainer>
-                  <MessageList typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
-                    {messages.map((message, i) => {
-                      return <Message key={i} model={{
-                        direction: message.role === "user" ? "outgoing" : "incoming",
-                        message: message.content
-                      }} />
-                    })}
-                  </MessageList>
-                  <MessageInput placeholder='Type message here' onSend={handleSend} />
-                </ChatContainer>
-              </MainContainer>
-              {show && (
-                <Modal target={modalRef.current} isOpen={open} onClose={close} position='left'>
-                  <ParamsForm
-                    formData={formData}
-                    setFormData={setFormData}
-                    onReset={resetForm}
-                    onSubmit={handleGenerate}
-                  />
-                </Modal>
-              )}
-            </div>
-            <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
-              <div className="tab-shadow">
-                <Tabs
-                  story_text={storyText}
-                  pre_reading={preReadingActivity}
-                  post_reading={postReadingActivity}
-                />
-              </div>
-            </div>
-            {isLoading && <Logo />}
-          </div>) :
-          <AuthComponent />
-      }
+          </div>
+        </div>
+        {isLoading && <Logo />}
+      </div>)
+      {/* // :
+          // <AuthComponent />
+      } */}
       {/* <Footer story={story} /> */}
     </div>
 

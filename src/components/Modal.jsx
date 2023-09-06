@@ -4,7 +4,7 @@ import { FormClose } from 'grommet-icons';
 
 export default function Modal({ target, onClose, children, position }) {
   return (
-    <Layer target={target} modal onEsc={onClose} onClickOutside={onClose} position={position}>
+    <Layer target={target.current} modal onEsc={onClose} onClickOutside={onClose} >
       <Box
         align="center"
         justify="center"

@@ -80,6 +80,8 @@ svg#prepare-file, svg#book, svg#review {
   width:50px;
 }
 
+
+
 .footer-content {
   display: flex;
   justify-content: center;
@@ -101,6 +103,7 @@ svg#prepare-file, svg#book, svg#review {
   justify-content: center;
   align-items: center;
   flex-wrap:wrap;
+  gap: 16px;
 }
 
 .toolbar div {
@@ -129,6 +132,7 @@ svg#prepare-file, svg#book, svg#review {
   display: flex;
   justify-content: center;
   align-items: left;
+  cursor: pointer;
 }
 
 .toolbar svg {

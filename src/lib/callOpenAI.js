@@ -4,8 +4,8 @@ const API_KEY = import.meta.env.VITE_APP_OPENAI_API_KEY
 export default async function callOpenAI(
   messages, 
   functions, 
+  temperature = 0.9,
   model = "gpt-4-0613", 
-  temperature = 0.9
 ) {
 
   const apiRequestBody = {
@@ -13,7 +13,7 @@ export default async function callOpenAI(
     messages,
     temperature,
     functions,
-    //max_tokens: 8000,
+    max_tokens: 4096,
     //function_call: 'write_story_activities'
   }
 
@@ -36,3 +36,4 @@ export default async function callOpenAI(
 
 
 }
+
