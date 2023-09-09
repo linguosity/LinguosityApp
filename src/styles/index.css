@@ -103,7 +103,7 @@ svg#prepare-file, svg#book, svg#review {
   justify-content: center;
   align-items: center;
   flex-wrap:wrap;
-  gap: 16px;
+  gap: 0px;
 }
 
 .toolbar div {

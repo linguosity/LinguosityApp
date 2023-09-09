@@ -15,9 +15,10 @@ function AuthComponent() {
 
   return (
     <div className="auth-container">
+      
+      <div className="auth-form">
       <img width="25" src="https://uploads-ssl.webflow.com/643f1edf85eba707f45ddfc3/646255f5e004cd49868bd0df_linguosity_logo.svg" alt="Linguosity logo" className="logo-image" />
       <h2>Login to Linguosity</h2>
-      <div className="auth-form">
         {error && <p className="error-message">{error}</p>}
         <h5>Email</h5>
         <input
