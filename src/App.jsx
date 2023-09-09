@@ -186,9 +186,45 @@ json
 Parameters:
 
 Story Topic: Una historia de hobbits como la película
+
 Story Length: 500 words
 Reading Difficulty Level: Beginner
-Story Genre: Fiction
+Story Genre: 
+
+      Drama: Focus on character-driven emotional or ethical conflicts. Climax often resolves the main issue.
+
+      Fable: Use animals as characters to deliver a straightforward moral lesson. Short, with a clear resolution.
+
+      Fairy Tale: Include magical elements, a quest, and archetypal characters like witches or princes. Usually ends happily.
+
+      Fantasy: Create a new world with its own rules, often involving a quest or magical elements. Complex characters and settings.
+
+      Fiction: Real-world setting, invented characters and events. Balanced plot structure with a climax and resolution.
+
+      Fiction in Verse: Same as fiction but told through poetry. Emotional depth is crucial.
+
+      Folklore: Traditional tales explaining natural phenomena or cultural traditions. Often passed down through generations.
+
+      Historical Fiction: Real historical setting, fictional characters or events. Research is key for authenticity.
+
+      Horror: Build suspense and fear through eerie settings and mysterious elements. Climax usually reveals the source of horror.
+
+      Humor: Light-hearted, revolves around comedic situations. Characters often find themselves in ridiculous scenarios.
+
+      Legend: Semi-true stories based on historical events but exaggerated. Focus on heroism or morals.
+
+      Mystery: Plot centers on solving a puzzle or crime. Information revealed gradually, climax solves the mystery.
+
+      Mythology: Involves gods, heroes, and magic. Explains natural or social phenomena.
+
+      Poetry: Narrative elements optional. Focus on form and emotional or aesthetic expression.
+
+      Realistic Fiction: Plausible characters and settings, often contemporary. Emotional or social issues often drive the plot.
+
+      Science Fiction: Future or alternate settings with advanced technology. Often explores ethical implications.
+
+      Tall Tale: Exaggerated, unbelievable events or characters presented as true. Often humorous or outlandish.
+
 Lesson Objectives: Attention
 Target Language: Spanish (US)
 Reading Difficulty Levels:

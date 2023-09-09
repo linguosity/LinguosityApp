@@ -7,13 +7,15 @@ export default function PostReading({ postReading }) {
 
   return (
     <div id="post-reading-window">
-      {heading && <h2>{heading}</h2>}
+      {heading && <h1>{heading}</h1>}
       {items.length > 0 && (
-        <ul>
-          {items.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
+        <p>
+          <ul>
+            {items.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </p>
       )}
     </div>
   );

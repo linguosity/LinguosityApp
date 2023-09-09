@@ -186,14 +186,36 @@ const options = {
   ]
 };
 
-
 const customTheme = {
+ 
   global: {
     colors: {
       brand: '#FCF6EB',
     },
   },
-}
+
+  formField: {
+    border: {
+      color: 'grey',
+      side: 'all'
+    },
+    label: {
+      weight: 'normal',
+      size: '12px',
+    }
+  },
+
+  button: {
+    border: {
+      radius: '8px',
+    },
+    primary: {
+      color: '#FCF6EB',
+    },
+  }
+
+};
+
 
 export default function ParamsForm({ formData, setFormData, onReset, onSubmit }) {
 
@@ -201,7 +223,7 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
 
   return (
     <Grommet theme={customTheme}>
-      <Box align="center" justify="center" pad={{ horizontal: 'large', vertical: 'medium' }}>
+      <Box align="center" justify="center" pad={{ horizontal: 'medium', vertical: 'small' }}>
         <Box width="medium">
           <Form
             value={formData}
@@ -209,10 +231,10 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
             onReset={onReset}
             onSubmit={onSubmit}
           >
-            <FormField label={<Text weight='normal'>Story Topic:</Text>} htmlFor="story_topic" name="story_topic" required>
+            <FormField label={<Text weight='normal' size='16px' margin='-12px'>Story Topic:</Text>} htmlFor="story_topic" name="story_topic" required>
               <TextInput id="story_topic" name="story_topic" />
             </FormField>
-            <FormField label={<Text weight='normal'>Story Length:</Text>} htmlFor="story_length" name="story_length" required>
+            <FormField label={<Text weight='normal' size='16px' margin='-12px'>Story Length:</Text>} htmlFor="story_length" name="story_length" required>
               <Select
                 id="story_length"
                 aria-label="story_length"
@@ -220,7 +242,7 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
                 options={options.story_length}
               />
             </FormField>
-            <FormField label={<Text weight='normal'>Reading Difficulty Level:</Text>} htmlFor="reading_difficulty_level" name="reading_difficulty_level" required>
+            <FormField label={<Text weight='normal' size='16px' margin='-12px'>Reading Difficulty Level:</Text>} htmlFor="reading_difficulty_level" name="reading_difficulty_level" required>
               <Select
                 id="reading_difficulty_level"
                 aria-label="reading_difficulty_level"
@@ -228,7 +250,7 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
                 options={options.reading_difficulty_level}
               />
             </FormField>
-            <FormField label={<Text weight='normal'>Story Genre:</Text>} htmlFor="story_genre" name="story_genre" required>
+            <FormField label={<Text weight='normal' size='16px' margin='-12px'>Story Genre:</Text>} htmlFor="story_genre" name="story_genre" required>
               <Select
                 id="story_genre"
                 aria-label="story_genre"
@@ -236,10 +258,10 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
                 options={options.story_genre}
               />
             </FormField>
-            <FormField label={<Text weight='normal'>Lesson Objectives:</Text>} htmlFor="lesson_objectives" name="lesson_objectives" required>
+            <FormField label={<Text weight='normal' size='16px' margin='-12px'>Lesson Objectives:</Text>} htmlFor="lesson_objectives" name="lesson_objectives" required>
               <TextArea id="lesson_objectives" name="lesson_objectives" />
             </FormField>
-            <FormField label={<Text weight='normal'>Target Language:</Text>} htmlFor="target_language" name="target_language" required>
+            <FormField label={<Text weight='normal' size='16px' margin='-12px'>Target Language:</Text>} htmlFor="target_language" name="target_language" required>
               <Select
                 id="target_language"
                 aria-label="target_language"
@@ -253,7 +275,7 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
                 }}
               />
             </FormField>
-            <Box direction="row" justify="between" margin={{ vertical: 'large' }}>
+            <Box direction="row" justify="between" margin={{ vertical: 'small' }}>
               <Button type="reset" label="Reset" />
               <Button type="submit" label="Generate" primary />
             </Box>

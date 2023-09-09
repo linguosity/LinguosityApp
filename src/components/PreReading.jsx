@@ -16,22 +16,26 @@ export default function PreReading({ preReading }) {
     <div id="pre-reading-window">
       {anticipationGuideQuestions.length > 0 && (
         <div>
-          <h2>PRE-READING ANTICIPATION GUIDE</h2>
-          <ul>
-            {anticipationGuideQuestions.map((question, index) => (
-              <li key={index}>{question}</li>
-            ))}
-          </ul>
+          <h1>PRE-READING ANTICIPATION GUIDE</h1>
+          <p>
+            <ul>
+              {anticipationGuideQuestions.map((question, index) => (
+                <li key={index}>{question}</li>
+              ))}
+            </ul>
+          </p>
         </div>
       )}
       {glossaryItems.length > 0 && (
         <div>
-          <h2>PRE-READING GLOSSARY</h2>
-          <ul>
-            {glossaryItems.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
+          <h1>PRE-READING GLOSSARY</h1>
+            <p>
+              <ul>
+                {glossaryItems.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </p>
         </div>
       )}
     </div>
