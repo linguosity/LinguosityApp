@@ -301,7 +301,7 @@ background-color: #FDFAF3;
   padding:0 0 24px 0;
   margin:0px;
   border-bottom: solid 0.75px lightgray;
-
+  
 }
 
 .nav-logo-wrap div { 
@@ -310,7 +310,7 @@ background-color: #FDFAF3;
   justify-content: center;
   align-items: center;
   padding:16px 0 0 0;
-  font-size:20px;
+  font-size:24px;
   color: black;
 }
 
@@ -654,17 +654,22 @@ div#story-window ul li, div#pre-reading-window ul li, div#post-reading-window ul
   list-style-type: none;
 }
 
-div#pre-reading-window h2, div#post-reading-window h2, div#story-window h1 {
+div#pre-reading-window h1, div#post-reading-window h1, div#story-window h1 {
   font-size: 16px;
   font-weight: 600;
+}
+
+div#pre-reading-window, div#post-reading-window
+{
+  margin:80px 0 0 0;
 }
 
 div#story-window, div#pre-reading-window, div#post-reading-window {
   padding:0 40px 0;
 }
 
-div#story-window p {
-  padding: 20px 0 0 0;
+div#story-window p, div#pre-reading-window p, div#post-reading-window p {
+  padding: 0px 0 0 0;
   text-align: justify;
   line-height:1.4em;
   font-family: "lato", sans-serif;
