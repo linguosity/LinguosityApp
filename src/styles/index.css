@@ -249,7 +249,15 @@ body .cs-message__content {
   color: black;
   text-decoration: none;
 }
-
+.auth-form img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 8px;
+}
+.nav-logo-wrap img {
+  width: 42px;
+  height: 42px;
+}
 
 .nav-menu-wrap {
   background-color: rgba(0, 0, 0, 0);
@@ -328,10 +336,6 @@ body .cs-message__content {
     padding-left: 0px;
     font-family: 'Raleway', sans-serif !important;
     font-size: 24px;
-  }
-
-  body .nav-logo-wrap {
-    height: 100%;
   }
 
   body a.brand.w-nav-brand img {
@@ -454,12 +458,6 @@ body .cs-message__content {
     transform: rotate(359deg) scale(1);
     opacity: 1;
   }
-}
-
-.logo-image {
-  max-width: 50%;
-  padding: 8px;
-  margin: 0;
 }
 
 .loading-animation {

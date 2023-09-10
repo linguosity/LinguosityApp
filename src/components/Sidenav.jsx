@@ -76,7 +76,7 @@ export default function Sidenav({ toggleForm, pdfDocument }) {
 
     <div className="sidenav-wrapper">
       <a href="#" className="nav-logo-wrap">
-        <img width="36" src="https://uploads-ssl.webflow.com/643f1edf85eba707f45ddfc3/646255f5e004cd49868bd0df_linguosity_logo.svg" alt="Linguosity logo" className="logo-image" />
+        <img src="https://uploads-ssl.webflow.com/643f1edf85eba707f45ddfc3/646255f5e004cd49868bd0df_linguosity_logo.svg" alt="Linguosity logo" className="logo-image" />
         Linguosity
       </a>
 
