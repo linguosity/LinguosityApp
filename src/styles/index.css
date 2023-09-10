@@ -306,6 +306,10 @@ body {
   justify-content: center;
   overflow: hidden;
 }
+.choice-button {
+  margin: 4px;
+  padding: 4px 8px;
+}
 
 .onboarding-content {
   background-color: #fff;
