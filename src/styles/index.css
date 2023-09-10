@@ -249,11 +249,13 @@ body .cs-message__content {
   color: black;
   text-decoration: none;
 }
+
 .auth-form img {
   width: 64px;
   height: 64px;
   margin-bottom: 8px;
 }
+
 .nav-logo-wrap img {
   width: 42px;
   height: 42px;
@@ -282,6 +284,7 @@ body .cs-message__content {
   display: flex;
   flex-direction: column;
   padding: 16px 0px 16px 0px;
+  gap: 6px;
 }
 
 .bg-focus {
@@ -302,6 +305,34 @@ body .cs-message__content {
   margin-right: 16px;
 }
 
+.sidenav-button img {
+  width: 32px;
+  height: 32px;
+  margin-right: 16px;
+  border-radius: 128px;
+}
+
+.padding-sm {
+  padding: 8px 24px 8px 24px;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-sm {
+  font-size: 0.9rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.border-vertical {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc
+}
+
 @media screen and (max-width: 768px) {
 
 
@@ -312,10 +343,11 @@ body .cs-message__content {
   .sidenav-wrapper {
     width: 100%;
   }
-    .toolbar {
-      width: 240px;
-      margin: auto;
-    }
+
+  .toolbar {
+    width: 240px;
+    margin: auto;
+  }
 
 
   body .app-container .sidenav-wrapper,
