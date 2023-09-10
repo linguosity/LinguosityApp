@@ -16,7 +16,7 @@ import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer'
 import MyDocument from './components/MyDocument';
 import { AiOutlineFilePdf } from 'react-icons/ai';
 import { useAudioMagnament } from './context/AudioMagnament';
-import { Box } from 'grommet';
+import { Box, Grommet } from 'grommet';
 //import AzureTTSComponent from './AzureTTSComponent';
 
 const OnboardingScreen = ({ lottieData, heading, paragraph, onNext, onPrev, onSkip }) => {
@@ -318,66 +318,97 @@ By following these instructions, you will create a language learning narrative t
     postReadingActivity
   ])
 
+  const customTheme = {
+
+    global: {
+      colors: {
+        brand: '#FCF6EB',
+      },
+    },
+
+    formField: {
+      border: {
+        color: 'grey',
+        side: 'all'
+      },
+      label: {
+        weight: 'normal',
+        size: '12px',
+      }
+    },
+
+    button: {
+      border: {
+        radius: '8px',
+      },
+      primary: {
+        color: '#FCF6EB',
+      },
+    }
+
+  };
 
   return (
-    <div>
-      {/* <Header /> */}
-      {
-        user ? (
-          <div className="app-container">
-            <Sidenav
-              story={story}
-              toggleForm={toggle}
-              pdfDocument={
-                documentIsReady ?
-                  <MyDocument pages={[
-                    storyText,
-                    preReadingActivity,
-                    postReadingActivity
-                  ]} /> : undefined
-              }
-            />
-            <div className="right-column">
-              <MainContainer >
-                {showOnboarding && <Onboarding onSkip={() => setShowOnboarding(false)} />}
-                <ChatContainer>
-                  <MessageList typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
-                    {messages.map((message, i) => {
-                      return <Message key={i} model={{
-                        direction: message.role === "user" ? "outgoing" : "incoming",
-                        message: message.content
-                      }} />
-                    })}
-                  </MessageList>
-                  <MessageInput placeholder='Type message here' onSend={handleSend} />
-                </ChatContainer>
-              </MainContainer>
-              {show && (
-                <Modal target={modalRef} isOpen={open} onClose={close} position='left'>
-                  <ParamsForm
-                    formData={formData}
-                    setFormData={setFormData}
-                    onReset={resetForm}
-                    onSubmit={handleGenerate}
-                  />
-                </Modal>
-              )}
-            </div>
-            <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
-              <div className="tab-shadow">
-                <Tabs
-                  story_text={storyText}
-                  pre_reading={preReadingActivity}
-                  post_reading={postReadingActivity}
-                />
+    <Grommet theme={customTheme}>
+      <div>
+        {/* <Header /> */}
+        {
+          user ? (
+            <div className="app-container">
+              <Sidenav
+                story={story}
+                toggleForm={toggle}
+                pdfDocument={
+                  documentIsReady ?
+                    <MyDocument pages={[
+                      storyText,
+                      preReadingActivity,
+                      postReadingActivity
+                    ]} /> : undefined
+                }
+              />
+              <div className="right-column">
+                <MainContainer >
+                  {showOnboarding && <Onboarding onSkip={() => setShowOnboarding(false)} />}
+                  <ChatContainer>
+                    <MessageList typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
+                      {messages.map((message, i) => {
+                        return <Message key={i} model={{
+                          direction: message.role === "user" ? "outgoing" : "incoming",
+                          message: message.content
+                        }} />
+                      })}
+                    </MessageList>
+                    <MessageInput placeholder='Type message here' onSend={handleSend} />
+                  </ChatContainer>
+                </MainContainer>
+                {show && (
+                  <Modal target={modalRef} isOpen={open} onClose={close} position='left'>
+                    <ParamsForm
+                      formData={formData}
+                      setFormData={setFormData}
+                      onReset={resetForm}
+                      onSubmit={handleGenerate}
+                    />
+                  </Modal>
+                )}
               </div>
-            </div>
-            {isLoading && <Logo />}
-          </div>) :
-          <AuthComponent />
-      }
-      {/* <Footer story={story} /> */}
-    </div>
+              <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
+                <div className="tab-shadow">
+                  <Tabs
+                    story_text={storyText}
+                    pre_reading={preReadingActivity}
+                    post_reading={postReadingActivity}
+                  />
+                </div>
+              </div>
+              {isLoading && <Logo />}
+            </div>) :
+            <AuthComponent />
+        }
+        {/* <Footer story={story} /> */}
+      </div>
+    </Grommet >
 
   );
 }
