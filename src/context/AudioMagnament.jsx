@@ -1,7 +1,13 @@
-import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import generateAudio from '../lib/generateAudio';
 
 const AudioMagnamentContext = createContext();
+const formatTime = (ms) => {
+  let [min, sec] = (ms / 60).toFixed(2).split('.')
+  sec = ((sec / 100) * 60).toFixed()
+  sec = sec < 10 ? `0${sec}` : sec
+  return `${min}:${sec}`
+}
 
 export function AudioMagnament({ children }) {
 
@@ -10,7 +16,7 @@ export function AudioMagnament({ children }) {
   const [isGenerating, setIsGenerating] = useState(false)
   const [voiceID, setVoiceID] = useState(null);
   const audioPlayerRef = useRef(null);
-
+  console.log('audioPlayerRef', audioPlayerRef)
 
   useEffect(() => {
     if (!audioUrl) {
@@ -28,13 +34,6 @@ export function AudioMagnament({ children }) {
     setIsGenerating(false)
   }
 
-  const handlePlay = () => {
-    if (audioPlayerRef.current) {
-      audioPlayerRef.current.play();
-      setIsPlaying(true);
-    }
-  };
-
   const handlePause = () => {
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause();
@@ -46,11 +45,13 @@ export function AudioMagnament({ children }) {
     setIsPlaying(false);
   };
 
-  const handlePlayPauseGenerate = useCallback((story) => {
+  const handlePlay = useCallback((story) => {
     if (audioUrl) {
-      if (isPlaying) handlePause()
-      else handlePlay()
-    } else handleGenerateAudio(story, voiceID)
+      audioPlayerRef.current.play();
+      setIsPlaying(true);
+    } else {
+      handleGenerateAudio(story, voiceID)
+    }
   }, [audioUrl, isPlaying, voiceID])
 
   return (
@@ -58,8 +59,11 @@ export function AudioMagnament({ children }) {
       audioUrl,
       setAudioUrl,      
       setVoiceID,
-      handlePlayPauseGenerate,
+      handlePlay,
+      handlePause,
       isGenerating,
+      isPlaying,
+      audioPlayerRef,
     }}>
       <audio ref={audioPlayerRef} src={audioUrl} className='audio-player' onEnded={handleAudioEnded} />
       {children}

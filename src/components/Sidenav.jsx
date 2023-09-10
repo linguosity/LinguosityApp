@@ -57,7 +57,7 @@ const Toolbar = ({ toggleForm, pdfDocument }) => {
       </div>
       <div className="sidenav-button" onClick={toggleForm}>
         <AiOutlineForm />
-        <span>Build story</span>
+        <span>Build Story</span>
       </div>
       {pdfDocument && (
         <PDFDownloadLink
@@ -76,14 +76,16 @@ const Toolbar = ({ toggleForm, pdfDocument }) => {
           <span> Save audio </span>
         </a>
       )}
-      <div className="sidenav-button padding-sm justify-center border-vertical">
-        {
-          user.avatar ?
-            <img src={user.avatar} alt="" /> :
-            <IconCircleUser />
-        }
-        <span className="text-sm font-bold">{user.name}</span>
-      </div>
+      {
+        user && <div className="sidenav-button padding-sm justify-center border-vertical">
+          {
+            user.avatar ?
+              <img src={user.avatar} alt="" /> :
+              <IconCircleUser />
+          }
+          <span className="text-sm font-bold">{user.name}</span>
+        </div>
+      }
       <div className="sidenav-button" onClick={logout}>
         <BiLogOut />
         <span> Log out</span>

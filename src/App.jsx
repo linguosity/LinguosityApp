@@ -18,49 +18,8 @@ import { AiOutlineFilePdf } from 'react-icons/ai';
 import { useAudioMagnament } from './context/AudioMagnament';
 import { Box, Grommet } from 'grommet';
 //import AzureTTSComponent from './AzureTTSComponent';
+import OnboardingScreen from './components/OnBoarding';
 
-const OnboardingScreen = ({ lottieData, heading, paragraph, onNext, onPrev, onSkip }) => {
-  return (
-    <div className="onboarding-screen">
-      <div className="lottie-container">
-        {/* Insert Lottie component here with lottieData */}
-      </div>
-      <h2>{heading}</h2>
-      <p>{paragraph}</p>
-      <div className="navigation">
-        <button onClick={onPrev}>{"<"}</button>
-        <button onClick={onNext}>{">"}</button>
-      </div>
-      <button className="skip" onClick={onSkip}>Skip</button>
-    </div>
-  );
-};
-
-const Onboarding = () => {
-  const [currentScreen, setCurrentScreen] = useState(0);
-
-  const onNext = () => setCurrentScreen(prev => prev + 1);
-  const onPrev = () => setCurrentScreen(prev => prev - 1);
-  const onSkip = () => {/* Remove onboarding component */ };
-
-  const screensData = [
-    { lottieData: {/*...*/ }, heading: "Step 1", paragraph: "Step 1 Description" },
-    // ... more screens
-  ];
-
-  const { lottieData, heading, paragraph } = screensData[currentScreen];
-
-  return (
-    <OnboardingScreen
-      lottieData={lottieData}
-      heading={heading}
-      paragraph={paragraph}
-      onNext={onNext}
-      onPrev={onPrev}
-      onSkip={onSkip}
-    />
-  );
-};
 
 const formDataDefault = {
   story_topic: '',
@@ -84,9 +43,8 @@ function App() {
   const { show, open, close, toggle } = useShow()
   const modalRef = useRef()
   const { user } = useFirebaseAuth()
-  const { setVoiceID } = useAudioMagnament()
+  const { setVoiceID, setAudioUrl } = useAudioMagnament()
   const resetForm = () => setFormData(formDataDefault)
-  const [showOnboarding, setShowOnboarding] = useState(true);
 
 
   const handleSend = async (content) => {
@@ -158,7 +116,7 @@ This revised prompt system is designed to create a welcoming and engaging atmosp
 
   const handleGenerate = async (e) => {
     e.preventDefault()
-
+    setAudioUrl(null)
     const data = { ...formData, story_length: `${getWordsCount(formData.story_length)} words` }
 
     const retrievedVoiceID = getVoiceID(data.target_language);
@@ -308,7 +266,7 @@ By following these instructions, you will create a language learning narrative t
     resetForm()
     console.log('final')
 
-  }
+  } 
 
   const documentIsReady = useMemo(() => {
     return !!(storyText !== "" && preReadingActivity !== "" && postReadingActivity !== "")
@@ -344,8 +302,14 @@ By following these instructions, you will create a language learning narrative t
       primary: {
         color: '#FCF6EB',
       },
-    }
+    },
+  };
 
+
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
+  const closeOnboarding = () => {
+    setShowOnboarding(false);
   };
 
   return (
@@ -369,14 +333,15 @@ By following these instructions, you will create a language learning narrative t
               />
               <div className="right-column">
                 <MainContainer >
-                  {showOnboarding && <Onboarding onSkip={() => setShowOnboarding(false)} />}
+                  {showOnboarding && <OnboardingScreen onClose={closeOnboarding} />}
                   <ChatContainer>
-                    <MessageList typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
+                    <MessageList className='message-list' typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
                       {messages.map((message, i) => {
-                        return <Message key={i} model={{
-                          direction: message.role === "user" ? "outgoing" : "incoming",
-                          message: message.content
-                        }} />
+                        return <Message.CustomContent>  
+                          <div className={message.role === 'user' ? 'outcoming' : 'incoming'}>
+                            {message.content}
+                          </div>
+                        </Message.CustomContent>
                       })}
                     </MessageList>
                     <MessageInput placeholder='Type message here' onSend={handleSend} />
@@ -403,7 +368,8 @@ By following these instructions, you will create a language learning narrative t
                 </div>
               </div>
               {isLoading && <Logo />}
-            </div>) :
+            </div>)
+             :
             <AuthComponent />
         }
         {/* <Footer story={story} /> */}
