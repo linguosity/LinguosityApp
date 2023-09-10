@@ -186,35 +186,7 @@ const options = {
   ]
 };
 
-const customTheme = {
- 
-  global: {
-    colors: {
-      brand: '#FCF6EB',
-    },
-  },
 
-  formField: {
-    border: {
-      color: 'grey',
-      side: 'all'
-    },
-    label: {
-      weight: 'normal',
-      size: '12px',
-    }
-  },
-
-  button: {
-    border: {
-      radius: '8px',
-    },
-    primary: {
-      color: '#FCF6EB',
-    },
-  }
-
-};
 
 
 export default function ParamsForm({ formData, setFormData, onReset, onSubmit }) {
@@ -222,7 +194,6 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
   const [languageOptions, setLanguageOptions] = useState(options.target_language)
 
   return (
-    <Grommet theme={customTheme}>
       <Box align="center" justify="center" pad={{ horizontal: 'medium', vertical: 'small' }}>
         <Box width="medium">
           <Form
@@ -282,6 +253,5 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
           </Form>
         </Box>
       </Box>
-    </Grommet >
   )
 }

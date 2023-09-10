@@ -16,51 +16,10 @@ import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer'
 import MyDocument from './components/MyDocument';
 import { AiOutlineFilePdf } from 'react-icons/ai';
 import { useAudioMagnament } from './context/AudioMagnament';
-import { Box } from 'grommet';
+import { Box, Grommet } from 'grommet';
 //import AzureTTSComponent from './AzureTTSComponent';
+import OnboardingScreen from './components/OnBoarding';
 
-const OnboardingScreen = ({ lottieData, heading, paragraph, onNext, onPrev, onSkip }) => {
-  return (
-    <div className="onboarding-screen">
-      <div className="lottie-container">
-        {/* Insert Lottie component here with lottieData */}
-      </div>
-      <h2>{heading}</h2>
-      <p>{paragraph}</p>
-      <div className="navigation">
-        <button onClick={onPrev}>{"<"}</button>
-        <button onClick={onNext}>{">"}</button>
-      </div>
-      <button className="skip" onClick={onSkip}>Skip</button>
-    </div>
-  );
-};
-
-const Onboarding = () => {
-  const [currentScreen, setCurrentScreen] = useState(0);
-
-  const onNext = () => setCurrentScreen(prev => prev + 1);
-  const onPrev = () => setCurrentScreen(prev => prev - 1);
-  const onSkip = () => {/* Remove onboarding component */ };
-
-  const screensData = [
-    { lottieData: {/*...*/ }, heading: "Step 1", paragraph: "Step 1 Description" },
-    // ... more screens
-  ];
-
-  const { lottieData, heading, paragraph } = screensData[currentScreen];
-
-  return (
-    <OnboardingScreen
-      lottieData={lottieData}
-      heading={heading}
-      paragraph={paragraph}
-      onNext={onNext}
-      onPrev={onPrev}
-      onSkip={onSkip}
-    />
-  );
-};
 
 const formDataDefault = {
   story_topic: '',
@@ -70,6 +29,26 @@ const formDataDefault = {
   lesson_objectives: '',
   target_language: '',
 };
+function extractAndParseButtons(input) {
+  const regex = /buttons=\[(.*?)\]/;
+  const match = input.match(regex);
+  if (match && match[1]) {
+    try {
+      const buttonsArray = JSON.parse(`[${match[1]}]`);
+      const replacedInput = input.replace(match[0], ''); // Reemplazar toda la coincidencia, incluyendo 'buttons=[...]'
+
+      return {
+        buttons: buttonsArray,
+        replacedInput: replacedInput
+      };
+    } catch (error) {
+      console.error('Error al analizar el array de botones:', error);
+    }
+  }
+
+  return null;
+}
+
 
 function App() {
 
@@ -84,50 +63,15 @@ function App() {
   const { show, open, close, toggle } = useShow()
   const modalRef = useRef()
   const { user } = useFirebaseAuth()
-  const { setVoiceID } = useAudioMagnament()
+  const { setVoiceID, setAudioUrl } = useAudioMagnament()
   const resetForm = () => setFormData(formDataDefault)
-  const [showOnboarding, setShowOnboarding] = useState(true);
 
 
   const handleSend = async (content) => {
     setIsTyping(true);
     const systemMsg = {
       role: "system",
-      content: `You are tasked with guiding the user through a story they provide. Your role is to facilitate engagement and understanding of the story.
-
-To begin our storytelling adventure. Give a comment as funny about the history that you have provided. As introduction
-
-Give to ther user options based on story:
-
-Scene Example One
-Scene Example Two
-Character Example One
-Character Example Two
-(And so on, based on the user's story)
-And might you want add some question to the user.
-You must wait the user response to continue
-
-
-Exploration and Engagement:
-As we embark on this narrative journey, you can expect engaging questions and prompts to help us dive deeper into your story:
-
-"As we immerse ourselves in your story, please describe the current scene or setting. What vivid imagery do you associate with this part of the story?"
-
-"Let's delve into your characters. Share insights into their motivations, personalities, or any significant character development in this part of the story."
-
-"Are there specific themes, emotions, or messages you'd like to explore in this section of your story? Your input enriches our discussion."
-
-Reflecting on the Story:
-We'll also take moments to reflect on your story's impact:
-
-"Throughout our journey, consider the broader messages or lessons in your story. How do the characters' experiences resonate with real-life situations or personal insights?"
-
-"Do you have questions or themes you'd like to delve into further as we continue exploring your narrative? Feel free to share your thoughts and questions."
-
-Conclusion:
-To conclude, we're here to enhance your storytelling experience:
-
-This revised prompt system is designed to create a welcoming and engaging atmosphere as the user shares their story and explores it further with the AI system.`
+      content: `You are tasked with guiding the user through a story they provide. Your role is to facilitate engagement and understanding of the story.\n\nThe first user input will be something like this:\n\"\"\"\n{  \"story_text\": \"TITLE: The Kind Cat\\n\\nOnce, a cat lived in a park. She was very kind. She shared her food with birds. She played with dogs. Everyone loved the kind cat. She made the park a happy place.\",  \"pre_reading\": \"Before you read the story, think about these words:\\n\\n1. Cat: A small animal with fur that people often keep as a pet.\\n2. Park: A public area with grass and trees where people can relax and play.\\n3. Kind: Having or showing a friendly, generous, and considerate nature.\\n4. Share: To give a portion of (something) to others.\\n5. Birds: Warm-blooded animals with feathers and beaks.\\n6. Dogs: A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice.\",  \"post_reading\": \"After you read the story, answer these questions:\\n\\n1. Where did the cat live?\\n2. What did the cat share with the birds?\\n3. Who did the cat play with?\\n4. How did the cat make the park a happy place?\"}\n\"\"\"\nTo begin our storytelling adventure. Give a comment as funny about the history that you have provided. As introduction\n\nYou must ask the user for what part he want start in the followinf format: \nbuttons=[{\"label\": \"Pre Reading\", \"value\": \"1\"}, {\"label\": \"Story Text\", \"value\": \"2\"}, {\"label\": \"Post Reading\", \"value\": \"3\"}]\n\nThen the user will send the value of the choosed option, you provide and continue for that way\n\nExploration and Engagement:\nAs we embark on this narrative journey, you can expect engaging questions and prompts to help us dive deeper into your story:\n\n\"As we immerse ourselves in your story, please describe the current scene or setting. What vivid imagery do you associate with this part of the story?\"\n\n\"Let'\''s delve into your characters. Share insights into their motivations, personalities, or any significant character development in this part of the story.\"\n\n\"Are there specific themes, emotions, or messages you'\''d like to explore in this section of your story? Your input enriches our discussion.\"\n\nReflecting on the Story:\nWe'\''ll also take moments to reflect on your story'\''s impact:\n\n\"Throughout our journey, consider the broader messages or lessons in your story. How do the characters'\'' experiences resonate with real-life situations or personal insights?\"\n\n\"Do you have questions or themes you'\''d like to delve into further as we continue exploring your narrative? Feel free to share your thoughts and questions.\"\n\nConclusion:\nTo conclude, we'\''re here to enhance your storytelling experience:\n\nThis revised prompt system is designed to create a welcoming and engaging atmosphere as the user shares their story and explores it further with the AI system.`
     }
     const newMessage = {
       role: "user",
@@ -143,7 +87,7 @@ This revised prompt system is designed to create a welcoming and engaging atmosp
       }
     });
 
-    const result = await callOpenAI([systemMsg, newMessage], undefined, 0.1);
+    const result = await callOpenAI([systemMsg, ...messages, newMessage], undefined, 0.1);
 
     if (!result) {
       setIsTyping(false);
@@ -158,7 +102,7 @@ This revised prompt system is designed to create a welcoming and engaging atmosp
 
   const handleGenerate = async (e) => {
     e.preventDefault()
-
+    setAudioUrl(null)
     const data = { ...formData, story_length: `${getWordsCount(formData.story_length)} words` }
 
     const retrievedVoiceID = getVoiceID(data.target_language);
@@ -308,7 +252,7 @@ By following these instructions, you will create a language learning narrative t
     resetForm()
     console.log('final')
 
-  }
+  } 
 
   const documentIsReady = useMemo(() => {
     return !!(storyText !== "" && preReadingActivity !== "" && postReadingActivity !== "")
@@ -318,66 +262,113 @@ By following these instructions, you will create a language learning narrative t
     postReadingActivity
   ])
 
+  const customTheme = {
+
+    global: {
+      colors: {
+        brand: '#FCF6EB',
+      },
+    },
+
+    formField: {
+      border: {
+        color: 'grey',
+        side: 'all'
+      },
+      label: {
+        weight: 'normal',
+        size: '12px',
+      }
+    },
+
+    button: {
+      border: {
+        radius: '8px',
+      },
+      primary: {
+        color: '#FCF6EB',
+      },
+    },
+  };
+
+
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
+  const closeOnboarding = () => {
+    setShowOnboarding(false);
+  };
 
   return (
-    <div>
-      {/* <Header /> */}
-      {
-        user ? (
-          <div className="app-container">
-            <Sidenav
-              story={story}
-              toggleForm={toggle}
-              pdfDocument={
-                documentIsReady ?
-                  <MyDocument pages={[
-                    storyText,
-                    preReadingActivity,
-                    postReadingActivity
-                  ]} /> : undefined
-              }
-            />
-            <div className="right-column">
-              <MainContainer >
-                {showOnboarding && <Onboarding onSkip={() => setShowOnboarding(false)} />}
-                <ChatContainer>
-                  <MessageList typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
-                    {messages.map((message, i) => {
-                      return <Message key={i} model={{
-                        direction: message.role === "user" ? "outgoing" : "incoming",
-                        message: message.content
-                      }} />
-                    })}
-                  </MessageList>
-                  <MessageInput placeholder='Type message here' onSend={handleSend} />
-                </ChatContainer>
-              </MainContainer>
-              {show && (
-                <Modal target={modalRef} isOpen={open} onClose={close} position='left'>
-                  <ParamsForm
-                    formData={formData}
-                    setFormData={setFormData}
-                    onReset={resetForm}
-                    onSubmit={handleGenerate}
-                  />
-                </Modal>
-              )}
-            </div>
-            <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
-              <div className="tab-shadow">
-                <Tabs
-                  story_text={storyText}
-                  pre_reading={preReadingActivity}
-                  post_reading={postReadingActivity}
-                />
+    <Grommet theme={customTheme}>
+      <div>
+        {/* <Header /> */}
+        {
+          user ? (
+            <div className="app-container">
+              <Sidenav
+                story={story}
+                toggleForm={toggle}
+                pdfDocument={
+                  documentIsReady ?
+                    <MyDocument pages={[
+                      storyText,
+                      preReadingActivity,
+                      postReadingActivity
+                    ]} /> : undefined
+                }
+              />
+              <div className="right-column">
+                <MainContainer >
+                  {showOnboarding && <OnboardingScreen onClose={closeOnboarding} />}
+                  <ChatContainer>
+                    <MessageList className='message-list' typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
+                      {messages.map((message, i) => {
+                        console.log('message.content', message.content)
+                        const result = extractAndParseButtons(message.content)
+                        console.log('result', result)
+                        return <Message.CustomContent>  
+                          <div className={message.role === 'user' ? 'outcoming' : 'incoming'}>
+                            { result && result.replacedInput ? result.replacedInput : message.content}
+                            {result && result.buttons && 
+                              result.buttons.map(button => (
+                                <button className='choice-button' onClick={() => handleSend(button.value)}>{button.label}</button>
+                              ))
+                            }
+                          </div>
+                        </Message.CustomContent>
+                      })}
+                    </MessageList>
+                    <MessageInput placeholder='Type message here' onSend={handleSend} />
+                  </ChatContainer>
+                </MainContainer>
+                {show && (
+                  <Modal target={modalRef} isOpen={open} onClose={close} position='left'>
+                    <ParamsForm
+                      formData={formData}
+                      setFormData={setFormData}
+                      onReset={resetForm}
+                      onSubmit={handleGenerate}
+                    />
+                  </Modal>
+                )}
               </div>
-            </div>
-            {isLoading && <Logo />}
-          </div>) :
-          <AuthComponent />
-      }
-      {/* <Footer story={story} /> */}
-    </div>
+              <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
+                <div className="tab-shadow">
+                  <Tabs
+                    story_text={storyText}
+                    pre_reading={preReadingActivity}
+                    post_reading={postReadingActivity}
+                  />
+                </div>
+              </div>
+              {isLoading && <Logo />}
+            </div>)
+             :
+            <AuthComponent />
+        }
+        {/* <Footer story={story} /> */}
+      </div>
+    </Grommet >
 
   );
 }

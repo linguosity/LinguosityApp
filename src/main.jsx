@@ -6,11 +6,9 @@ import { FirebaseProvider } from './context/FirebaseContext.jsx'
 import { AudioMagnament } from './context/AudioMagnament.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
     <FirebaseProvider>
       <AudioMagnament>
         <App />
       </AudioMagnament>
     </FirebaseProvider>
-  </React.StrictMode>,
 )

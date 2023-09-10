@@ -32,7 +32,8 @@ export function FirebaseProvider({ children }) {
 
     try {
       const result = await signInWithEmailAndPassword(firebaseAuth, email, password);
-      setUser(result.user.displayName ?? result.user.email);
+      console.log('result', result)
+      setUser({ name: result.user.displayName ?? result.user.email, avatar: undefined });
       setLoading(false)
     } catch (error) {
       console.log(error.message)
@@ -52,6 +53,7 @@ export function FirebaseProvider({ children }) {
 
   const logout = async () => {
     try {
+      console.log('from logout')
       await signOut(firebaseAuth);
       setUser(null)
     } catch (error) {
@@ -67,7 +69,7 @@ export function FirebaseProvider({ children }) {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(firebaseAuth, provider);
-      setUser(result.user.displayName)
+      setUser({ name: result.user.displayName, avatar: result.user.photoURL })
     } catch (error) {
       setError(error.message);
     } finally {
