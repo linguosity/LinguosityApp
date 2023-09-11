@@ -96,6 +96,7 @@ const Toolbar = ({ toggleForm, pdfDocument }) => {
 
 export default function Sidenav({ toggleForm, pdfDocument }) {
   const size = useContext(ResponsiveContext)
+  console.log('size', size)
   return (
 
     <div className="sidenav-wrapper">

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useContext } from 'react';
 import Tabs from './components/Tabs';
 import { MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator, InputToolbox } from "@chatscope/chat-ui-kit-react"
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
@@ -16,7 +16,7 @@ import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer'
 import MyDocument from './components/MyDocument';
 import { AiOutlineFilePdf } from 'react-icons/ai';
 import { useAudioMagnament } from './context/AudioMagnament';
-import { Box, Grommet } from 'grommet';
+import { Box, Grommet, ResponsiveContext } from 'grommet';
 //import AzureTTSComponent from './AzureTTSComponent';
 import OnboardingScreen from './components/OnBoarding';
 
@@ -253,7 +253,7 @@ By following these instructions, you will create a language learning narrative t
     console.log('final')
 
   } 
-
+ const size = useContext(ResponsiveContext)
   const documentIsReady = useMemo(() => {
     return !!(storyText !== "" && preReadingActivity !== "" && postReadingActivity !== "")
   }, [
@@ -267,7 +267,7 @@ By following these instructions, you will create a language learning narrative t
     global: {
       colors: {
         brand: '#FCF6EB',
-      },
+      }
     },
 
     formField: {

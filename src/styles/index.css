@@ -12,7 +12,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  height: 100vh;
 }
 
 header {
@@ -96,11 +95,10 @@ footer {
 
 body {
   margin: 0;
+  overflow-x: hidden;
   /*display: flex;*/
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100vh;
   background-image: linear-gradient(45deg, #fff, #fff 33%, #fff 45%, #fbf1ca);
 }
 
@@ -153,8 +151,8 @@ body {
   justify-content: left;
   height: 100%;
   flex-direction: row;
-  padding-left: 0;
-  margin-left: 0;
+  padding: 0;
+  margin: 0;
   width: 100%;
   align-items: flex-start;
 }
@@ -306,6 +304,7 @@ body {
   justify-content: center;
   overflow: hidden;
 }
+
 .choice-button {
   margin: 4px;
   padding: 4px 8px;
@@ -348,8 +347,17 @@ body {
   /* Cambia el color del círculo activo */
 }
 
-@media screen and (max-width: 768px) {
+.right-column {
+  height: 100vh;
+  width: 50vw;
+  position: relative;
+}
 
+@media (max-width: 768px) {
+  .right-column {
+    width: 100%;
+    height: 60vh;
+  }
 
   .brand_name {
     visibility: visible;
@@ -413,11 +421,12 @@ body {
   }
 
 
-
+  .app-container {
+  flex-direction: column;
+  }
   body {
     height: 100vh;
     width: 100vw;
-    overflow: auto;
   }
 
   body .tab-navigation button {
@@ -459,16 +468,6 @@ body {
     visibility: hidden;
   }
 
-  .app-container {
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    /*fix here*/
-  }
-
-  .right-column {
-    position: relative;
-  }
 
   body div#content {
     overflow: auto;
@@ -706,11 +705,6 @@ div#post-reading-window p {
   list-style-type: none;
 }
 
-.right-column {
-  width: 35%;
-  height: 100vh;
-  position: relative;
-}
 
 
 
