@@ -87,7 +87,7 @@ function App() {
       }
     });
 
-    const result = await callOpenAI([systemMsg, ...messages, newMessage], undefined, 0.6);
+    const result = await callOpenAI([systemMsg, ...messages, newMessage], undefined, 0.6, 'gpt-3.5-turbo-16k');
 
     if (!result) {
       setIsTyping(false);
@@ -165,7 +165,11 @@ function App() {
     console.log(functionArguments.story_text);
     console.log(functionArguments.pre_reading);
     console.log(functionArguments.post_reading);
-    handleSend("start!")
+    const assistantMsg = { 
+      role:'assistant', 
+      content: `Great! Let's dive right in. Please choose which part of the story you'd like to start with: buttons=[{"label": "Pre Reading", "value": "1"}, {"label": "Story Text", "value": "2"}, {"label": "Post Reading", "value": "3"}]`
+    }
+    setMessages([assistantMsg])
     setPreReadingActivity(functionArguments.pre_reading);
     setPostReadingActivity(functionArguments.post_reading);
     setStoryText(functionArguments.story_text);
