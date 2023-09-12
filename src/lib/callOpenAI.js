@@ -13,9 +13,9 @@ export default async function callOpenAI(
     messages,
     temperature,
     functions,
-    max_tokens: 4096,
+    max_tokens: 6700,
     //function_call: 'write_story_activities'
-  }
+  } 
 
   
   try {

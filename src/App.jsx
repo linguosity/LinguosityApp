@@ -71,7 +71,7 @@ function App() {
     setIsTyping(true);
     const systemMsg = {
       role: "system",
-      content: `You are tasked with guiding the user through a story they provide. Your role is to facilitate engagement and understanding of the story.\n\nThe first user input will be something like this:\n\"\"\"\n{  \"story_text\": \"TITLE: The Kind Cat\\n\\nOnce, a cat lived in a park. She was very kind. She shared her food with birds. She played with dogs. Everyone loved the kind cat. She made the park a happy place.\",  \"pre_reading\": \"Before you read the story, think about these words:\\n\\n1. Cat: A small animal with fur that people often keep as a pet.\\n2. Park: A public area with grass and trees where people can relax and play.\\n3. Kind: Having or showing a friendly, generous, and considerate nature.\\n4. Share: To give a portion of (something) to others.\\n5. Birds: Warm-blooded animals with feathers and beaks.\\n6. Dogs: A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice.\",  \"post_reading\": \"After you read the story, answer these questions:\\n\\n1. Where did the cat live?\\n2. What did the cat share with the birds?\\n3. Who did the cat play with?\\n4. How did the cat make the park a happy place?\"}\n\"\"\"\nTo begin our storytelling adventure. Give a comment as funny about the history that you have provided. As introduction\n\nYou must ask the user for what part he want start in the followinf format: \nbuttons=[{\"label\": \"Pre Reading\", \"value\": \"1\"}, {\"label\": \"Story Text\", \"value\": \"2\"}, {\"label\": \"Post Reading\", \"value\": \"3\"}]\n\nThen the user will send the value of the choosed option, you provide and continue for that way\n\nExploration and Engagement:\nAs we embark on this narrative journey, you can expect engaging questions and prompts to help us dive deeper into your story:\n\n\"As we immerse ourselves in your story, please describe the current scene or setting. What vivid imagery do you associate with this part of the story?\"\n\n\"Let'\''s delve into your characters. Share insights into their motivations, personalities, or any significant character development in this part of the story.\"\n\n\"Are there specific themes, emotions, or messages you'\''d like to explore in this section of your story? Your input enriches our discussion.\"\n\nReflecting on the Story:\nWe'\''ll also take moments to reflect on your story'\''s impact:\n\n\"Throughout our journey, consider the broader messages or lessons in your story. How do the characters'\'' experiences resonate with real-life situations or personal insights?\"\n\n\"Do you have questions or themes you'\''d like to delve into further as we continue exploring your narrative? Feel free to share your thoughts and questions.\"\n\nConclusion:\nTo conclude, we'\''re here to enhance your storytelling experience:\n\nThis revised prompt system is designed to create a welcoming and engaging atmosphere as the user shares their story and explores it further with the AI system.`
+      content: `Your task is to guide the user story, fostering engagement and understanding. Your role is to immerse yourself in the user-provided story and enrich it with questions and dialogue.\n\n Starting Point:\nTo begin, ask the user to choose which part of the story they'd like to start with Pre Reading, Story Text or Post Reading. In the last list oh this message you must use the following text, it will be used for rendering buttons:\nbuttons=[{"label": "Pre Reading", "value": "1"}, {"label": "Story Text", "value": "2"}, {"label": "Post Reading", "value": "3"}]\n\nAfter asking, please pause and wait for their choice in the next message. From that point onwards, focus solely on the chosen section and refrain from discussing other parts of the guide.\n\nUser Story:\n${JSON.stringify({ story_text: storyText, pre_reading: preReadingActivity, post_reading: postReadingActivity}, null, 2)}\n\n\nExploration and Engagement:\nAs we delve into the narrative, expect questions and comments that will enrich the experience:\n\n\"As we immerse ourselves in your chosen section, please describe the current scene or setting. What vivid imagery do you associate with this part of the story?\"\n\n\"Let's delve into your chosen section's characters. Share insights into their motivations, personalities, or any significant character development in this part of the story.\"\n\n\"Are there specific themes, emotions, or messages you'd like to explore in this section of your story? Your input enriches our conversation.\"\n\nReflecting on the Story:\nThroughout our journey, consider the broader messages or lessons of your chosen section. We will discuss how the characters' experiences relate to real-life situations or personal insights.\n\n\"Do you see connections between your chosen section and real-life situations? How do the characters' experiences reflect these connections?\"\n\n\"Are there specific questions or themes related to your chosen section that you'd like to explore further? Feel free to share your thoughts and questions.\n\nConclusion:\nIn summary, we are here to enhance your storytelling experience. This revised prompt system is designed to create a welcoming and engaging atmosphere as you share your chosen section of the story and explore it further with the AI agent.\n\nLet's begin our narrative adventure! Please select one of the options: Pre Reading, Story Text, or Post Reading.`
     }
     const newMessage = {
       role: "user",
@@ -87,7 +87,7 @@ function App() {
       }
     });
 
-    const result = await callOpenAI([systemMsg, ...messages, newMessage], undefined, 0.1);
+    const result = await callOpenAI([systemMsg, ...messages, newMessage], undefined, 0.6);
 
     if (!result) {
       setIsTyping(false);
@@ -112,86 +112,7 @@ function App() {
     const messages = [
       {
         role: "system",
-        content: `Objective:
-According to the parameters provided by the user, your task is to create an engaging narrative in the user's target language to aid language acquisition. Adhere to the user-specified parameters, including different levels of reading difficulty. Please ensure the story has a title formatted as "TITLE: <history title>."
-
-User Input Example:
-
-json
-{
-  "story_topic": "An history of hobbits",
-  "story_length": "500 words",
-  "reading_difficulty_level": "Beginner",
-  "story_genre": "Fiction",
-  "lesson_objectives": "attention",
-  "target_language": "English (US)"
-}
-
-Parameters:
-
-Story Topic: Una historia de hobbits como la película
-
-Story Length: 500 words
-Reading Difficulty Level: Beginner
-Story Genre: 
-
-      Drama: Focus on character-driven emotional or ethical conflicts. Climax often resolves the main issue.
-
-      Fable: Use animals as characters to deliver a straightforward moral lesson. Short, with a clear resolution.
-
-      Fairy Tale: Include magical elements, a quest, and archetypal characters like witches or princes. Usually ends happily.
-
-      Fantasy: Create a new world with its own rules, often involving a quest or magical elements. Complex characters and settings.
-
-      Fiction: Real-world setting, invented characters and events. Balanced plot structure with a climax and resolution.
-
-      Fiction in Verse: Same as fiction but told through poetry. Emotional depth is crucial.
-
-      Folklore: Traditional tales explaining natural phenomena or cultural traditions. Often passed down through generations.
-
-      Historical Fiction: Real historical setting, fictional characters or events. Research is key for authenticity.
-
-      Horror: Build suspense and fear through eerie settings and mysterious elements. Climax usually reveals the source of horror.
-
-      Humor: Light-hearted, revolves around comedic situations. Characters often find themselves in ridiculous scenarios.
-
-      Legend: Semi-true stories based on historical events but exaggerated. Focus on heroism or morals.
-
-      Mystery: Plot centers on solving a puzzle or crime. Information revealed gradually, climax solves the mystery.
-
-      Mythology: Involves gods, heroes, and magic. Explains natural or social phenomena.
-
-      Poetry: Narrative elements optional. Focus on form and emotional or aesthetic expression.
-
-      Realistic Fiction: Plausible characters and settings, often contemporary. Emotional or social issues often drive the plot.
-
-      Science Fiction: Future or alternate settings with advanced technology. Often explores ethical implications.
-
-      Tall Tale: Exaggerated, unbelievable events or characters presented as true. Often humorous or outlandish.
-
-Lesson Objectives: Attention
-Target Language: Spanish (US)
-Reading Difficulty Levels:
-
-Beginner: Low TTR, BICS Language, Heaps Narrative Structure, Simple Sentences, No Dialogue
-Early Intermediate: Low-Moderate TTR, Transition from BICS to CALP Language, Protonarrative Structure, Simple and Some Compound Sentences, No Dialogue
-Intermediate: High-Moderate TTR, CALP Language, Linear Narrative Structure, Mixture of Compound and Simple Sentences, Minimal One-Sided Dialogue
-Advanced: High TTR, Advanced CALP Language, Chronological Narrative Structure, Complex Sentences with Embedded Clauses, Brief One-Sided Dialogue
-Proficient: Very High TTR, Advanced CALP with Literary Elements, Classic Narrative Structure, Complex Sentences with Multiple Embedded Clauses, Extensive Two-Sided Dialogue
-Mastery: Extremely High TTR, Advanced CALP with Academic and Literary Elements, Literary Narrative Structure, Highly Complex Sentences with Literary Devices, Rich and Nuanced Dialogue
-Instructions for Generating the Story:
-
-Create an immersive narrative in target_language according to the specified parameters. Ensure that the story aligns with the "story_length" parameter provided by the user.
-
-Based on the user's request for a beginner-level story, use simple sentences, basic vocabulary, and a straightforward narrative structure.
-
-Follow the genre of fiction and focus on the lesson objective of capturing the reader's attention.
-
-Include a title for the story formatted as "TITLE: <history title>."
-
-Tailor the language to the target language specified by the user, which is "target_language" in this case.
-
-By following these instructions, you will create a language learning narrative that meets the user's specific requirements for difficulty level and content.`},
+        content: `Objective:\nAccording to the parameters provided by the user, your task is to create an engaging narrative in the user's target language to aid language acquisition. Adhere to the user-specified parameters, including different levels of reading difficulty. Please ensure the story has a title formatted as \"TITLE: <history title>.\n\n\"\n\nUser Input Example:\n\njson\n{\n  \"story_topic\": \" Una historia de hobbits como la película\",\n  \"story_length\": \"500 words\",\n  \"reading_difficulty_level\": \"Beginner\",\n  \"story_genre\": \"Fiction\",\n  \"lesson_objectives\": \"Attention\",\n  \"target_language\": \"Spanish (US)\"\n}\n\nParameters:\n\n1. Story Topic: Una historia de hobbits como la película\n2. Story Length: 500 words\n3. Reading Difficulty Level: Beginner\n4. Story Genre: Fiction\n5. Lesson Objectives: Attention\n6. Target Language: Spanish (US)\n\nInstructions for Generating the Story:\n\nCreate an immersive narrative in target_language according to the specified parameters. Ensure that the story aligns with the \"story_length\" parameter provided by the user.\n\nBased on the user's request for a beginner-level story, use simple sentences, basic vocabulary, and a straightforward narrative structure.\n\nFollow the genre of fiction and focus on the lesson objective of capturing the reader's attention.\n\nInclude a title for the story formatted as \"TITLE: <history title>.\"\n\nTailor the language to the target language specified by the user, which is \"target_language\" in this case.\n\nBy following these instructions, you will create a language learning narrative that meets the user's specific requirements for difficulty level and content.\n\nReading Difficulty Levels:\n\n- Beginner: Low TTR, BICS Language, Heaps Narrative Structure, Simple Sentences, No Dialogue\n- Early Intermediate: Low-Moderate TTR, Transition from BICS to CALP Language, Protonarrative Structure, Simple and Some Compound Sentences, No Dialogue\n- Intermediate: High-Moderate TTR, CALP Language, Linear Narrative Structure, Mixture of Compound and Simple Sentences, Minimal One-Sided Dialogue\n- Advanced: High TTR, Advanced CALP Language, Chronological Narrative Structure, Complex Sentences with Embedded Clauses, Brief One-Sided Dialogue\n- Proficient: Very High TTR, Advanced CALP with Literary Elements, Classic Narrative Structure, Complex Sentences with Multiple Embedded Clauses, Extensive Two-Sided Dialogue\n- Mastery: Extremely High TTR, Advanced CALP with Academic and Literary Elements, Literary Narrative Structure, Highly Complex Sentences with Literary Devices, Rich and Nuanced Dialogue\n\nPossible Story Genres:\n- Drama: Focus on character-driven emotional or ethical conflicts. Climax often resolves the main issue.\n- Fable: Use animals as characters to deliver a straightforward moral lesson. Short, with a clear resolution.\n - Fairy Tale: Include magical elements, a quest, and archetypal characters like witches or princes. Usually ends happily.\n- Fantasy: Create a new world with its own rules, often involving a quest or magical elements. Complex characters and settings.\n- Fiction: Real-world setting, invented characters and events. Balanced plot structure with a climax and resolution.\n- Fiction in Verse: Same as fiction but told through poetry. Emotional depth is crucial.\n- Folklore: Traditional tales explaining natural phenomena or cultural traditions. Often passed down through generations.\n- Historical Fiction: Real historical setting, fictional characters or events. Research is key for authenticity.\n- Horror: Build suspense and fear through eerie settings and mysterious elements. Climax usually reveals the source of horror.\n- Humor: Light-hearted, revolves around comedic situations. Characters often find themselves in ridiculous scenarios.\n- Legend: Semi-true stories based on historical events but exaggerated. Focus on heroism or morals.\n-  Mystery: Plot centers on solving a puzzle or crime. Information revealed gradually, climax solves the mystery.\n- Mythology: Involves gods, heroes, and magic. Explains natural or social phenomena.\n- Poetry: Narrative elements optional. Focus on form and emotional or aesthetic expression.\n - Realistic Fiction: Plausible characters and settings, often contemporary. Emotional or social issues often drive the plot.\n - Science Fiction: Future or alternate settings with advanced technology. Often explores ethical implications.\n- Tall Tale: Exaggerated, unbelievable events or characters presented as true. Often humorous or outlandish.\n\n`},
       {
         role: "user",
         content: "Write me a story, pre-reading guide and post-reading questions based on the following parameters paying careful attention to each:" + JSON.stringify(data)
@@ -230,7 +151,7 @@ By following these instructions, you will create a language learning narrative t
     setIsLoading(true);
     close()
 
-    const result = await callOpenAI(messages, functions, 0)
+    const result = await callOpenAI(messages, functions, 1)
 
     if (!result) {
       setIsLoading(false)
@@ -244,7 +165,7 @@ By following these instructions, you will create a language learning narrative t
     console.log(functionArguments.story_text);
     console.log(functionArguments.pre_reading);
     console.log(functionArguments.post_reading);
-    handleSend(sanitizedArguments)
+    handleSend("start!")
     setPreReadingActivity(functionArguments.pre_reading);
     setPostReadingActivity(functionArguments.post_reading);
     setStoryText(functionArguments.story_text);
