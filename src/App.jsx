@@ -114,6 +114,7 @@ function App() {
         addChunk(part.choices[0]?.delta?.content)
       }
     }
+    setIsTyping(false);
 
   }
 
