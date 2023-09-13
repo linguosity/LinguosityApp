@@ -1,0 +1,458 @@
+[33mcommit 2614556eacdd48d36663a5c6be230b7d67338e15[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Mon Sep 11 20:48:37 2023 +0200
+
+    fix: width chat container
+
+[33mcommit e540d288b9349847b0cb44fc6d1197aa92a9ac30[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: bb40312 3c549ca
+Author: linguosity <130627705+linguosity@users.noreply.github.com>
+Date:   Sun Sep 10 15:23:08 2023 -0700
+
+    Merge pull request #6 from linguosity/new-changes
+    
+    New changes
+
+[33mcommit 3c549ca74fb8f07b374ea4ab517afe43f998a802[m[33m ([m[1;31morigin/new-changes[m[33m, [m[1;32mnew-changes[m[33m)[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Sep 10 20:17:00 2023 +0200
+
+    add: options buttons on initial msj
+
+[33mcommit f68133f83d00164798aac2ef4cc8ec791014f76d[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Sep 10 18:16:30 2023 +0200
+
+    update: general fixes and add onboarding
+
+[33mcommit b931a28f39126548dd20c39dce53339fec2416e8[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Sep 10 12:31:33 2023 +0200
+
+    add: user component and fix logout
+
+[33mcommit 85518203fd0dae0601c0c12675069fc7c2a6d404[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Sep 10 12:06:06 2023 +0200
+
+    fix: logo styles
+
+[33mcommit df19ba29222799761293c14d1cda34eee8939463[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Sep 10 11:29:47 2023 +0200
+
+    fix: sidenav responsive
+
+[33mcommit bb4031219b234dade2f9f3ef12b9171d3cf59247[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sat Sep 9 08:17:15 2023 -0700
+
+    changed css for auth form
+
+[33mcommit f374d6ae1d0da86f22d8c8b33eb0a9297cbb4582[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Fri Sep 8 20:30:41 2023 -0700
+
+    aesthetics to css change 2
+
+[33mcommit 71c235a9e29679090f58c5873bdf402f31ff49ee[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Fri Sep 8 20:30:24 2023 -0700
+
+    css changes to reading texts and input form
+
+[33mcommit c81be7c4727c7f7960f78c596a8b81b82c6c71cc[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Wed Sep 6 21:10:33 2023 +0200
+
+    fix: remove useless file
+
+[33mcommit 7a0e56bf03ab7eec31cae7129adec9110f4c0a74[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Wed Sep 6 21:03:56 2023 +0200
+
+    fix: remove comments
+
+[33mcommit 6e73cbc11ae847ec31bc701cb77408e2702f60cc[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Wed Sep 6 20:54:57 2023 +0200
+
+    feat: chat bot interaction and; fix: headings and prompts
+
+[33mcommit 570cb62d4ca0226bd9b983dd54d0eff16a808f60[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Tue Sep 5 13:38:33 2023 -0700
+
+    change to emoji-headlines in prereading sys prompt
+
+[33mcommit 5f5619bf3cd7d67c9d3d3caa0159695cfa977168[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Tue Sep 5 10:06:32 2023 -0700
+
+    aesthetic changes
+
+[33mcommit 90cca3b050ae00e7dfc8305c5ae137fffe3a4b3d[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Mon Sep 4 15:03:13 2023 -0700
+
+    css changes to toolbar
+
+[33mcommit e16746acac0c71eb802ca31fab1bf20961d79e0b[m
+Merge: 84316ab 40adb0a
+Author: linguosity <130627705+linguosity@users.noreply.github.com>
+Date:   Mon Sep 4 12:52:39 2023 -0700
+
+    Merge pull request #5 from linguosity/text-spliting/play-pause
+    
+    fix: setVoiceID
+
+[33mcommit 40adb0a327c54d6f55edc254b6f4b16ac5bcf896[m[33m ([m[1;31morigin/text-spliting/play-pause[m[33m)[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Mon Sep 4 12:54:40 2023 +0200
+
+    fix: setVoiceID
+
+[33mcommit 84316abf406d2c7c74ede368004dcb945bd4b435[m
+Merge: a052a6d 4f715dd
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Sep 3 20:24:17 2023 -0700
+
+    Merge branch 'main' of https://github.com/linguosity/LinguosityApp
+
+[33mcommit a052a6d9bac3365f87fd763919ec3ec76c73b990[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Sep 3 20:19:19 2023 -0700
+
+    visual edits
+
+[33mcommit 4f715dd86a6b7de6b36b1ffe04e550eca8b08935[m
+Merge: a76c3dc 3e0ad78
+Author: linguosity <130627705+linguosity@users.noreply.github.com>
+Date:   Sun Sep 3 20:17:06 2023 -0700
+
+    Merge pull request #4 from linguosity/text-spliting/play-pause
+    
+    Text spliting/play pause
+
+[33mcommit 3e0ad7809e8c80e82b86c018acce0c0ce9bba6e2[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Sep 3 20:43:14 2023 +0200
+
+    update: clean and general refactor
+
+[33mcommit ce9fba95d28098e95f280ad01c16556f37b7e3b1[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Sep 3 20:42:17 2023 +0200
+
+    add: utils folder
+
+[33mcommit 89fcdb8996088a76229d3723b1c0a3558a706ef2[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Sep 3 20:42:01 2023 +0200
+
+    add: styles folder
+
+[33mcommit 67624a0af3a339633cd44ae45e04071aa3328107[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Sep 3 20:41:42 2023 +0200
+
+    update: lib folder
+
+[33mcommit c08b1ef6a95cd96be0236d7e7d54710049651c17[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Sep 3 20:41:16 2023 +0200
+
+    add: context folder
+
+[33mcommit 0c5640c66ca01523395f014741cab8276c4d8aaf[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Sep 3 20:40:54 2023 +0200
+
+    add: components folder
+
+[33mcommit a76c3dc63cb73e443fe47729e14c43fe844021aa[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sat Sep 2 08:56:41 2023 -0700
+
+    story difficulty levels
+
+[33mcommit ccd4d1b1419acbf950e7ac27dcb2ece8c2deb0c0[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Thu Aug 31 22:44:02 2023 -0700
+
+    css changes to login screen
+
+[33mcommit 62f6c00a03433afe3833194e445849b6f45b6ec9[m
+Merge: 6f786e9 44fad39
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Tue Aug 29 23:23:18 2023 -0700
+
+    Merge branch 'main' of https://github.com/linguosity/LinguosityApp
+
+[33mcommit 44fad39129b6f23d783a98e7a1fe5ec86b5fd576[m
+Merge: 919dba4 3c27332
+Author: linguosity <130627705+linguosity@users.noreply.github.com>
+Date:   Tue Aug 29 23:01:51 2023 -0700
+
+    Merge pull request #3 from linguosity/google-authentication
+    
+    feat: login
+
+[33mcommit 3c2733259b09dd2cb948207f56ee31cc04154f25[m[33m ([m[1;31morigin/google-authentication[m[33m)[m
+Merge: f358f88 919dba4
+Author: Lucas Daniel <bitup.games@gmail.com>
+Date:   Wed Aug 30 07:53:15 2023 +0200
+
+    Merge branch 'main' into google-authentication
+
+[33mcommit 919dba4adbd876130a6cbaf7e1aac672c43eb65b[m
+Merge: 279c082 f08cc83
+Author: linguosity <130627705+linguosity@users.noreply.github.com>
+Date:   Tue Aug 29 22:29:04 2023 -0700
+
+    Merge pull request #2 from linguosity/chat-form
+    
+    Chat form
+
+[33mcommit 279c082d5e53407a67b7b9b0183e5d1719e8cc9a[m
+Merge: 5efe9e4 62b62e4
+Author: linguosity <130627705+linguosity@users.noreply.github.com>
+Date:   Tue Aug 29 22:28:09 2023 -0700
+
+    Merge pull request #1 from linguosity/fix-playht-calls
+    
+    add: new netlify functions
+
+[33mcommit f08cc830df9597bef7eb4c55bc48b07d085a7e5d[m[33m ([m[1;31morigin/chat-form[m[33m)[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Tue Aug 29 21:25:13 2023 +0200
+
+    update: ParamsForm, Modal components and Grommet layout
+
+[33mcommit b580e2d10a938f2054004ee573298e1798405898[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Tue Aug 29 21:24:26 2023 +0200
+
+    add: yarn.lock file
+
+[33mcommit 488a0fdf5888fddbf7bc679dd568952b903ec086[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Tue Aug 29 05:02:24 2023 +0200
+
+    fix: hook import
+
+[33mcommit 351e890f5ce38f312586bd13269f5074617facb4[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Mon Aug 28 22:30:12 2023 +0200
+
+    add: hooks folder
+
+[33mcommit db1d3a519bd89c37cb745a52c57a9947fc5a18f1[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Mon Aug 28 22:27:52 2023 +0200
+
+    feat: refactor processMessageToChatGPT and add ParamsForm
+
+[33mcommit f358f88d5f78a6e7eed88722abf3e483c5f8ab66[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Mon Aug 28 16:46:25 2023 +0200
+
+    feat: login
+
+[33mcommit 6f786e957392f5e38da8da0fa97ffea2e0782d04[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Aug 27 09:16:21 2023 -0700
+
+    playHT working minus longform text
+
+[33mcommit 62b62e47510ff847aaf2182f7e64f7caa5618fc0[m[33m ([m[1;31morigin/fix-playht-calls[m[33m)[m
+Author: en0c-026 <bitup.games@gmail.com>
+Date:   Sun Aug 27 16:14:44 2023 +0200
+
+    add: new netlify functions
+
+[33mcommit 5efe9e49a17b942d6e0411fd597527b5f85f909d[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sat Aug 26 11:38:09 2023 -0700
+
+    standard premium api fix attempt
+
+[33mcommit c2dc3b1ca1634499c6b5dbdce02f332f56f62bd7[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Thu Aug 24 21:55:15 2023 -0700
+
+    working for short and long form texts english only
+
+[33mcommit 091fe319712081fff398c71e76539ffcb65d5921[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Thu Aug 24 11:39:44 2023 -0700
+
+    api working but audio not playing
+
+[33mcommit e0d752b82dfb1c4e3066cabd1dd39690d924c5e5[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Thu Aug 24 11:03:52 2023 -0700
+
+    logging server side json
+
+[33mcommit 556da1aaa888c199dccb845abd68214346831b9a[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Thu Aug 24 10:48:23 2023 -0700
+
+    more tries
+
+[33mcommit 3f288e11064a1a09476fcc90064c6d583e81782a[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Thu Aug 24 10:41:25 2023 -0700
+
+    change to get/post
+
+[33mcommit af6e4930f492fbcd288a6940f393666e29b26562[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Thu Aug 24 10:15:14 2023 -0700
+
+    testing voiceID 'larry'
+
+[33mcommit 5a1856818bfdeaf15217c5f28bb75f9e254192f7[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Wed Aug 23 22:27:13 2023 -0700
+
+    forgot these files
+
+[33mcommit aa56b8d5e5b06f64aad986a144caa14a2a6c3e3f[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Wed Aug 23 22:26:31 2023 -0700
+
+    more node fetch changes
+
+[33mcommit e7ebd8ed99c8a4155f8e7b62564926ca17f1ec27[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Wed Aug 23 22:14:54 2023 -0700
+
+    changing node fetch version
+
+[33mcommit 6427230356fc08b33a4cef78c841482179196351[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Wed Aug 23 21:56:33 2023 -0700
+
+    toml file
+
+[33mcommit 6231123aa83a9039a5dcc1e4c0501332ea889384[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Wed Aug 23 19:41:39 2023 -0700
+
+    node modules in netlify function folder
+
+[33mcommit 063a5155858618d37e2da91c7d99c824cdc5c3c4[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Wed Aug 23 19:32:16 2023 -0700
+
+    installed node fetch
+
+[33mcommit 1c70717528a5981b169c1c450252a8f2f667798d[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Wed Aug 23 19:22:22 2023 -0700
+
+    playaudiojs changes
+
+[33mcommit 375153809ed61e3810e5d7bf3e4c5f5782cebcc4[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Wed Aug 23 18:50:55 2023 -0700
+
+    trying  server side functions
+
+[33mcommit bf0a78dc68c4f42fdf4d7098fb80c8a57f61bb68[m[33m ([m[1;31morigin/cursor_fix[m[33m)[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Tue Aug 22 19:19:15 2023 -0700
+
+    play audio change
+
+[33mcommit 7e6f6effd6c90b6c386a7e66aaf0db4d5f2282a0[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Mon Aug 21 19:48:00 2023 -0700
+
+    Revert to commit: 49cda83
+
+[33mcommit dffed75cf8490d0646ec7bf5dba217d1b00a84d9[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Mon Aug 21 13:22:52 2023 -0700
+
+    adding no-cors to api request
+
+[33mcommit acca0eb5a271e3430a3ce4de20864926eee62a4c[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Mon Aug 21 11:23:50 2023 -0700
+
+    netlify toml fix for api
+
+[33mcommit 49cda8388b1d81c2d4aa6e89bd680cdc9ec47830[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Mon Aug 21 10:37:45 2023 -0700
+
+    fixed play pause
+
+[33mcommit 67923a2410810fce1a0c3907e3751c5069fdfbd2[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Aug 20 00:04:39 2023 -0700
+
+    formatting text output
+
+[33mcommit dbd3261a319c1544514ed373634f6619074bd237[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sat Aug 19 11:34:34 2023 -0700
+
+    changes to play buttons for audio
+
+[33mcommit fabbce7e8f30895d72c2977e2298897c545bdc30[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Fri Aug 18 21:16:15 2023 -0700
+
+    working text to voice
+
+[33mcommit e8c34e1e59a1704b819bc9c4663b42a3d6b968f5[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Aug 13 17:13:00 2023 -0700
+
+    audio code tweak
+
+[33mcommit 983da98c5a736218a58989ad18998a0e934bdfbf[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Aug 13 16:54:07 2023 -0700
+
+    no-cors
+
+[33mcommit dfb41c603c4960dbfbf9ce74647c41ff7d245605[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Aug 13 16:47:20 2023 -0700
+
+    again fix
+
+[33mcommit 4e938b866609405fefc615ef2f08a57fe283a69a[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Aug 13 16:21:38 2023 -0700
+
+    another try
+
+[33mcommit e9a5fd263966642bce3f0989458802bdc2c82643[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Aug 13 16:13:48 2023 -0700
+
+    module again
+
+[33mcommit e2e91edccb47747ee5a40b8afc5650ca0a22e81e[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Aug 13 16:08:08 2023 -0700
+
+    module fix
+
+[33mcommit d01dace2eede2b8c37a7b5fc25fff0aa237afc18[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Aug 13 15:59:10 2023 -0700
+
+    gitmodule
+
+[33mcommit 3c9006d0f92dded88e07546a4b2395f3e36e9c42[m
+Author: Brandon Brewer <Brandon@linguosity.ai>
+Date:   Sun Aug 13 15:37:57 2023 -0700
+
+    Added changes to LinguosityApp
