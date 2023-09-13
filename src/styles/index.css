@@ -239,18 +239,20 @@ body {
 
 .sidenav-button {
   display: flex;
-  align-items: center;
+  justify-content: flex-start;
   cursor: pointer;
-  padding: 8px 48px 8px 48px;
+  padding: 8px 8px 8px 8px;
   border-radius: 8px;
   text-decoration: none;
   color: #000;
+  margin: 0 16px 0 16px;
+  align-content: center;
 }
 
 .sidenav-button svg {
   width: 24px;
   height: 24px;
-  margin-right: 16px;
+  margin-right: 8px;
 }
 
 .sidenav-button img {
@@ -261,7 +263,7 @@ body {
 }
 
 .padding-sm {
-  padding: 8px 24px 8px 24px;
+  padding: 16px 40px 16px 0px;
 }
 
 .justify-center {
@@ -270,6 +272,9 @@ body {
 
 .text-sm {
   font-size: 0.9rem;
+  display:flex;
+  align-content:center;
+  align-items:center;
 }
 
 .font-bold {
