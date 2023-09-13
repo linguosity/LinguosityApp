@@ -150,7 +150,7 @@ function App() {
             },
             post_reading: {
               type: 'string',
-              description: 'Post-reading comprehension questions based on Blooms taxonomy to evaluate the reader comprehension.'
+              description: 'Post-reading comprehension questions based on Blooms taxonomy to evaluate the reader comprehension entitled "Comprehension Questions"'
             }
 
           },

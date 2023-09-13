@@ -3,9 +3,10 @@ export default function PreReading({ preReading }) {
   const lines = preReading.split('\n');
 
   // Splitting anticipation guide and glossary
-  const anticipationGuideIndex = lines.findIndex(line => line.trim() === 'Anticipation Guide');
-  const glossaryIndex = lines.findIndex(line => line.trim() === 'Glossary');
-
+ // Find the indices for anticipation guide and glossary
+ const anticipationGuideIndex = lines.findIndex(line => line.trim() === 'Anticipation Guide');
+ const glossaryIndex = lines.findIndex(line => line.trim() === 'Glossary');
+ 
   const anticipationGuideLines = lines.slice(anticipationGuideIndex + 1, glossaryIndex);
   const glossaryLines = lines.slice(glossaryIndex + 1);
 
