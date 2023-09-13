@@ -3,14 +3,18 @@ export default function PreReading({ preReading }) {
   const lines = preReading.split('\n');
 
   // Splitting anticipation guide and glossary
-  const anticipationGuideIndex = lines.findIndex(line => line.trim().toLowerCase().startsWith('pre-reading anticipation guide'));
-  const glossaryIndex = lines.findIndex(line => line.trim().toLowerCase().startsWith('pre-reading glossary'));
+  const anticipationGuideIndex = lines.findIndex(line => line.trim() === 'Anticipation Guide');
+  const glossaryIndex = lines.findIndex(line => line.trim() === 'Glossary');
 
   const anticipationGuideLines = lines.slice(anticipationGuideIndex + 1, glossaryIndex);
   const glossaryLines = lines.slice(glossaryIndex + 1);
 
   const anticipationGuideQuestions = anticipationGuideLines.join(' ').split(/\d+\./).slice(1).map((item, index) => `${index + 1}.${item.trim()}`);
   const glossaryItems = glossaryLines.join(' ').split(/\d+\./).slice(1).map((item, index) => `${index + 1}.${item.trim()}`);
+
+  console.log('Anticipation Guide Lines:', anticipationGuideLines);
+  console.log('Glossary Lines:', glossaryLines);
+
 
   return (
     <div id="pre-reading-window">
