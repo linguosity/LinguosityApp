@@ -8,19 +8,13 @@ import ParamsForm from './components/ParamsForm';
 import Modal from './components/Modal';
 import useShow from './hooks/useShow';
 import getWordsCount from './utils/getWordsCount';
-import Logo from './components/Logo';
 import getVoiceID from './utils/getVoiceID';
 import callOpenAI from './lib/callOpenAI';
 import Sidenav from './components/Sidenav';
-import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer'
 import MyDocument from './components/MyDocument';
-import { AiOutlineFilePdf } from 'react-icons/ai';
 import { useAudioMagnament } from './context/AudioMagnament';
 import { Box, Grommet, ResponsiveContext } from 'grommet';
-//import AzureTTSComponent from './AzureTTSComponent';
 import OnboardingScreen from './components/OnBoarding';
-// This code is for v4 of the openai package: npmjs.com/package/openai
-import OpenAI from "openai";
 
 
 const formDataDefault = {
@@ -53,12 +47,7 @@ function extractAndParseButtons(input) {
 }
 function App() {
   const [messages, setMessages] = useState([])
-  const [story, setStory] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const [storyText, setStoryText] = useState('');
-  const [preReadingActivity, setPreReadingActivity] = useState('');
-  const [postReadingActivity, setPostReadingActivity] = useState('');
   const [formData, setFormData] = useState(formDataDefault);
   const { show, open, close, toggle } = useShow()
   const modalRef = useRef()
@@ -79,6 +68,7 @@ function App() {
 
   const handleSend = async (content) => {
     setIsTyping(true);
+
     const systemMsg = {
       role: "system",
       content: `
@@ -86,7 +76,7 @@ function App() {
       
       After the user choose the course of study, scaffold their comprehension through the following:
       
-      a. limit your the type token ratio, mean length of utterance and subordination index to that of the ${storyText}
+      a. limit your the type token ratio, mean length of utterance and subordination index to that of the ${JSON.stringify(historyData)}
       b. limit your output to one sentence or phrase
       c. recast and expand on the user's utterances just above their zone of proximal development
       d. avoid asking more than one question at once
@@ -230,11 +220,11 @@ function App() {
   }
 
   const documentIsReady = useMemo(() => {
-    return !!(storyText !== "" && preReadingActivity !== "" && postReadingActivity !== "")
+    return !!(historyData.storyText !== "" && historyData.preReadingActivity !== "" && historyData.postReadingActivity !== "")
   }, [
-    storyText,
-    preReadingActivity,
-    postReadingActivity
+    historyData.storyText,
+    historyData.preReadingActivity,
+    historyData.postReadingActivity
   ])
 
   const customTheme = {
@@ -280,14 +270,13 @@ function App() {
           user ? (
             <div className="app-container">
               <Sidenav
-                story={story}
                 toggleForm={toggle}
                 pdfDocument={
                   documentIsReady ?
                     <MyDocument pages={[
-                      storyText,
-                      preReadingActivity,
-                      postReadingActivity
+                      historyData.storyText,
+                      historyData.preReadingActivity,
+                      historyData.postReadingActivity
                     ]} /> : undefined
                 }
               />
@@ -326,7 +315,7 @@ function App() {
                   </Modal>
                 )}
               </div>
-              <div className={`tab-wrapper ${isLoading ? 'loading' : ''}`}>
+              <div className="tab-wrapper">
                 <div className="tab-shadow">
                   <Tabs
                     activeTab={activeTab}
@@ -337,7 +326,7 @@ function App() {
                   />
                 </div>
               </div>
-              {isLoading && <Logo />}
+              {/* {isLoading && <Logo />} */}
             </div>)
             :
             <AuthComponent />
