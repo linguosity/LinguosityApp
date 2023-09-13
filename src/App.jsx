@@ -219,7 +219,11 @@ function App() {
         }));
       }
     }
-
+    const assistantMsg = {
+      role: 'assistant',
+      content: `Great! Let's dive right in. Please choose which part of the story you'd like to start with: buttons=[{"label": "Pre Reading", "value": "1"}, {"label": "Story Text", "value": "2"}, {"label": "Post Reading", "value": "3"}]`
+    }
+    setMessages([assistantMsg])
 
 
 
