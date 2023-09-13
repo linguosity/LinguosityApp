@@ -3,13 +3,18 @@ import classNames from "classnames";
 import Tab from "./Tab";
 
 const tabs = [
-  { label: "Prep", value: "one" },
-  { label: "Read", value: "two" },
-  { label: "Recap", value: "three" },
+  { label: "Prep", value: "pre_reading" },
+  { label: "Read", value: "story_text" },
+  { label: "Recap", value: "post_reading" },
 ]
 
-const Tabs = ({ story_text, pre_reading, post_reading, handlePlayAudio, voiceID }) => {
-  const [activeTab, setActiveTab] = useState('two');
+const Tabs = ({ 
+  activeTab, 
+  setActiveTab, 
+  story_text, 
+  pre_reading, 
+  post_reading
+}) => {
 
   const handleTabClick = tab => {
     setActiveTab(tab);
@@ -32,7 +37,6 @@ const Tabs = ({ story_text, pre_reading, post_reading, handlePlayAudio, voiceID 
           story_text={story_text}
           pre_reading={pre_reading}
           post_reading={post_reading}
-          voiceID={voiceID}
         />
       </div>
     </div>

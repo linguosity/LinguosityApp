@@ -1,39 +1,43 @@
+import OpenAI from "openai";
 
 const API_KEY = import.meta.env.VITE_APP_OPENAI_API_KEY
 
+const openai = new OpenAI({
+  dangerouslyAllowBrowser: true,
+  apiKey: API_KEY
+});
+
 export default async function callOpenAI(
-  messages, 
-  functions, 
+  messages,
+  functions,
   temperature = 0.9,
-  model = "gpt-4-0613", 
+  model = "gpt-4-0613",
+  stream = false,
+  function_call = "none"
 ) {
 
-  const apiRequestBody = {
-    model,
-    messages,
-    temperature,
-    functions,
-    max_tokens: 6700,
-    //function_call: 'write_story_activities'
-  } 
-
-  
   try {
-    const result = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer " + API_KEY,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(apiRequestBody)
-    })
-    const json = await result.json()
-    return json.choices[0]
+    const response = await openai.chat.completions.create({
+      model,
+      messages,
+      temperature,
+      stream,
+      functions,
+      max_tokens: 6700,
+      function_call
+    });
+
+    if (stream) {
+      return response
+      
+    } else {
+      return response.choices[0]
+    }
+
   } catch (error) {
     console.log('Error on callOpenAI', error)
     return null
   }
-
 
 }
 
