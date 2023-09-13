@@ -275,10 +275,6 @@ function App() {
         {
           user ? (
             <div className="app-container">
-              <button onClick={() => {
-                console.log(historyData)
-                setHistoryData({ story_text: '', pre_reading: '', post_reading: '' })
-              }}>reset</button>
               <Sidenav
                 story={story}
                 toggleForm={toggle}
