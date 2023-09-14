@@ -1,4 +1,4 @@
-import { useFirebaseAuth } from "../context/FirebaseContext";
+import { useFirebase } from "../context/FirebaseContext";
 import { BiLogOut } from "react-icons/bi"
 import { AiOutlineFilePdf, AiOutlineForm } from "react-icons/ai"
 import { PiFileAudioDuotone } from "react-icons/pi"
@@ -35,7 +35,7 @@ function IconCircleUser(props) {
 }
 
 const Toolbar = ({ toggleForm, pdfDocument }) => {
-  const { user, logout } = useFirebaseAuth()
+  const { user, logout } = useFirebase()
   const { audioUrl } = useAudioMagnament()
   const navigate = useNavigate()
 

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { localStorageAuthKey, useFirebaseAuth } from '../context/FirebaseContext';
+import { localStorageAuthKey, useFirebase } from '../context/FirebaseContext';
 import '../styles/Auth.css';
 import { useNavigate } from 'react-router-dom';
 
 export default function Auth() {
-  const { registerUser, login, loginWithGoogle, error, loading } = useFirebaseAuth();
+  const { registerUser, login, loginWithGoogle, error, loading } = useFirebase();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate()
@@ -13,7 +13,6 @@ export default function Auth() {
     const credential = localStorage.getItem(localStorageAuthKey);
 
     if (credential) {
-      console.log('arre')
       navigate('/app')
     }
   }, [])

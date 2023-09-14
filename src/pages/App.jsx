@@ -9,7 +9,6 @@ import {
 } from "@chatscope/chat-ui-kit-react"
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { Grommet } from 'grommet';
-// import { useFirebaseAuth } from '../context/FirebaseContext';
 import { useAudioMagnament } from '../context/AudioMagnament';
 import ParamsForm from '../components/ParamsForm';
 import Tabs from '../components/Tabs';
@@ -23,7 +22,7 @@ import getVoiceID from '../utils/getVoiceID';
 import extractAndParseButtons from '../utils/extractAndParseButtons';
 import callOpenAI from '../lib/callOpenAI';
 import { useNavigate } from 'react-router-dom';
-import { localStorageAuthKey, useFirebaseAuth } from '../context/FirebaseContext';
+import { localStorageAuthKey, useFirebase } from '../context/FirebaseContext';
 
 const formDataDefault = {
   story_topic: '',
@@ -45,7 +44,7 @@ function App() {
   const [historyData, setHistoryData] = useState({ story_text: '', pre_reading: '', post_reading: '' })
   const [activeTab, setActiveTab] = useState('story_text');
   const navigate = useNavigate()
-  const { setUser } = useFirebaseAuth()
+  const { setUser, updateDBEntry, user, userData } = useFirebase()
 
   useEffect(() => {
     const credentialRaw = localStorage.getItem(localStorageAuthKey);
@@ -53,7 +52,7 @@ function App() {
       navigate('/login')
     } else {
       const credential = JSON.parse(credentialRaw)
-      setUser({ name: credential.displayName ?? credential.email, avatar: credential.photoUrl ?? undefined });
+      setUser({ id: credential.uid, name: credential.displayName ?? credential.email, avatar: credential.photoUrl ?? undefined });
     }
   }, [])
 
@@ -219,6 +218,7 @@ function App() {
     }
     setMessages([assistantMsg])
 
+    updateDBEntry(user.id, { generations: userData.generations + 1, lastGeneration: (new Date).toUTCString() })
 
 
   }
