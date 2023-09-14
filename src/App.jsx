@@ -221,11 +221,11 @@ function App() {
   }
 
   const documentIsReady = useMemo(() => {
-    return !!(historyData.storyText !== "" && historyData.preReadingActivity !== "" && historyData.postReadingActivity !== "")
+    return !!(historyData.story_text !== "" && historyData.pre_reading !== "" && historyData.post_reading !== "")
   }, [
-    historyData.storyText,
-    historyData.preReadingActivity,
-    historyData.postReadingActivity
+    historyData.story_text,
+    historyData.pre_reading,
+    historyData.post_reading
   ])
 
   const customTheme = {
@@ -275,9 +275,9 @@ function App() {
                 pdfDocument={
                   documentIsReady ?
                     <MyDocument pages={[
-                      historyData.storyText,
-                      historyData.preReadingActivity,
-                      historyData.postReadingActivity
+                      historyData.story_text,
+                      historyData.pre_reading,
+                      historyData.post_reading
                     ]} /> : undefined
                 }
               />
