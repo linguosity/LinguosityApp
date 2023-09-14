@@ -6,7 +6,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useAudioMagnament } from "../context/AudioMagnament";
 import { useContext } from "react";
 import { Box, DropButton, ResponsiveContext } from "grommet";
-import useShow from "../hooks/useShow";
+import { useNavigate } from "react-router-dom";
 
 
 function IconMenu(props) {
@@ -37,8 +37,12 @@ function IconCircleUser(props) {
 const Toolbar = ({ toggleForm, pdfDocument }) => {
   const { user, logout } = useFirebaseAuth()
   const { audioUrl } = useAudioMagnament()
+  const navigate = useNavigate()
 
-
+  const handleLogout = async () => {
+    await logout()
+    navigate('/')
+  }
   return (
     <div className="toolbar">
       <div className="sidenav-button bg-focus">
@@ -86,7 +90,7 @@ const Toolbar = ({ toggleForm, pdfDocument }) => {
           <span className="text-sm font-bold">{user.name}</span>
         </div>
       }
-      <div className="sidenav-button" onClick={logout}>
+      <div className="sidenav-button" onClick={handleLogout}>
         <BiLogOut />
         <span> Log out</span>
       </div>

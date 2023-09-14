@@ -1,17 +1,43 @@
-// AuthComponent.jsx
-import React, { useState } from 'react';
-import { useFirebaseAuth } from '../context/FirebaseContext';
-import '../styles/AuthComponent.css'; // Importa los estilos CSS
+import { useEffect, useState } from 'react';
+import { localStorageAuthKey, useFirebaseAuth } from '../context/FirebaseContext';
+import '../styles/Auth.css';
+import { useNavigate } from 'react-router-dom';
 
-
-function AuthComponent() {
+export default function Auth() {
   const { registerUser, login, loginWithGoogle, error, loading } = useFirebaseAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate()
 
-  const handleEmailSignIn = async () => await login(email, password);
-  const handleGoogleSignIn = async () => await loginWithGoogle();
-  const handleCreateUser = async () => await registerUser(email, password);
+  useEffect(() => {
+    const credential = localStorage.getItem(localStorageAuthKey);
+
+    if (credential) {
+      console.log('arre')
+      navigate('/app')
+    }
+  }, [])
+  
+  const handleEmailSignIn = async () => {
+    const result = await login(email, password)
+    if (result) {
+      navigate('/app')
+    }
+  };
+  
+  const handleGoogleSignIn = async () => {
+    const result = await loginWithGoogle()
+    if (result) {
+      navigate('/app')
+    }
+  };
+  
+  const handleCreateUser = async () => {
+    const result = await registerUser(email, password)
+    if (result) {
+      navigate('/app')
+    }
+  };
 
   return (
     <div className="auth-container">
@@ -49,4 +75,3 @@ function AuthComponent() {
   );
 }
 
-export default AuthComponent;
