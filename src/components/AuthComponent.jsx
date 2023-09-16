@@ -19,7 +19,7 @@ function AuthComponent() {
         <img src="https://uploads-ssl.webflow.com/643f1edf85eba707f45ddfc3/646255f5e004cd49868bd0df_linguosity_logo.svg" alt="Linguosity logo" />
         <h2>Login to Linguosity</h2>
         {error && <p className="error-message">{error}</p>}
-        <h5>Email</h5>
+        <h5 className="email-heading">Email</h5>
         <input
           type="email"
           placeholder=""
@@ -36,9 +36,13 @@ function AuthComponent() {
         <div className='button-container'>
           <button onClick={handleEmailSignIn}>Log in</button>
         </div>
-        <h4 className="login-with"><span>Or login with</span></h4>
+        <div class="box">
+          <hr class="line"/>
+            <h4 className="login-with"><span>Or login with</span></h4>
+          <hr class="line"/>
+        </div>
         <button className="google-button" onClick={handleGoogleSignIn}>
-          Google
+          Sign-in with Google
         </button>
         <h4 className="have-account">Don't have account?</h4>
         <div className='sign-up'>
