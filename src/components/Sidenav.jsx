@@ -84,6 +84,7 @@ const Toolbar = ({ toggleForm, pdfDocument }) => {
           <span> Save audio </span>
         </a>
       )}
+      <div className="border-vertical">
       {
         user && <div className="sidenav-button padding-sm justify-center border-vertical">
           {
@@ -94,6 +95,7 @@ const Toolbar = ({ toggleForm, pdfDocument }) => {
           <span className="text-sm font-bold">{user.name}</span>
         </div>
       }
+      </div>
       <div className="sidenav-button" onClick={logout}>
         <BiLogOut />
         <span> Log out</span>
