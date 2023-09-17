@@ -20,7 +20,10 @@ const FB_CONFIG = {
 const DEFAULT_USER_STATE = {
   plan: 'free',
   generations: 0,
-  lastGeneration: ''
+  lastLogin: '',
+  customerId: '',
+  subscriptionId: '',
+  subscriptionStatus: ''
 }
 
 const FirebaseContext = createContext();
@@ -57,10 +60,15 @@ useEffect(() => {
       setUser({ id: result.user.uid, name: result.user.displayName ?? result.user.email });
       const dbEntry = await getDBEntry(result.user.uid)
       if (!dbEntry) {
-        registerNewDBEntry(result.user.uid)
+        registerNewDBEntry(result.user.uid, { lastLogin: (new Date).toUTCString() })
+      } else {
+        updateDBEntry(result.user.uid, { lastLogin: (new Date).toUTCString() })
       }
       setLoading(false)
-      return true
+      return {
+        success: true,
+        email
+      }
     } catch (error) {
       console.log(error.message)
 
@@ -72,7 +80,10 @@ useEffect(() => {
         setError('Unknown error.')
         console.log(error.message)
       }
-      return false
+      return {
+        success: false,
+        email: null
+      }
     } finally {
       setLoading(false);
     }
@@ -100,12 +111,20 @@ useEffect(() => {
       setUser({ id: result.user.uid, name: result.user.displayName, avatar: result.user.photoURL })
       const dbEntry = await getDBEntry(result.user.uid)
       if (!dbEntry) {
-        registerNewDBEntry(result.user.uid)
+        registerNewDBEntry(result.user.uid, { lastLogin: (new Date).toUTCString() })
+      } else {
+        updateDBEntry(result.user.uid, { lastLogin: (new Date).toUTCString() })
       }
-      return true
+      return {
+        success: true,
+        email: result.user.email
+      }
     } catch (error) {
       setError(error.message);
-      return false
+      return {
+        success: false,
+        email: null
+      }
     } finally {
       setLoading(false);
     }
@@ -118,11 +137,17 @@ useEffect(() => {
     try {
       const result = await createUserWithEmailAndPassword(fbAuth, email, password);
       setUser({ id: result.user.uid, name: result.user.displayName ?? result.user.email });
-      registerNewDBEntry(result.user.uid)
-      return true
+      registerNewDBEntry(result.user.uid, { lastLogin: (new Date).toUTCString() })
+      return {
+        success: true,
+        email
+      }
     } catch (error) {
       setError(error.message);
-      return false
+      return {
+        success: false,
+        email: null
+      }
     } finally {
       setLoading(false);
     }
@@ -130,9 +155,9 @@ useEffect(() => {
 
   // database methods
 
-  const registerNewDBEntry = async (userId) => {
+  const registerNewDBEntry = async (userId, value) => {
     try {
-      await set(ref(fbDatabase, 'users/' + userId), DEFAULT_USER_STATE);
+      await set(ref(fbDatabase, 'users/' + userId), {...DEFAULT_USER_STATE, ...value});
     } catch (error) {
       console.log('error on registerNewEntry', error)
     }

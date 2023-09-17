@@ -430,7 +430,6 @@ body {
   flex-direction: column;
   }
   body {
-    height: 100vh;
     width: 100vw;
   }
 
@@ -1049,7 +1048,6 @@ ul.tabs li a.active {
 
 p {
   font-family: 'Open Sans', sans-serif;
-  padding: 30px 40px;
   color: black;
   line-height: 26px;
   font-size: 18px;

@@ -1,7 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import generateAudio from "../lib/generateAudio";
 import { useAudioMagnament } from "../context/AudioMagnament";
 import { Spinner } from "grommet";
+import getPlanDetails from "../utils/getPlanDetails";
+import { useFirebase } from "../context/FirebaseContext";
 
 
 function PlayButton(props) {
@@ -68,10 +70,18 @@ export default function Story({ story }) {
     };
   }, [audioPlayerRef]);
 
+
+  const { userData } = useFirebase()
+  const isAllowedTextToSpeech = useMemo(() => {
+    if (!userData) return false
+    const planDetails = getPlanDetails(userData.plan)
+    return planDetails.textToSpeech
+  }, [userData])
+
   return (
     <div>
       {
-        story && (
+        story && isAllowedTextToSpeech && (
           <div className="story-player">
             {isPlaying ? <PauseButton onClick={handlePause} /> : <PlayButton onClick={() => handlePlay(story)} />}
             {audioUrl && <span className="text-sm">{`${formatTime(currentTime)} / ${formatTime(audioDuration)}`}</span>}

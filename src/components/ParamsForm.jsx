@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Box,
   Button,
@@ -10,6 +10,8 @@ import {
   TextArea,
   TextInput
 } from 'grommet';
+import { useFirebase } from '../context/FirebaseContext';
+import getPlanDetails from '../utils/getPlanDetails';
 
 
 const options = {
@@ -193,6 +195,15 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
 
   const [languageOptions, setLanguageOptions] = useState(options.target_language)
 
+  const { userData } = useFirebase()
+  const isReadyToGenerate = useMemo(() => {
+    if (!userData) return false
+
+    const planDetails = getPlanDetails(userData.plan)
+
+    return !!(userData.generations < planDetails.generations)
+  }, [userData])
+
   return (
       <Box align="center" justify="center" pad={{ horizontal: 'medium', vertical: 'small' }}>
         <Box width="medium">
@@ -248,7 +259,7 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
             </FormField>
             <Box direction="row" justify="between" margin={{ vertical: 'small' }}>
               <Button type="reset" label="Reset" />
-              <Button type="submit" label="Generate" primary />
+            <Button disabled={!isReadyToGenerate} type="submit" label="Generate" primary />
             </Box>
           </Form>
         </Box>

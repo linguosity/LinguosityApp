@@ -21,8 +21,11 @@ import getWordsCount from '../utils/getWordsCount';
 import getVoiceID from '../utils/getVoiceID';
 import extractAndParseButtons from '../utils/extractAndParseButtons';
 import callOpenAI from '../lib/callOpenAI';
-import { useNavigate } from 'react-router-dom';
-import { localStorageAuthKey, useFirebase } from '../context/FirebaseContext';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useFirebase } from '../context/FirebaseContext';
+import validateCheckoutSession from '../lib/validateCheckoutSession';
+import retrieveSubscription from '../lib/retrieveSubsctiption';
+import retrieveCredential from '../utils/retrieveCredential';
 
 const formDataDefault = {
   story_topic: '',
@@ -44,15 +47,44 @@ function App() {
   const [historyData, setHistoryData] = useState({ story_text: '', pre_reading: '', post_reading: '' })
   const [activeTab, setActiveTab] = useState('story_text');
   const navigate = useNavigate()
-  const { setUser, updateDBEntry, user, userData } = useFirebase()
+  const { setUser, updateDBEntry, user, userData, getDBEntry } = useFirebase()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    const credentialRaw = localStorage.getItem(localStorageAuthKey);
-    if (!credentialRaw) {
+
+    const credential = retrieveCredential()
+    if (!credential) {
       navigate('/login')
     } else {
-      const credential = JSON.parse(credentialRaw)
       setUser({ id: credential.uid, name: credential.displayName ?? credential.email, avatar: credential.photoUrl ?? undefined });
+      updateDBEntry(credential.uid, { lastLogin: (new Date).toUTCString() })
+
+      if (searchParams.get("from") === "stripe") {
+        validateCheckoutSession(searchParams.get("session_id"))
+        .then(async result => {
+          if (result.isValid) {
+            const subscription = await retrieveSubscription(result.subscriptionId)
+            updateDBEntry(credential.uid, {
+              plan: searchParams.get("plan"),
+              customerId: result.customerId,
+              subscriptionId: result.subscriptionId,
+              subscriptionStatus: subscription.status
+            })
+          }
+        })
+          .finally(() => setSearchParams(new URLSearchParams([])))
+      } else {
+        getDBEntry(credential.uid)
+        .then(async entry => {
+          if (entry.plan !== "free") {
+            const subscription = await retrieveSubscription(entry.subscriptionId)
+            if (subscription) {
+              updateDBEntry(credential.uid, { subscriptionStatus: subscription.status })
+            }
+
+          }
+        })
+      }
     }
   }, [])
 
@@ -170,6 +202,7 @@ function App() {
 
     // setIsLoading(true);
     close()
+    resetForm()
 
     const stream = await callOpenAI(
       newMsgs,
@@ -179,8 +212,6 @@ function App() {
       true,
       "auto"
     );
-
-
 
     let buffer = "";
     const regexByKey = /"([^"]+)":\s/;
@@ -218,7 +249,7 @@ function App() {
     }
     setMessages([assistantMsg])
 
-    updateDBEntry(user.id, { generations: userData.generations + 1, lastGeneration: (new Date).toUTCString() })
+    updateDBEntry(user.id, { generations: userData.generations + 1 })
 
 
   }
@@ -231,107 +262,73 @@ function App() {
     historyData.post_reading
   ])
 
-  const customTheme = {
-
-    global: {
-      colors: {
-        brand: '#FCF6EB',
-      }
-    },
-
-    formField: {
-      border: {
-        color: 'grey',
-        side: 'all'
-      },
-      label: {
-        weight: 'normal',
-        size: '12px',
-      }
-    },
-
-    button: {
-      border: {
-        radius: '8px',
-      },
-      primary: {
-        color: '#FCF6EB',
-      },
-    },
-  };
-
   const [showOnboarding, setShowOnboarding] = useState(true);
 
   const closeOnboarding = () => {
     setShowOnboarding(false);
   };
 
-
-
   return (
-    <Grommet theme={customTheme}>
-      <div className="app-container">
-        <Sidenav
-          toggleForm={toggle}
-          pdfDocument={
-            documentIsReady ?
-              <MyDocument pages={[
-                historyData.story_text,
-                historyData.pre_reading,
-                historyData.post_reading
-              ]} /> : undefined
-          }
-        />
-        <div className="right-column">
-          <MainContainer >
-            {showOnboarding && <OnboardingScreen onClose={closeOnboarding} />}
-            <ChatContainer>
-              <MessageList className='message-list' typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
-                {messages.map((message, i) => {
-                  console.log('message.content', message.content)
-                  const result = extractAndParseButtons(message.content)
-                  console.log('result', result)
-                  return <Message.CustomContent>
-                    <div className={message.role === 'user' ? 'outcoming' : 'incoming'}>
-                      {result && result.replacedInput ? result.replacedInput : message.content}
-                      {result && result.buttons &&
-                        result.buttons.map(button => (
-                          <button className='choice-button' onClick={() => handleSend(button.value)}>{button.label}</button>
-                        ))
-                      }
-                    </div>
-                  </Message.CustomContent>
-                })}
-              </MessageList>
-              <MessageInput placeholder='Type message here' onSend={handleSend} />
-            </ChatContainer>
-          </MainContainer>
-          {show && (
-            <Modal target={modalRef} isOpen={open} onClose={close} position='left'>
-              <ParamsForm
-                formData={formData}
-                setFormData={setFormData}
-                onReset={resetForm}
-                onSubmit={handleGenerate}
-              />
-            </Modal>
-          )}
-        </div>
-        <div className="tab-wrapper">
-          <div className="tab-shadow">
-            <Tabs
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              story_text={historyData.story_text}
-              pre_reading={historyData.pre_reading}
-              post_reading={historyData.post_reading}
+    <div className="app-container">
+      <Sidenav
+        openForm={open}
+        pdfDocument={
+          documentIsReady ?
+            <MyDocument pages={[
+              historyData.story_text,
+              historyData.pre_reading,
+              historyData.post_reading
+            ]} /> : undefined
+        }
+      />
+      <div className="right-column">
+        <MainContainer >
+          {showOnboarding && <OnboardingScreen onClose={closeOnboarding} />}
+          <ChatContainer>
+            <MessageList className='message-list' typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
+              {messages.map((message, i) => {
+                console.log('message.content', message.content)
+                const result = extractAndParseButtons(message.content)
+                console.log('result', result)
+                return <Message.CustomContent>
+                  <div className={message.role === 'user' ? 'outcoming' : 'incoming'}>
+                    {result && result.replacedInput ? result.replacedInput : message.content}
+                    {result && result.buttons &&
+                      result.buttons.map(button => (
+                        <button className='choice-button' onClick={() => handleSend(button.value)}>{button.label}</button>
+                      ))
+                    }
+                  </div>
+                </Message.CustomContent>
+              })}
+            </MessageList>
+            <MessageInput placeholder='Type message here' onSend={handleSend} />
+          </ChatContainer>
+        </MainContainer>
+        {show && (
+          <Modal target={modalRef} isOpen={open} onClose={close} position='left'>
+            <ParamsForm
+              formData={formData}
+              setFormData={setFormData}
+              onReset={resetForm}
+              onSubmit={handleGenerate}
             />
-          </div>
-        </div>
-        {/* {isLoading && <Logo />} */}
+          </Modal>
+        )}
       </div>
-    </Grommet >
-
+      <div className="tab-wrapper">
+        <div className="tab-shadow">
+          <Tabs
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            story_text={historyData.story_text}
+            pre_reading={historyData.pre_reading}
+            post_reading={historyData.post_reading}
+          />
+        </div>
+      </div>
+      {/* {isLoading && <Logo />} */}
+    </div>
   );
 }
 

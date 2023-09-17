@@ -4,9 +4,12 @@ import { AiOutlineFilePdf, AiOutlineForm } from "react-icons/ai"
 import { PiFileAudioDuotone } from "react-icons/pi"
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useAudioMagnament } from "../context/AudioMagnament";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { Box, DropButton, ResponsiveContext } from "grommet";
 import { useNavigate } from "react-router-dom";
+import useShow from "../hooks/useShow";
+import UserAccount from "./UserAccount";
+import getPlanDetails from "../utils/getPlanDetails";
 
 
 function IconMenu(props) {
@@ -34,15 +37,30 @@ function IconCircleUser(props) {
   );
 }
 
-const Toolbar = ({ toggleForm, pdfDocument }) => {
-  const { user, logout } = useFirebase()
+const Toolbar = ({ openForm, pdfDocument }) => {
+  const { user, logout, userData } = useFirebase()
   const { audioUrl } = useAudioMagnament()
   const navigate = useNavigate()
+  const { open, close, show } = useShow()
+
 
   const handleLogout = async () => {
     await logout()
     navigate('/')
   }
+
+  const isAllowedDownloadStoryPDF = useMemo(() => {
+    if (!userData) return false
+    const planDetails = getPlanDetails(userData.plan)
+    return planDetails.downloadStoryPDF
+  }, [userData])
+
+  const isAllowedDownloadMP3 = useMemo(() => {
+    if (!userData) return false
+    const planDetails = getPlanDetails(userData.plan)
+    return planDetails.downloadMP3
+  }, [userData])
+  
   return (
     <div className="toolbar">
       <div className="sidenav-button bg-focus">
@@ -59,11 +77,11 @@ const Toolbar = ({ toggleForm, pdfDocument }) => {
         </svg>
         <span>Home</span>
       </div>
-      <div className="sidenav-button" onClick={toggleForm}>
+      <div className="sidenav-button" onClick={openForm}>
         <AiOutlineForm />
         <span>Build Story</span>
       </div>
-      {pdfDocument && (
+      {pdfDocument && isAllowedDownloadStoryPDF && (
         <PDFDownloadLink
           className="sidenav-button"
           document={pdfDocument}
@@ -74,14 +92,14 @@ const Toolbar = ({ toggleForm, pdfDocument }) => {
           <span>Print Story</span>
         </PDFDownloadLink>
       )}
-      {audioUrl && (
+      {audioUrl && isAllowedDownloadMP3 && (
         <a href={audioUrl} className="sidenav-button" download="story.mp3">
           <PiFileAudioDuotone />
           <span> Save audio </span>
         </a>
       )}
-      {
-        user && <div className="sidenav-button padding-sm justify-center border-vertical">
+      {user && (
+        <div className="sidenav-button padding-sm justify-center border-vertical" onClick={open}>
           {
             user.avatar ?
               <img src={user.avatar} alt="" /> :
@@ -89,16 +107,19 @@ const Toolbar = ({ toggleForm, pdfDocument }) => {
           }
           <span className="text-sm font-bold">{user.name}</span>
         </div>
-      }
+      )}
       <div className="sidenav-button" onClick={handleLogout}>
         <BiLogOut />
         <span> Log out</span>
       </div>
+      {show && (
+        <UserAccount onClose={close} />
+      )}
     </div>
   )
 }
 
-export default function Sidenav({ toggleForm, pdfDocument }) {
+export default function Sidenav({ openForm, pdfDocument }) {
   const size = useContext(ResponsiveContext)
   return (
 
@@ -111,11 +132,11 @@ export default function Sidenav({ toggleForm, pdfDocument }) {
       {
         size === "small" ?
           <Box>
-            <DropButton label={<IconMenu />} dropContent={<Toolbar pdfDocument={pdfDocument} toggleForm={toggleForm} />} />
+            <DropButton label={<IconMenu />} dropContent={<Toolbar pdfDocument={pdfDocument} openForm={openForm} />} />
           </Box>
           :
           <div className="footer-content">
-            <Toolbar pdfDocument={pdfDocument} toggleForm={toggleForm} />
+            <Toolbar pdfDocument={pdfDocument} openForm={openForm} />
           </div>
       }
     </div >

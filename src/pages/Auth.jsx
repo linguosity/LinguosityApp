@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { localStorageAuthKey, useFirebase } from '../context/FirebaseContext';
 import '../styles/Auth.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import createCheckoutSession from '../lib/createCheckoutSession';
 
 export default function Auth() {
   const { registerUser, login, loginWithGoogle, error, loading } = useFirebase();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
     const credential = localStorage.getItem(localStorageAuthKey);
@@ -19,22 +21,35 @@ export default function Auth() {
   
   const handleEmailSignIn = async () => {
     const result = await login(email, password)
-    if (result) {
-      navigate('/app')
+    if (result.success) {
+      if(searchParams.get("from") === 'pricing' && searchParams.get("plan") !== "free") {
+        createCheckoutSession(searchParams.get("plan"), result.email)
+      } else {
+        navigate('/app')
+      }
     }
   };
   
   const handleGoogleSignIn = async () => {
     const result = await loginWithGoogle()
-    if (result) {
-      navigate('/app')
+    if (result.success) {
+      if(searchParams.get("from") === 'pricing' && searchParams.get("plan") !== "free") {
+        console.log('from ifif')
+        createCheckoutSession(searchParams.get("plan"), result.email)
+      } else {
+        navigate('/app')
+      }
     }
   };
   
   const handleCreateUser = async () => {
     const result = await registerUser(email, password)
-    if (result) {
-      navigate('/app')
+    if (result.success) {
+      if(searchParams.get("from") === 'pricing' && searchParams.get("plan") !== "free") {
+        createCheckoutSession(searchParams.get("plan"), result.email)
+      } else {
+        navigate('/app')
+      }
     }
   };
 
