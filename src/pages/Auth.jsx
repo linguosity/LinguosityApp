@@ -76,10 +76,10 @@ export default function Auth() {
         <div className='button-container'>
           <button onClick={handleEmailSignIn}>Log in</button>
         </div>
-        <div class="box">
-          <hr class="line"/>
+        <div className="box">
+          <hr className="line"/>
             <h4 className="login-with"><span>Or login with</span></h4>
-          <hr class="line"/>
+          <hr className="line"/>
         </div>
         <button className="google-button" onClick={handleGoogleSignIn}>
           Sign-in with Google
