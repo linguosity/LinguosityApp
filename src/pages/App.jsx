@@ -57,7 +57,20 @@ function App() {
       navigate('/login')
     } else {
       setUser({ id: credential.uid, name: credential.displayName ?? credential.email, avatar: credential.photoUrl ?? undefined });
-      updateDBEntry(credential.uid, { lastLogin: (new Date).toUTCString() })
+
+      getDBEntry(credential.uid).then(entry => {
+      
+        const currentMonth = (new Date().getUTCMonth())
+        const lastLoginMonth = (new Date(entry.lastLogin)).getUTCMonth()
+        if (currentMonth !== lastLoginMonth) {
+          updateDBEntry(credential.uid, { lastLogin: (new Date()).toUTCString(), generations: 0 })
+        } else {
+          updateDBEntry(credential.uid, { lastLogin: (new Date()).toUTCString() })
+        }
+
+      })
+
+
 
       if (searchParams.get("from") === "stripe") {
         validateCheckoutSession(searchParams.get("session_id"))
