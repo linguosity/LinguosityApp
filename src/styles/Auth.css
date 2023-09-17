@@ -1,0 +1,196 @@
+/* AuthComponent.css */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: 'Raleway';
+}
+
+.auth-form {
+  background-color: none;
+  padding: 48px 0px 48px 0px;
+  border:none;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 280px;
+  height: 650px;
+  z-index:9;
+}
+
+.auth-form input {
+  font-size: 1.2rem;
+  color: rgb(248, 248, 248);
+  background-color: transparent;
+  margin:0;
+  padding: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 24px;
+  width: 100%;
+}
+
+.auth-form button {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 8px 24px;
+  background-color: #007bff;
+  color: rgb(78, 78, 78);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  height: 48px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;  /* Set the width to 90% of the parent container */
+  margin: 24px 0 32px 0;  /* Center the button-container */
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.line {
+  flex-grow: 1;
+  border: none;
+  border-top: 1px solid #000;
+}
+
+.center-text {
+  margin: 0 10px; /* Add some horizontal margin */
+}
+
+.button-container button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  color:white;
+  font-size: 16px;
+  font-weight: 100;
+}
+
+.sign-up button {
+  background-color: transparent;
+  color:blue;
+  font-size: 16px;
+}
+
+.auth-form button.google-button {
+  background-image: url('data:image/svg+xml;utf8,%0A%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%222443%22%20height%3D%222500%22%20preserveAspectRatio%3D%22xMidYMid%22%20viewBox%3D%220%200%20256%20262%22%20id%3D%22google%22%3E%3Cpath%20fill%3D%22%234285F4%22%20d%3D%22M255.878%20133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45%2012.04-9.283%2030.172-26.69%2042.356l-.244%201.622%2038.755%2030.023%202.685.268c24.659-22.774%2038.875-56.282%2038.875-96.027%22%3E%3C/path%3E%3Cpath%20fill%3D%22%2334A853%22%20d%3D%22M130.55%20261.1c35.248%200%2064.839-11.605%2086.453-31.622l-41.196-31.913c-11.024%207.688-25.82%2013.055-45.257%2013.055-34.523%200-63.824-22.773-74.269-54.25l-1.531.13-40.298%2031.187-.527%201.465C35.393%20231.798%2079.49%20261.1%20130.55%20261.1%22%3E%3C/path%3E%3Cpath%20fill%3D%22%23FBBC05%22%20d%3D%22M56.281%20156.37c-2.756-8.123-4.351-16.827-4.351-25.82%200-8.994%201.595-17.697%204.206-25.82l-.073-1.73L15.26%2071.312l-1.335.635C5.077%2089.644%200%20109.517%200%20130.55s5.077%2040.905%2013.925%2058.602l42.356-32.782%22%3E%3C/path%3E%3Cpath%20fill%3D%22%23EB4335%22%20d%3D%22M130.55%2050.479c24.514%200%2041.05%2010.589%2050.479%2019.438l36.844-35.974C195.245%2012.91%20165.798%200%20130.55%200%2079.49%200%2035.393%2029.301%2013.925%2071.947l42.211%2032.783c10.59-31.477%2039.891-54.251%2074.414-54.251%22%3E%3C/path%3E%3C/svg%3E%0A');  /* Insert the URL-encoded SVG data here */
+  background-repeat: no-repeat;
+  background-position: 10px center;  /* You can adjust this */
+  padding-left: 40px;  /* Make room for the SVG */
+  background-size: 20px 20px;  /* Adjust the SVG size */
+  background-color: rgb(246, 249, 249);
+  margin: 0 0 32px 0;
+  width:100%;
+  border: solid lightgray;
+}
+
+
+.error-message {
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  background-color: rgb(255, 228, 228);
+  position: absolute;
+  bottom: 20px;
+  color: red;
+  font-size: 0.9rem;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: normal;
+  margin:0px;
+  padding:0px 0 32px;
+}
+
+h4 {
+  font-size: 16px;
+  padding: 0px;
+  font-weight: 500;
+}
+
+h4.have-account {
+  margin:0px;
+  padding:0px 0 ;
+}
+
+h4.login-with {
+  margin: 0px 0 024px 0;
+  padding: 0 0 0 0;
+}
+
+h5 {
+  font-size: 16px;
+  padding:0px 0 0 0;
+  margin: 16px 0 8px 0;
+  font-weight: 500;
+  text-align:left;
+  align-self: flex-start;  /* Add this line */
+}
+
+h5.email-heading {
+  margin-top:0px;
+}
+
+::placeholder {
+  padding-left: 16px;
+}
+
+input[type="email"],
+input[type="password"] {
+  background-repeat: no-repeat;
+  background-position: left 10px center;  /* Adjust as needed */
+  background-size: 25px;
+  color: black;
+  text-indent:40px;
+}
+
+input[type="email"] {
+  background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%20id%3D%22email%22%3E%3Cpath%20fill%3D%22%23222%22%20d%3D%22M53.42%2053.32H10.58a8.51%208.51%200%200%201-8.5-8.5V19.18a8.51%208.51%200%200%201%208.5-8.5h42.84a8.51%208.51%200%200%201%208.5%208.5v25.64a8.51%208.51%200%200%201-8.5%208.5ZM10.58%2013.68a5.5%205.5%200%200%200-5.5%205.5v25.64a5.5%205.5%200%200%200%205.5%205.5h42.84a5.5%205.5%200%200%200%205.5-5.5V19.18a5.5%205.5%200%200%200-5.5-5.5Z%22%3E%3C/path%3E%3Cpath%20fill%3D%22%23222%22%20d%3D%22M32%2038.08a8.51%208.51%200%200%201-5.13-1.71L3.52%2018.71a1.5%201.5%200%201%201%201.81-2.39L28.68%2034a5.55%205.55%200%200%200%206.64%200l23.35-17.68a1.5%201.5%200%201%201%201.81%202.39L37.13%2036.37A8.51%208.51%200%200%201%2032%2038.08Z%22%3E%3C/path%3E%3Cpath%20fill%3D%22%23222%22%20d%3D%22M4.17%2049.14a1.5%201.5%200%200%201-1-2.62l18.4-16.41a1.5%201.5%200%200%201%202%202.24L5.17%2048.76a1.46%201.46%200%200%201-1%20.38zm55.66%200a1.46%201.46%200%200%201-1-.38l-18.4-16.41a1.5%201.5%200%201%201%202-2.24l18.39%2016.41a1.5%201.5%200%200%201-1%202.62z%22%3E%3C/path%3E%3C/svg%3E');  /* Your SVG data */
+}
+
+
+input[type="password"] {
+  background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20enable-background%3D%22new%200%200%2024%2024%22%20viewBox%3D%220%200%2024%2024%22%20id%3D%22padlock%22%3E%3Cpath%20d%3D%22M17%2C9V7c0-2.7614136-2.2385864-5-5-5S7%2C4.2385864%2C7%2C7v2c-1.6561279%2C0.0018311-2.9981689%2C1.3438721-3%2C3v7c0.0018311%2C1.6561279%2C1.3438721%2C2.9981689%2C3%2C3h10c1.6561279-0.0018311%2C2.9981689-1.3438721%2C3-3v-7C19.9981689%2C10.3438721%2C18.6561279%2C9.0018311%2C17%2C9z%20M8%2C7c0-2.2091675%2C1.7908325-4%2C4-4s4%2C1.7908325%2C4%2C4v2H8V7z%20M19%2C19c-0.0014038%2C1.1040039-0.8959961%2C1.9985962-2%2C2H7c-1.1040039-0.0014038-1.9985962-0.8959961-2-2v-7c0.0014038-1.1040039%2C0.8959961-1.9985962%2C2-2h0.5h9h0.0006104H17c1.1040039%2C0.0014038%2C1.9985962%2C0.8959961%2C2%2C2V19z%22%3E%3C/path%3E%3C/svg%3E');  /* Your SVG data */
+}
+
+.login-with {
+  position: relative;
+  text-align: center;
+  padding:0;
+  margin:0;
+}
+
+.login-with::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: black;
+  z-index: 0;  /* Changed from -1 */
+}
+
+.login-with span {
+  background-color: white;  /* Ensuring it's the same as .auth-form */
+  padding: 0 10px;
+  z-index: 1;
+  position: relative;
+}
+
+
+
+
