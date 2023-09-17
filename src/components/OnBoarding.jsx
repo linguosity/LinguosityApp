@@ -1,10 +1,26 @@
 import { useState } from "react";
 
 const steps = [
-  { title: 'step 1', content: 'this is the step 1'},
-  { title: 'step 2', content: 'this is the step 2' },
-  { title: 'step 3', content: 'this is the step 3' },
-  { title: 'step 4', content: 'this is the step 4' },
+  { 
+    title: 'step 1', 
+    content: 
+      'this is the step 1'
+  },
+
+  { 
+    title: 'step 2', 
+    content: 'this is the step 2' 
+  },
+
+  { 
+    title: 'step 3', 
+    content: 'this is the step 3' 
+  },
+
+  { 
+    title: 'step 4', 
+    content: 'this is the step 4' 
+  },
 ]
 
 const OnboardingScreen = ({ onClose }) => {

@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { useFirebaseAuth } from '../context/FirebaseContext';
 import '../styles/AuthComponent.css'; // Importa los estilos CSS
+import OnboardingScreen from './OnBoarding';
+
 
 
 function AuthComponent() {
@@ -13,11 +15,23 @@ function AuthComponent() {
   const handleGoogleSignIn = async () => await loginWithGoogle();
   const handleCreateUser = async () => await registerUser(email, password);
 
+
+const [showOnboarding, setShowOnboarding] = useState(true);
+
+const closeOnboarding = () => {
+  setShowOnboarding(false);
+};
+
   return (
+    <>
+    <div className="main-container">
+    <div>
+    {showOnboarding && <OnboardingScreen onClose={closeOnboarding} />}
+    </div>
     <div className="auth-container">
       <div className="auth-form">
         <img src="https://uploads-ssl.webflow.com/643f1edf85eba707f45ddfc3/646255f5e004cd49868bd0df_linguosity_logo.svg" alt="Linguosity logo" />
-        <h2>Login to Linguosity</h2>
+        <h2>Linguosity</h2>
         {error && <p className="error-message">{error}</p>}
         <h5 className="email-heading">Email</h5>
         <input
@@ -50,6 +64,8 @@ function AuthComponent() {
         </div>
       </div>
     </div>
+    </div>
+    </>
   );
 }
 

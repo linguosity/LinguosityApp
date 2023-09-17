@@ -6,6 +6,7 @@
   justify-content: center;
   height: 100vh;
   font-family: 'Raleway';
+  width: 50vw;
 }
 
 .auth-form {
@@ -37,7 +38,7 @@
   font-size: 16px;
   font-weight: bold;
   padding: 8px 24px;
-  background-color: #007bff;
+  background-color: #396f9d;
   color: rgb(78, 78, 78);
   border: none;
   border-radius: 12px;
@@ -90,7 +91,7 @@
   background-position: 10px center;  /* You can adjust this */
   padding-left: 40px;  /* Make room for the SVG */
   background-size: 20px 20px;  /* Adjust the SVG size */
-  background-color: rgb(246, 249, 249);
+  background-color: transparent;
   margin: 0 0 32px 0;
   width:100%;
   border: solid lightgray;
@@ -189,6 +190,16 @@ input[type="password"] {
   padding: 0 10px;
   z-index: 1;
   position: relative;
+}
+
+.main-container {
+  display: flex;
+    align-items: center;
+    height: 100vh;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
 }
 
 
