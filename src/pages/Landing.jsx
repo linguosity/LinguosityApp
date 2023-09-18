@@ -1,7 +1,10 @@
+import { Box } from "grommet";
+import Header from "../components/Header";
+
 export default function Landing() {
   return (
-    <div>
-      <p>landing</p>
-    </div>
+    <Box>
+      <Header />
+    </Box>
   )
 }
