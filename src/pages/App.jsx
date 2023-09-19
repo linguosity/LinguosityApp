@@ -49,13 +49,15 @@ function App() {
   const navigate = useNavigate()
   const { setUser, updateDBEntry, user, userData, getDBEntry } = useFirebase()
   const [searchParams, setSearchParams] = useSearchParams()
-
+  const [loadingPage, setLoadingPage] = useState(true)
   useEffect(() => {
 
     const credential = retrieveCredential()
+
     if (!credential) {
       navigate('/login')
     } else {
+      setLoadingPage(false)
       setUser({ id: credential.uid, name: credential.displayName ?? credential.email, avatar: credential.photoUrl ?? undefined });
 
       getDBEntry(credential.uid).then(entry => {
@@ -325,6 +327,8 @@ function App() {
     setShowOnboarding(false);
   };
 
+  if (loadingPage) return null
+  
   return (
     <div className="app-container">
       <Sidenav
