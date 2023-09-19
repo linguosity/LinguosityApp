@@ -82,6 +82,15 @@ footer {
   margin: auto auto 16px -16px;
 }
 
+.incoming .choice-button {
+border-radius: 8px;
+box-shadow: none;
+background-color: #5ec58d;
+border:none;
+padding: 8px;
+margin: 8px 0px 0 0;
+}
+
 .outcoming {
   background-color: #2071a1;
   color: white;
@@ -302,7 +311,7 @@ body {
 
 .onboarding-overlay {
   /*position: absolute;*/
-  width: 50vw;
+  width: 55vw;
   height: 100vh;
   display: flex;
   z-index: 999;
