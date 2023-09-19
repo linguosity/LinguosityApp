@@ -57,13 +57,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: row;  /* Add this line */
+  width:100%
 }
 
 .line {
   flex-grow: 1;
   border: none;
   border-top: 1px solid #000;
+  margin:0 0 24px 0;
 }
+
 
 .center-text {
   margin: 0 10px; /* Add some horizontal margin */
@@ -91,7 +95,7 @@
   background-position: 10px center;  /* You can adjust this */
   padding-left: 40px;  /* Make room for the SVG */
   background-size: 20px 20px;  /* Adjust the SVG size */
-  background-color: rgb(246, 249, 249);
+  background-color: transparent;
   margin: 0 0 32px 0;
   width:100%;
   border: solid lightgray;
@@ -174,19 +178,9 @@ input[type="password"] {
   margin:0;
 }
 
-.login-with::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background-color: black;
-  z-index: 0;  /* Changed from -1 */
-}
 
 .login-with span {
-  background-color: white;  /* Ensuring it's the same as .auth-form */
+  background-color: ;  /* Ensuring it's the same as .auth-form */
   padding: 0 10px;
   z-index: 1;
   position: relative;
