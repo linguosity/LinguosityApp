@@ -15,7 +15,6 @@ import Tabs from '../components/Tabs';
 import Modal from '../components/Modal';
 import Sidenav from '../components/Sidenav';
 import MyDocument from '../components/MyDocument';
-import OnboardingScreen from '../components/OnBoarding';
 import useShow from '../hooks/useShow';
 import getWordsCount from '../utils/getWordsCount';
 import getVoiceID from '../utils/getVoiceID';
@@ -321,12 +320,6 @@ function App() {
     historyData.post_reading
   ])
 
-  const [showOnboarding, setShowOnboarding] = useState(true);
-
-  const closeOnboarding = () => {
-    setShowOnboarding(false);
-  };
-
   if (loadingPage) return null
   
   return (
@@ -344,7 +337,6 @@ function App() {
       />
       <div className="right-column">
         <MainContainer >
-          {showOnboarding && <OnboardingScreen onClose={closeOnboarding} />}
           <ChatContainer>
             <MessageList className='message-list' typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
               {messages.map((message, i) => {
