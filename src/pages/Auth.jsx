@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { localStorageAuthKey, useFirebase } from '../context/FirebaseContext';
+import { useFirebase } from '../context/FirebaseContext';
 import '../styles/Auth.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import createCheckoutSession from '../lib/createCheckoutSession';
@@ -18,13 +18,6 @@ export default function Auth() {
     setShowOnboarding(false);
   };
 
-  useEffect(() => {
-    const credential = localStorage.getItem(localStorageAuthKey);
-
-    if (credential) {
-      navigate('/app')
-    }
-  }, [])
   
   const handleEmailSignIn = async () => {
     const result = await login(email, password)
