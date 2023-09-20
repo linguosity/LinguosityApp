@@ -6,7 +6,7 @@
   justify-content: center;
   height: 100vh;
   font-family: 'Raleway';
-  width: 45vw;
+  width: 40vw;
 }
 
 .auth-form {
@@ -180,7 +180,7 @@ input[type="password"] {
 
 
 .login-with span {
-  background-color: ;  /* Ensuring it's the same as .auth-form */
+  background-color: none;  /* Ensuring it's the same as .auth-form */
   padding: 0 10px;
   z-index: 1;
   position: relative;
@@ -188,7 +188,8 @@ input[type="password"] {
 
 .onboarding-content h3 {
   color:white;
-  font-family: 'Raleway';
+  font-family: 'Montserrat', sans-serif;
+
 }
 
 .onboarding-content p {
@@ -199,6 +200,65 @@ input[type="password"] {
   width:500px;
 }
 
+.onboarding-content img.aiBook {
+ width:30%;
+ justify-content: center;
+ align-items: center;
+ text-align: center;
+}
+
+img.aiBook {
+  filter: invert(100%);
+  margin:-20px 0;
+}
+
+.onboarding-content {
+  position: relative; /* Ensures the buttons are positioned relative to this container */
+  /* ...existing styles... */
+}
+
+.onboarding-content button {
+  position: absolute;
+  top: 50%; /* Centers vertically */
+  transform: translateY(-50%); /* Corrects for the height of the button itself */
+}
+
+.onboarding-content button.clickLeft {
+  left: 0; /* Aligns to the left margin */
+  background:none;
+  border:none;
+  color:white;
+  font-weight:600;
+  font-size:30px;
+  cursor:pointer;
+}
+
+.onboarding-content button.clickRight {
+  right: 0; /* Aligns to the right margin */
+  background:none;
+  border:none;
+  color:white;
+  font-weight:600;
+  font-size:30px;
+  cursor: pointer;
+}
+
+.onboarding-steps {
+  position: relative;
+  overflow: hidden;
+}
+
+.onboarding-step {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  transition: all 0.5s ease-in-out;
+}
+
+.onboarding-step.active {
+  left: 0;
+}
 
 
 

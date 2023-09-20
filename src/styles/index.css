@@ -311,14 +311,18 @@ body {
 
 .onboarding-overlay {
   /*position: absolute;*/
-  width: 55vw;
+  width: 60vw;
   height: 100vh;
   display: flex;
   z-index: 999;
   justify-content: center;
   overflow: hidden;
   align-items: center;
-  background:#396f9d;
+  background-color:rgb(0, 32, 51);
+background-image:
+radial-gradient(at 100% 0%, hsla(38,72%,95%,0.35) 0px, transparent 50%),
+radial-gradient(at 3% 90%, hsla(18,55%,56%,0.37) 0px, transparent 50%),
+radial-gradient(at 43% 32%, hsla(202,100%,37%,1) 0px, transparent 50%);
 }
 
 .choice-button {
@@ -327,15 +331,18 @@ body {
 }
 
 .onboarding-content {
+  position:relative;
   background-color: transparent;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
   height: 80%;
   text-align: center;
   width: 80%;
   color:white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight:600;
 }
 
 .onboarding-toolbar {
@@ -354,7 +361,8 @@ body {
   height: 16px;
   background-color: white;
   border-radius: 50%;
-  margin-right: 8px;
+  margin-right: 16px;
+  margin-top:64px;
 }
 
 .circle.active {

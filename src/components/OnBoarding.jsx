@@ -1,5 +1,7 @@
 import { useState } from "react";
 import laptopVisual from '../assets/laptop-visual.png';
+import aiBook from '../assets/ai-book.gif';
+
 
 const steps = [
   {
@@ -69,32 +71,36 @@ const steps = [
   }
 ]
 
-
-
-
 const OnboardingScreen = ({ onClose }) => {
   const [onboardStep, setOnboardStep] = useState(0)
 
-  const onNext = () => setOnboardStep(prev => prev === 4 ? 0 : prev + 1)
+  const onNext = () => setOnboardStep(prev => prev === steps.length - 1 ? 0 : prev + 1)
+  const onPrevious = () => setOnboardStep(prev => prev === 0 ? steps.length - 1 : prev - 1)
+  
   return (
     <div className="onboarding-overlay">
       <div className="onboarding-content">
         <h2>Linguosity</h2>
         <span>Your AIde to language fluency</span>
+        <img src={aiBook} alt="AI Book" width="25%" className="aiBook"></img>
+        <button onClick={onPrevious} className="clickLeft"> {"<"}</button>  {/* Changed text to "Previous" */}
         <div>
           <p>{steps[onboardStep].content}</p>
         </div>
+        <button onClick={onNext} className="clickRight"> {">"} </button>
         <div className="onboarding-toolbar">
-          <button onClick={onClose}>Close</button>
+          
           <div className="status-circles">
-            <div className={onboardStep === 0 ? "circle active" : "circle"} onClick={() => setOnboardStep(0)}>
-            </div>
-            <div className={onboardStep === 1 ? "circle active" : "circle"} onClick={() => setOnboardStep(1)}></div>
-            <div className={onboardStep === 2 ? "circle active" : "circle"} onClick={() => setOnboardStep(2)}></div>
-            <div className={onboardStep === 3 ? "circle active" : "circle"} onClick={() => setOnboardStep(3)}></div>
-            <div className={onboardStep === 4 ? "circle active" : "circle"} onClick={() => setOnboardStep(4)}></div>
+            {steps.map((_, index) => (
+              <div 
+                className={onboardStep === index ? "circle active" : "circle"} 
+                onClick={() => setOnboardStep(index)}
+                key={index}
+              >
+              </div>
+            ))}
           </div>
-          <button onClick={onNext}>Next</button>
+          
         </div>
       </div>
     </div>
