@@ -337,7 +337,7 @@ radial-gradient(at 43% 32%, hsla(202,100%,37%,1) 0px, transparent 50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 80%;
+  height: 650px;
   text-align: center;
   width: 80%;
   color:white;
@@ -345,11 +345,60 @@ radial-gradient(at 43% 32%, hsla(202,100%,37%,1) 0px, transparent 50%);
   font-weight:600;
 }
 
+.onboarding-content .nav-logo-wrap {
+  width:25px;
+  border:none;
+  margin:0;
+  padding:0;
+}
+
+/*
+.onboarding-content p {
+  font-weight: 
+}
+*/
+
+.welcome-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  height: 150px;
+  width: 330px;
+}
+
+.welcome-header span {
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.logo-name-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-right: 8px;
+}
+
 .onboarding-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  position:absolute;
+  bottom:0px;
+}
+
+.onBoardSteps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 96px 0;
+}
+
+.onBoardSteps p {
+  font-weight: 200;
 }
 
 .status-circles {
@@ -1108,4 +1157,16 @@ p {
   align-content: center;
   flex-wrap: wrap;
   flex-direction: row;
+}
+
+body .onboarding-content h2 {
+  font-weight: 800px;
+  padding: 0 0 8px 0;
+  
+}
+
+.laptop-gif {
+
+  padding: 0 0 16px 0;
+
 }

@@ -189,8 +189,6 @@ const options = {
 };
 
 
-
-
 export default function ParamsForm({ formData, setFormData, onReset, onSubmit }) {
 
   const [languageOptions, setLanguageOptions] = useState(options.target_language)
@@ -205,8 +203,8 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
   }, [userData])
 
   return (
-      <Box align="center" justify="center" pad={{ horizontal: 'medium', vertical: 'small' }}>
-        <Box width="medium">
+      <Box align="center" justify="center" round="medium" pad={{ horizontal: 'medium', vertical: 'small' }}>
+        <Box width="medium" round="medium">
           <Form
             value={formData}
             onChange={(nextValue) => setFormData(nextValue)}
@@ -240,7 +238,7 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
                 options={options.story_genre}
               />
             </FormField>
-            <FormField label={<Text weight='normal' size='16px' margin='-12px'>Lesson Objectives:</Text>} htmlFor="lesson_objectives" name="lesson_objectives" required>
+            <FormField label={<Text weight='normal' size='16px' margin='-12px'>Target Vocabulary:</Text>} htmlFor="lesson_objectives" name="lesson_objectives" required>
               <TextArea id="lesson_objectives" name="lesson_objectives" />
             </FormField>
             <FormField label={<Text weight='normal' size='16px' margin='-12px'>Target Language:</Text>} htmlFor="target_language" name="target_language" required>

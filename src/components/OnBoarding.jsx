@@ -1,52 +1,76 @@
-import { useState } from "react";
-import laptopVisual from '../assets/laptop-visual.png';
+import { useState, useEffect } from "react";
+import laptopVisual from '../assets/laptop-visual-2.png';
 import aiBook from '../assets/ai-book.gif';
+import mp3File from '../assets/mp3-file.png';
+import pdfFile from '../assets/save-as-pdf.png';
+import language from '../assets/language.png';
+import topic from '../assets/topic.png';
+import comicBook from '../assets/comic-book.png';
+import storyTelling from '../assets/story-telling.png';
+import difficulty from '../assets/difficulty.png';
+import generateStory from '../assets/story-writer.gif';
+import generateQuestions from '../assets/generate-questions.gif';
 
 
 const steps = [
   {
     title: 'Welcome to Linguosity',
     content: (
-      <div>
-        <img src={laptopVisual} alt="Robot Learning" />
+      <>
+        <div className="welcome-header">
+          <div className="logo-name-wrap">
+            <img src="https://uploads-ssl.webflow.com/643f1edf85eba707f45ddfc3/646255f5e004cd49868bd0df_linguosity_logo.svg" alt="Linguosity logo" className="nav-logo-wrap"/>
+            <h2>Linguosity</h2>
+          </div>
+          <span>Your AIde to language fluency</span>
+        </div>
+        <img src={laptopVisual} alt="Robot Learning" className="laptop-gif" />
+        <img src={aiBook} alt="AI Book" width="25%" className="aiBook"></img>
         <p>Discover the future of personalized language education through AI-generated stories and mini-lessons.</p>
-        
-      </div>
+      </>
+      
     )
   },
   {
-    title: 'Language & Voice',
+    title: 'Customize your narrative',
     content: (
-      <div>
-        <h3>Select Your Language</h3>
-        <p>Choose from over 140 languages, and experience the lesson with text-to-voice functionality.</p>
-      </div>
-    )
-  },
-  {
-    title: 'Customize Your Story',
-    content: (
-      <div>
-        <h3>Topic, Genre, and Length</h3>
-        <p>Personalize your learning by selecting the topic, genre, and length of your story.</p>
-      </div>
+      <>
+        <div className="selectPreferences">
+          
+              <ul></ul>
+                <li>140 languages <img src={language} alt="AI Book"></img></li>
+                <li>any topic <img src={topic} alt="AI Book"></img></li>
+                <li>genre <img src={comicBook} alt="AI Book"></img></li>
+                <li>and difficulty level <img src={difficulty} alt="AI Book" width="25%"></img></li>
+                <p>Adapt every story to your interests and understanding</p>
+            
+        </div>
+      </>
     )
   },
   {
     title: 'Vocabulary Targets',
     content: (
-      <div>
+      <div className="vocab-box">
         <h3>Targeted Vocabulary</h3>
-        <p>Set your vocabulary targets to ensure your lesson is aligned with your learning objectives.</p>
+        <div id="simulatedInput" className="simulatedInput">
+          <span id="textContainer"></span>
+          <span className="cursor"></span>
+        </div>
+
+        <p>Embed specific or general vocabulary to practice in context</p>
       </div>
     )
   },
   {
     title: 'Interactive Experience',
     content: (
-      <div>
+      <div className="bonus-features">
+
+        <img src={generateQuestions} alt="AI Book"  ></img>
         <h3>Dynamic Lessons</h3>
-        <p>Engage with mini-lessons that offer warm-up prep and post-reading questions for a comprehensive learning experience.</p>
+        <p> Prepare your brain to best understand the vocabulary, grammar and story through pre-reading and post-reading activities</p>
+       
       </div>
     )
   },
@@ -54,7 +78,8 @@ const steps = [
     title: 'Save & Share',
     content: (
       <div>
-        <h3>Convenient Formats</h3>
+        <img src={pdfFile} alt="Robot Learning" className="saveIcons" /><img src={mp3File} alt="Robot Learning" className="saveIcons" />
+
         <p>Save your stories as PDFs or MP3 audio files for easy sharing and offline access.</p>
       </div>
     )
@@ -63,8 +88,8 @@ const steps = [
     title: 'Solve Real Problems',
     content: (
       <div>
-        <h3>Tired of Impersonal Content and Wasting Time?</h3>
-        <p>Linguosity's adaptive learning strategies cater to individual needs, saving you time and making learning more effective.</p>
+        <h3>Start Now</h3>
+        <p> Kickstart your language learning now with a trial perioddfs</p>
         <img src="pain-point-graphic.png" alt="Pain Point Graphic" />
       </div>
     ),
@@ -77,16 +102,81 @@ const OnboardingScreen = ({ onClose }) => {
   const onNext = () => setOnboardStep(prev => prev === steps.length - 1 ? 0 : prev + 1)
   const onPrevious = () => setOnboardStep(prev => prev === 0 ? steps.length - 1 : prev - 1)
   
+  useEffect(() => {
+    const textsToType = [
+      'basic cooking vocabulary', 
+      'words that start with "r"', 
+      'irregular past tense verbs like "ran" or "sat"',
+      'synonyms for "quick"',
+      '"abolish", "escalate", "investigate", "extend", "gigantic"'
+    ];
+
+    let arrayIndex = 0;
+    let charIndex = 0;
+    let isErasing = false;
+    let timeoutId = null;
+  
+    function typeText() {
+      const textContainer = document.getElementById('textContainer');
+      if (textContainer && !isErasing) {
+        const currentText = textsToType[arrayIndex];
+        if (charIndex < currentText.length) {
+          textContainer.innerHTML += currentText.charAt(charIndex);
+          charIndex++;
+          timeoutId = setTimeout(typeText, 40);
+        } else {
+          isErasing = true;
+          timeoutId = setTimeout(eraseText, 2000);
+        }
+      }
+    }
+  
+    function eraseText() {
+      const textContainer = document.getElementById('textContainer');
+      if (textContainer && isErasing) {
+        if (charIndex > 0) {
+          textContainer.innerHTML = textContainer.innerHTML.slice(0, -1);
+          charIndex--;
+          timeoutId = setTimeout(eraseText, 100);
+        } else {
+          isErasing = false;
+          arrayIndex = (arrayIndex + 1) % textsToType.length;
+          timeoutId = setTimeout(typeText, 1000);
+        }
+      }
+    }
+  
+    if (onboardStep === 2) {
+      typeText();
+    } else {
+      // Clear the ongoing timeout and reset variables when user swipes away
+      clearTimeout(timeoutId);
+      charIndex = 0;
+      arrayIndex = 0;
+      isErasing = false;
+      const textContainer = document.getElementById('textContainer');
+      if (textContainer) {
+        textContainer.innerHTML = "";
+      }
+    }
+  }, [onboardStep]);
+  
+    
+  
+  
+  
+  
+  
+  
   return (
     <div className="onboarding-overlay">
       <div className="onboarding-content">
-        <h2>Linguosity</h2>
-        <span>Your AIde to language fluency</span>
-        <img src={aiBook} alt="AI Book" width="25%" className="aiBook"></img>
+        
+        
         <button onClick={onPrevious} className="clickLeft"> {"<"}</button>  {/* Changed text to "Previous" */}
-        <div>
-          <p>{steps[onboardStep].content}</p>
-        </div>
+        
+          <div className="onBoardSteps">{steps[onboardStep].content}</div>
+        
         <button onClick={onNext} className="clickRight"> {">"} </button>
         <div className="onboarding-toolbar">
           

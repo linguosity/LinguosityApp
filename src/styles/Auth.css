@@ -18,7 +18,7 @@
   flex-direction: column;
   align-items: center;
   width: 280px;
-  height: 650px;
+  height: 500px;
   z-index:9;
 }
 
@@ -201,7 +201,10 @@ input[type="password"] {
 }
 
 .onboarding-content img.aiBook {
- width:30%;
+  /*position:absolute;
+  left: 15%;
+  top: 15%;*/
+ width:20%;
  justify-content: center;
  align-items: center;
  text-align: center;
@@ -210,11 +213,13 @@ input[type="password"] {
 img.aiBook {
   filter: invert(100%);
   margin:-20px 0;
+  
 }
 
 .onboarding-content {
   position: relative; /* Ensures the buttons are positioned relative to this container */
   /* ...existing styles... */
+  justify-content: flex-end;
 }
 
 .onboarding-content button {
@@ -260,5 +265,108 @@ img.aiBook {
   left: 0;
 }
 
+.onboarding-content .saveIcons {
+  width:15%;
+  filter: invert(100%) brightness(100);
+  margin: 0 64px 164px 0;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(5px); }
+}
+
+.shake-icon {
+  animation: shake 0.2s ease-in-out infinite;
+}
+
+.selectPreferences img {
+  width: 50px;
+  filter: invert(100%);
+}
+
+.selectPreferences li {
+  list-style: none;
+  padding: 32px 0 0 0;
+}
+
+
+.selectPreferences p {
+  padding: 64px 0 0 0;
+}
+
+
+.selectPreferences ul {
+  font-size: 24px;
+  font-weight: 200;
+}
+
+.onboarding-content .screenCapture {
+  width: 40%;
+}
+
+.simulatedInput {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  width:100%;
+  text-align:left;
+
+}
+
+div.vocab-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.vocab-box p {
+  padding: 64px 0 0 0;
+}
+
+div.vocab-box h3 {
+  margin-top: 64px;
+  width:100%;
+  text-align:left;
+  font-weight:400;
+  padding-bottom:0;
+  margin-bottom:16px;
+  margin-left:-24px;
+  padding-left:0px;
+}
+
+
+div.bonus-features p {
+  padding: 40px 0 0 0;
+}
+
+div.bonus-features h3 {
+  margin-top: 56px;
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background-color: white;
+  animation: blink 0.7s infinite;
+  padding: 0 0 -8px 0;
+}
+
+.bonus-features img {
+  width:55%;
+  border-radius: 16px;
+
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
 
 
