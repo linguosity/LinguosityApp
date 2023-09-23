@@ -10,7 +10,14 @@ import storyTelling from '../assets/story-telling.png';
 import difficulty from '../assets/difficulty.png';
 import generateStory from '../assets/story-writer.gif';
 import generateQuestions from '../assets/generate-questions.gif';
+import Tabs from "./Tabs";
 
+
+const OnboardingScreen = ({ onClose }) => {
+  const [onboardStep, setOnboardStep] = useState(0);
+  const onNext = () => setOnboardStep(prev => prev === steps.length - 1 ? 0 : prev + 1);
+  const onPrevious = () => setOnboardStep(prev => prev === 0 ? steps.length - 1 : prev - 1);
+  const [activeTab, setActiveTab] = useState('pre_reading');
 
 const steps = [
   {
@@ -22,11 +29,10 @@ const steps = [
             <img src="https://uploads-ssl.webflow.com/643f1edf85eba707f45ddfc3/646255f5e004cd49868bd0df_linguosity_logo.svg" alt="Linguosity logo" className="nav-logo-wrap"/>
             <h2>Linguosity</h2>
           </div>
-          <span>Your AIde to language fluency</span>
+          <p>Your <span>AI</span>de to language fluency</p>
         </div>
         <img src={laptopVisual} alt="Robot Learning" className="laptop-gif" />
-        <img src={aiBook} alt="AI Book" width="25%" className="aiBook"></img>
-        <p>Discover the future of personalized language education through AI-generated stories and mini-lessons.</p>
+        <p>Discover the future of personalized language education through <span>AI-generated</span> stories and mini-lessons.</p>
       </>
       
     )
@@ -38,11 +44,11 @@ const steps = [
         <div className="selectPreferences">
           
               <ul></ul>
-                <li>140 languages <img src={language} alt="AI Book"></img></li>
-                <li>any topic <img src={topic} alt="AI Book"></img></li>
-                <li>genre <img src={comicBook} alt="AI Book"></img></li>
-                <li>and difficulty level <img src={difficulty} alt="AI Book" width="25%"></img></li>
-                <p>Adapt every story to your interests and understanding</p>
+                <li>Write stories in <span>140 languages</span> <img src={language} alt="AI Book"></img></li>
+                <li>any <span>topic</span> <img src={topic} alt="AI Book"></img></li>
+                <li><span>genre</span> <img src={comicBook} alt="AI Book"></img></li>
+                <li>and <span>difficulty</span> level <img src={difficulty} alt="AI Book" width="25%"></img></li>
+                <p></p>
             
         </div>
       </>
@@ -62,17 +68,37 @@ const steps = [
       </div>
     )
   },
-  {
-    title: 'Interactive Experience',
-    content: (
-      <div className="bonus-features">
+  { title: 'Interactive Experience',
+  content: (
+    <div className="bonus-features">
+    
+      {/* Here we include the Tabs component */}
+      <Tabs 
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        story_text= {
+          "Once upon a time, three sibling pigs decided to build homes. " +
+          "Eldest pig, Henry, chose straw. 'It's eco-friendly,' he said. " +
+          "Middle pig, Eliza, picked sticks. 'Recyclable,' she reasoned. " +
+          "Youngest, Liam, opted for bricks. 'Sturdy and sustainable,' he explained. " +
+          "Soon, a cunning wolf arrived. He huffed at Henry's straw house, promptly demolishing it. " +
+          "Henry dashed to Eliza's stick abode. The wolf huffed again, reducing it to debris. " +
+          "Both fled to Liam's brick haven. The wolf huffed and puffed, but the house stood firm. " +
+          "'A lesson in resilience,' Liam declared. Together, they outwitted the wolf, living wisely ever after."
+        }
+        pre_reading = {
+          `"Anticipation Guide\n1. Are bricks better than wood for building a house? Why or why not? \n 2. Is it wise to take the time to prepare and build something strong, or is it better to finish quickly? \n 3. Family should always stick together in times of crisis. True or False. \nGlossary\n1. Sibling: A brother or sister.\n2. Eco-friendly: Good for the environment.\n3. Recyclable: Capable of being reused.`
+        }
+        post_reading = {`Comprehension questions
+        1. Why did each pig choose their respective building material?
+        2. How did the wolf manage to destroy the first two houses?
+        3. What makes Liam's house different from the others?`
+      }
+      />
 
-        <img src={generateQuestions} alt="AI Book"  ></img>
-        <h3>Dynamic Lessons</h3>
-        <p> Prepare your brain to best understand the vocabulary, grammar and story through pre-reading and post-reading activities</p>
-       
-      </div>
-    )
+      <p><span>Prep</span> your brain to best understand the story, then <span>recap</span> the details after reading to cement your learning</p>
+    </div>
+  )
   },
   {
     title: 'Save & Share',
@@ -96,11 +122,6 @@ const steps = [
   }
 ]
 
-const OnboardingScreen = ({ onClose }) => {
-  const [onboardStep, setOnboardStep] = useState(0)
-
-  const onNext = () => setOnboardStep(prev => prev === steps.length - 1 ? 0 : prev + 1)
-  const onPrevious = () => setOnboardStep(prev => prev === 0 ? steps.length - 1 : prev - 1)
   
   useEffect(() => {
     const textsToType = [
@@ -160,11 +181,6 @@ const OnboardingScreen = ({ onClose }) => {
       }
     }
   }, [onboardStep]);
-  
-    
-  
-  
-  
   
   
   

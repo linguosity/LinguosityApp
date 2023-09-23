@@ -415,7 +415,7 @@ radial-gradient(at 43% 32%, hsla(202,100%,37%,1) 0px, transparent 50%);
 }
 
 .circle.active {
-  background-color: #5ec58d;
+  background-color: #bd4500;
   /* Cambia el color del círculo activo */
 }
 

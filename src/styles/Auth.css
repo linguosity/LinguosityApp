@@ -288,6 +288,11 @@ img.aiBook {
   filter: invert(100%);
 }
 
+.selectPreferences span, .bonus-features span, .onBoardSteps p span {
+  color: #ffdf0b;
+  font-weight: bolder;
+}
+
 .selectPreferences li {
   list-style: none;
   padding: 32px 0 0 0;
@@ -325,7 +330,7 @@ div.vocab-box {
 }
 
 div.vocab-box p {
-  padding: 64px 0 0 0;
+  padding: 194px 0 0 0;
 }
 
 div.vocab-box h3 {
@@ -339,9 +344,14 @@ div.vocab-box h3 {
   padding-left:0px;
 }
 
+div.bonus-features {
+  display: flex;
+  flex-direction: column;
+}
+
 
 div.bonus-features p {
-  padding: 40px 0 0 0;
+  padding: 140px 0 0 0;
 }
 
 div.bonus-features h3 {
@@ -361,6 +371,42 @@ div.bonus-features h3 {
   width:55%;
   border-radius: 16px;
 
+}
+
+.bonus-features #content {
+  width: 80%;
+  height: 100%;
+  border-radius: 16px;
+}
+
+.bonus-features .wrap {
+  margin:0px;
+  height:340px;
+}
+
+.bonus-features #story-window h1, .bonus-features #post-reading-window h1, .bonus-features #pre-reading-window h1 {
+  color:black;
+  text-align:left;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  padding-top: 16px;
+  padding-left:16px;
+  text-indent: 32px;
+  margin:0px;
+
+}
+
+.bonus-features #pre-reading-window, .bonus-features #post-reading-window, .bonus-features #story-window {
+  margin:0px;
+  padding:32px 32px;
+}
+
+
+
+.bonus-features #pre-reading-window p, .bonus-features #post-reading-window p {
+color:black;
+padding:0px;
+margin:0px;
 }
 
 @keyframes blink {
