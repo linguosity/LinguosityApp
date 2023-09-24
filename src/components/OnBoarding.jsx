@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import laptopVisual from '../assets/laptop-visual-2.png';
 import aiBook from '../assets/ai-book.gif';
 import mp3File from '../assets/mp3-file.png';
