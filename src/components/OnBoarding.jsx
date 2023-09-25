@@ -106,7 +106,7 @@ const steps = [
       <div>
         <img src={pdfFile} alt="Robot Learning" className="saveIcons" /><img src={mp3File} alt="Robot Learning" className="saveIcons" />
 
-        <p>Save your stories as PDFs or MP3 audio files for easy sharing and offline access.</p>
+        <p>Save your stories as <span>PDFs</span> or <span>MP3</span> audio files for easy sharing and offline access.</p>
       </div>
     )
   }, 

@@ -426,6 +426,24 @@ radial-gradient(at 43% 32%, hsla(202,100%,37%,1) 0px, transparent 50%);
   position: relative;
 }
 
+@media only screen 
+  and (min-device-width: 820px) 
+  and (max-device-width: 2000px) 
+  and (orientation: portrait) {
+  
+    body .main-container {
+      flex-direction: column !important;
+      flex-wrap: nowrap !important;
+      height: 100%;
+    }
+
+    .onboarding-overlay {
+      width:100vw;
+      height:100vh;
+    }
+
+}
+
 @media (max-width: 768px) {
   .right-column {
     width: 100%;
@@ -1094,9 +1112,10 @@ ul.tabs li a {
   padding: 10px 0px 0 0;
   font-family: 'Open Sans', sans-serif;
   font-size: 18px;
+  font-weight: 400;
   text-align: center;
   text-decoration: none;
-  color: black;
+  color: white;
   -webkit-box-shadow: 8px 12px 5px 2px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 8px 12px 25px 2px rgba(0, 0, 0, 0.4);
   box-shadow: 8px 12px 25px 2px rgba(0, 0, 0, 0.4);
