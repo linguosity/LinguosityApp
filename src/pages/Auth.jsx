@@ -4,6 +4,8 @@ import '../styles/Auth.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import createCheckoutSession from '../lib/createCheckoutSession';
 import OnboardingScreen from '../components/OnBoarding';
+import Pricing from './Pricing';
+
 
 export default function Auth() {
   const { registerUser, login, loginWithGoogle, error, loading } = useFirebase();
@@ -56,44 +58,53 @@ export default function Auth() {
   return (
     <>
     <div className="main-container">
-    <div>
-    {showOnboarding && <OnboardingScreen onClose={closeOnboarding} />}
-    </div>
-    <div className="auth-container">
-      <div className="auth-form">
-        <h2>Login</h2>
-        {error && <p className="error-message">{error}</p>}
-        <h5 className="email-heading">Email</h5>
-        <input
-          type="email"
-          placeholder=""
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <h5>Password</h5>
-        <input
-          type="password"
-          placeholder=""
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div className='button-container'>
-          <button onClick={handleEmailSignIn}>Log in</button>
-        </div>
-        <div className="box">
-          <hr className="line"/>
-            <h4 className="login-with"><span>Or login with</span></h4>
-          <hr className="line"/>
-        </div>
-        <button className="google-button" onClick={handleGoogleSignIn}>
-          Sign-in with Google
-        </button>
-        <h4 className="have-account">Don't have account?</h4>
-        <div className='sign-up'>
-          <button onClick={handleCreateUser}>Sign up</button>
+      <div>
+        {showOnboarding && <OnboardingScreen onClose={closeOnboarding} />}
+      </div>
+
+      <div className="auth-container">
+        <div className="auth-form">
+          <h2>Login</h2>
+          {error && <p className="error-message">{error}</p>}
+          <h5 className="email-heading">Email</h5>
+          <input
+            type="email"
+            placeholder=""
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <h5>Password</h5>
+          <input
+            type="password"
+            placeholder=""
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <div className='button-container'>
+            <button onClick={handleEmailSignIn}>Log in</button>
+          </div>
+          <div className="box">
+            <hr className="line"/>
+              <h4 className="login-with"><span>Or login with</span></h4>
+            <hr className="line"/>
+          </div>
+          <button className="google-button" onClick={handleGoogleSignIn}>
+            Sign-in with Google
+          </button>
+          <h4 className="have-account">Don't have account?</h4>
+          <div className='sign-up'>
+            <button onClick={handleCreateUser}>Sign up</button>
+          </div>
         </div>
       </div>
-    </div>
+
+      <div className="your-main-container">
+        {/* Your existing components and content */}
+        <Pricing />
+        {/* Your existing components and content */}
+      </div>
+
+
     </div>
     </>
   );

@@ -441,7 +441,6 @@ radial-gradient(at 43% 32%, hsla(202,100%,37%,1) 0px, transparent 50%);
       width:100vw;
       height:100vh;
     }
-
 }
 
 @media (max-width: 768px) {
@@ -502,9 +501,13 @@ radial-gradient(at 43% 32%, hsla(202,100%,37%,1) 0px, transparent 50%);
   }
 
   body ul.tabs {
-    width: 100%;
+    width: 80%;
     padding: 0px;
+    margin-top:8px;
+  }
 
+  .bonus-features #story-window h1, .bonus-features #post-reading-window h1, .bonus-features #pre-reading-window h1 {
+    text-indent: 0px !important;
   }
 
   .wrap {
@@ -1115,7 +1118,7 @@ ul.tabs li a {
   font-weight: 400;
   text-align: center;
   text-decoration: none;
-  color: white;
+  color: black;
   -webkit-box-shadow: 8px 12px 5px 2px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 8px 12px 25px 2px rgba(0, 0, 0, 0.4);
   box-shadow: 8px 12px 25px 2px rgba(0, 0, 0, 0.4);
@@ -1130,6 +1133,15 @@ ul.tabs li a {
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
 }
+
+div.bonus-features ul.tabs li a {
+  color: white;
+}
+
+div.bonus-features ul.tabs li a.active{
+  color: #CE7B56;
+}
+
 
 .tabs li:first-child a {
   z-index: 3;
@@ -1240,7 +1252,7 @@ p {
 .main-container {
   display: flex;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   justify-content: center;
   align-content: center;
   flex-wrap: wrap;
