@@ -1270,3 +1270,9 @@ body .onboarding-content h2 {
   padding: 0 0 16px 0;
 
 }
+
+div.your-main-container {
+  background-color:#b86e4b;
+  width: 100vw;
+  min-height: 580px;
+}
