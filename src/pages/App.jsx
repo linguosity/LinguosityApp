@@ -8,7 +8,8 @@ import {
   TypingIndicator
 } from "@chatscope/chat-ui-kit-react"
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
-import { Grommet } from 'grommet';
+import { Layer } from 'grommet';
+import { grommet } from 'grommet';
 import { useAudioMagnament } from '../context/AudioMagnament';
 import ParamsForm from '../components/ParamsForm';
 import Tabs from '../components/Tabs';
@@ -25,6 +26,10 @@ import { useFirebase } from '../context/FirebaseContext';
 import validateCheckoutSession from '../lib/validateCheckoutSession';
 import retrieveSubscription from '../lib/retrieveSubsctiption';
 import retrieveCredential from '../utils/retrieveCredential';
+import 'intro.js/introjs.css';
+import introJs from 'intro.js';
+
+
 
 const formDataDefault = {
   story_topic: '',
@@ -103,7 +108,7 @@ function App() {
   }, [])
 
 
-
+  
   const addChunk = (chunk) => {
     setMessages(prev => {
       const newMsgs = [...prev]
@@ -258,6 +263,8 @@ function App() {
       }
     ]
 
+
+
     // setIsLoading(true);
     close()
     resetForm()
@@ -320,8 +327,21 @@ function App() {
     historyData.post_reading
   ])
 
-  if (loadingPage) return null
+  useEffect(() => {
+    setTimeout(() => {
+      const intro = introJs();
+      intro.oncomplete(() => {
+        intro.addHints();
+      });
+      intro.start();
+    }, 1000);
+  }, []);
   
+
+  if (loadingPage) return null
+   
+
+
   return (
     <div className="app-container">
       <Sidenav
@@ -359,12 +379,18 @@ function App() {
           </ChatContainer>
         </MainContainer>
         {show && (
-          <Modal target={modalRef} isOpen={open} onClose={close} position='left'>
+          <Modal 
+            target={modalRef} 
+            isOpen={open} 
+            onClose={close} 
+            position='left'
+          >
             <ParamsForm
               formData={formData}
               setFormData={setFormData}
               onReset={resetForm}
               onSubmit={handleGenerate}
+             
             />
           </Modal>
         )}

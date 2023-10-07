@@ -51,8 +51,14 @@ export default function Story({ story }) {
   const { setAudioUrl, handlePlay, handlePause, isGenerating, isPlaying, audioPlayerRef, audioUrl } = useAudioMagnament()
   const [currentTime, setCurrentTime] = useState(0); // State to store current time
   const [audioDuration, setAudioDuration] = useState(0); // State to store audio duration
+  const [showFullscreenButton, setShowFullscreenButton] = useState(false);
 
-
+  useEffect(() => {
+    // Check if there's any non-empty <p> tag inside #story-window
+    const hasText = paragraphs.some(paragraph => paragraph.trim() !== "");
+    setShowFullscreenButton(hasText);
+  }, [paragraphs]);
+  
   useEffect(() => {
     if (!audioPlayerRef.current) return
     // Subscribe to changes in currentTime and duration
@@ -78,6 +84,16 @@ export default function Story({ story }) {
     return planDetails.textToSpeech
   }, [userData])
 
+  const handleFullScreenClick = () => {
+    const storyWindow = document.getElementById("story-window");
+
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      storyWindow.requestFullscreen();
+    }
+  };
+
   return (
     <div>
       {
@@ -88,6 +104,7 @@ export default function Story({ story }) {
           </div>
         )
       }
+      {showFullscreenButton && <button onClick={handleFullScreenClick}>[Fullscreen]</button>}
       <div id="story-window">
         {title && <h1>{title}</h1>}
         {paragraphs.map((paragraph, index) => (

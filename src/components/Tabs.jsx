@@ -22,9 +22,10 @@ const Tabs = ({
 
   return (
     <div className="wrap">
-      <ul className="tabs group">
+      <ul className="tabs group" data-intro="Everything you need for a full lesson—story, prep, and recap—will appear here!" 
+    data-step="6" data-hint="This is a hint!">
         {tabs.map((tab, i) => (
-          <li key={i}>
+          <li key={i} >
             <a onClick={() => handleTabClick(tab.value)} className={classNames({ active: activeTab === tab.value })}>
               {tab.label}
             </a>

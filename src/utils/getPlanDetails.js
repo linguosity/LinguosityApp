@@ -7,10 +7,10 @@ export const plans = {
     features: [
       "2 story generations",
     ],
-    generations: 2,
-    textToSpeech: false,
-    downloadStoryPDF: false,
-    downloadMP3: false,
+    generations: 50,
+    textToSpeech: true,
+    downloadStoryPDF: true,
+    downloadMP3: true,
   }, 
   basic: {
     title: "Basic",

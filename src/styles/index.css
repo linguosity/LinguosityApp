@@ -272,6 +272,11 @@ body {
   border-radius: 128px;
 }
 
+.sidenav-button.bg-focus 
+{
+  color:white;
+}
+
 .padding-sm {
   padding: 16px 40px 16px 0px;
 }
@@ -630,6 +635,7 @@ radial-gradient(at 43% 32%, hsla(202,100%,37%,1) 0px, transparent 50%);
 
   .bonus-features #pre-reading-window ul{
     padding: 8px 24px 34px 24px;
+
   }
 
   body .onboarding-content .saveIcons {
@@ -832,6 +838,8 @@ div#story-window ul li,
 div#pre-reading-window ul li,
 div#post-reading-window ul li {
   list-style-type: none;
+  color:black;
+  text-align:left;
 }
 
 div#pre-reading-window h1,
@@ -1276,3 +1284,58 @@ div.your-main-container {
   width: 100vw;
   min-height: 580px;
 }
+#story-window:-webkit-full-screen,
+#story-window:-moz-full-screen,
+#story-window:fullscreen,
+#story-window:-ms-fullscreen {
+    background: white;
+    height: 100vh;
+    font-size: 36px !important;
+}
+
+#story-window:-webkit-full-screen p,
+#story-window:-moz-full-screen p,
+#story-window:fullscreen p,
+#story-window:-ms-fullscreen p {
+    background: white;
+    color: black;
+    width: 100%;
+    overflow: auto;
+    font-size: 36px !important;
+    line-height: 1.5;
+    padding-bottom: 8px;
+    text-indent: 50px;
+}
+
+body:-webkit-full-screen,
+body:-moz-full-screen,
+body:fullscreen,
+body:-ms-fullscreen {
+    background-color: white;
+    
+}
+
+/* StackOverflow suggestions */
+:fullscreen,
+::backdrop {
+    background-color: #ffffff;
+}
+
+html {
+    background-color: #ffffff;
+}
+
+.shepherd-element {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.shepherd-enabled .shepherd-element {
+  opacity: 1;
+}
+
+.inactive-button {
+  color: rgb(179, 179, 179);
+  cursor:not-allowed;
+}
+

@@ -60,6 +60,31 @@ const Toolbar = ({ openForm, pdfDocument }) => {
     const planDetails = getPlanDetails(userData.plan)
     return planDetails.downloadMP3
   }, [userData])
+
+  // Data intros for PDF and MP3 based on user's plan
+  const pdfDataIntro = useMemo(() => {
+    switch (userData?.plan) {
+      case 'free':
+        return "PDF downloads are not available on the Free tier. Upgrade for this feature.";
+      case 'basic':
+      case 'pro':
+        return "You can download the story in PDF format.";
+      default:
+        return "";
+    }
+  }, [userData]);
+
+  const mp3DataIntro = useMemo(() => {
+    switch (userData?.plan) {
+      case 'free':
+      case 'basic':
+        return "MP3 downloads are not available on this tier. Upgrade for this feature.";
+      case 'pro':
+        return "You can download the story in MP3 format.";
+      default:
+        return "";
+    }
+  }, [userData]);
   
   return (
     <div className="toolbar">
@@ -77,33 +102,54 @@ const Toolbar = ({ openForm, pdfDocument }) => {
         </svg>
         <span>Home</span>
       </div>
-      <div className="sidenav-button" onClick={openForm}>
+      <div className="sidenav-button build-button" data-intro="Hey there! Start building your language story here." 
+        data-step="1" data-hint="This is a hint!" onClick={openForm}>
         <AiOutlineForm />
         <span>Build Story</span>
       </div>
-      <div className="sidenav-button">
+      <div className="sidenav-button" data-intro="Need guidance? Our chatbot will walk you through the lesson." 
+    data-step="2" >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" id="chatbot"><path d="M47.3 125.1c.5 1.1 1.6 1.9 2.8 1.9h36.2c22.2 0 40.4-17.7 40.7-39.5.1-11.1-4.4-21.9-12.5-29.6-8.2-7.8-19-11.6-30.3-10.8-19.8 1.4-35.8 17.4-37.1 37.2-.7 10.6 2.8 20.9 9.6 28.9l-8.8 8.7c-.8.8-1.1 2.1-.6 3.2zm5.8-40.4c1.1-16.8 14.7-30.4 31.5-31.6 9.6-.7 18.8 2.6 25.8 9.2 6.9 6.5 10.8 15.7 10.7 25.2-.3 18.5-15.9 33.5-34.8 33.5h-29l5.7-5.7c.6-.6.9-1.3.9-2.1s-.3-1.6-.9-2.1c-7.1-7.1-10.6-16.4-9.9-26.4z"></path><path d="M72 83h30c1.7 0 3-1.3 3-3s-1.3-3-3-3H72c-1.7 0-3 1.3-3 3s1.3 3 3 3z"></path><path d="M114 1H14C6.8 1 1 6.8 1 14v100c0 7.2 5.8 13 13 13h10.1c1.6 0 2.9-1.3 2.9-2.9v-.1c0-1.6-1.3-3-3-3H14c-3.9 0-7-3.1-7-7V35h114v8c0 1.9 1.8 3.3 3.6 2.9h.1c1.4-.3 2.3-1.5 2.3-2.9V14c0-7.2-5.8-13-13-13zm7 28H7V14c0-3.9 3.1-7 7-7h100c3.9 0 7 3.1 7 7v15z"></path><path d="M22 15h-4c-1.7 0-3 1.3-3 3s1.3 3 3 3h4c1.7 0 3-1.3 3-3s-1.3-3-3-3zm16 0h-4c-1.7 0-3 1.3-3 3s1.3 3 3 3h4c1.7 0 3-1.3 3-3s-1.3-3-3-3zm34 82h13c1.7 0 3-1.3 3-3s-1.3-3-3-3H72c-1.7 0-3 1.3-3 3s1.3 3 3 3zm30-6h-5c-1.7 0-3 1.3-3 3s1.3 3 3 3h5c1.7 0 3-1.3 3-3s-1.3-3-3-3z"></path></svg>
         <span> Chat Guide </span>
       </div>
-      {pdfDocument && isAllowedDownloadStoryPDF && (
-        <PDFDownloadLink
-          className="sidenav-button"
-          document={pdfDocument}
-          fileName='document.pdf'
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
-          <AiOutlineFilePdf />
-          <span>Print Story</span>
-        </PDFDownloadLink>
-      )}
-      {audioUrl && isAllowedDownloadMP3 && (
-        <a href={audioUrl} className="sidenav-button" download="story.mp3">
-          <PiFileAudioDuotone />
-          <span> Save audio </span>
-        </a>
-      )}
+      { (pdfDocument && isAllowedDownloadStoryPDF) ? (
+  // This part will render if pdfDocument exists and isAllowedDownloadStoryPDF is true
+  <PDFDownloadLink
+    className="sidenav-button"
+    document={pdfDocument}
+    fileName='document.pdf'
+    style={{ textDecoration: 'none', color: 'inherit' }}
+  >
+    <AiOutlineFilePdf />
+    <span>Print Story</span>
+  </PDFDownloadLink>
+) : (
+  // This part will render otherwise (e.g., if pdfDocument doesn't exist or isAllowedDownloadStoryPDF is false)
+  <div className="sidenav-button inactive-button" data-intro={pdfDataIntro} 
+  data-step="3">
+    <AiOutlineFilePdf />
+    <span>Print Story</span>
+  </div>
+)}
+
+{ (audioUrl && isAllowedDownloadMP3) ? (
+  // This part will render if audioUrl exists and isAllowedDownloadMP3 is true
+  <a href={audioUrl} className="sidenav-button" download="story.mp3">
+    <PiFileAudioDuotone />
+    <span> Save audio </span>
+  </a>
+) : (
+  // This part will render otherwise (e.g., if audioUrl doesn't exist or isAllowedDownloadMP3 is false)
+  <div className="sidenav-button inactive-button" data-intro={mp3DataIntro} 
+  data-step="4">
+    <PiFileAudioDuotone />
+    <span> Save audio </span>
+  </div>
+)}
+
       {user && (
-        <div className="sidenav-button padding-sm justify-center border-vertical" onClick={open}>
+        <div className="sidenav-button padding-sm justify-center border-vertical" data-intro="View your generated story count and membership plan here." 
+         data-step="5"  onClick={open}>
           {
             user.avatar ?
               <img src={user.avatar} alt="" /> :

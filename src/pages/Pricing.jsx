@@ -36,7 +36,6 @@ export default function Pricing() {
               flex={size === "small" ? false : true}
               width="320px"
               background="white"
-              border
               round="medium"
               pad="medium"
             >

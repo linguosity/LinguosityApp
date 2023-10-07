@@ -10,7 +10,7 @@ export default function Tab({
   post_reading
 }) {
   return (
-    <div className="tab">
+    <div className="tab" >
       {activeTab === "pre_reading" && <PreReading preReading={pre_reading} />}
       {activeTab === "story_text" && <Story story={story_text} />}
       {activeTab === "post_reading" && <PostReading postReading={post_reading} />}
