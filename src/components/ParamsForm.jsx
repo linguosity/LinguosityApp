@@ -213,6 +213,13 @@ const customTheme = {
       position: 'none', // This removes the border
     },
   },
+  button: {
+    extend: () =>
+    `
+    border: #002033 solid;
+    
+    `,
+  }
 };
 
 
@@ -291,7 +298,7 @@ export default function ParamsForm({ formData, setFormData, onReset, onSubmit })
             </FormField>
             <Box direction="row" justify="between" margin={{ vertical: 'small' }}>
               <Button type="reset" label="Reset" />
-            <Button disabled={!isReadyToGenerate} type="submit" label="Generate" primary />
+            <Button disabled={!isReadyToGenerate} type="submit" style={{ backgroundColor: '#002073' }} label="Generate" primary />
             </Box>
           </Form>
         </Box>

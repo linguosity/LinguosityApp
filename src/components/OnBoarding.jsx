@@ -11,6 +11,8 @@ import difficulty from '../assets/difficulty.png';
 import generateStory from '../assets/story-writer.gif';
 import generateQuestions from '../assets/generate-questions.gif';
 import Tabs from "./Tabs";
+import LottieAnimation from './LottieAnimation'; // Adjust the import path if necessary
+
 
 
 const OnboardingScreen = ({ onClose }) => {
@@ -193,7 +195,11 @@ const steps = [
         
           <div className="onBoardSteps">{steps[onboardStep].content}</div>
         
-        <button onClick={onNext} className="clickRight"> {">"} </button>
+        <button onClick={onNext} className="clickRight">
+        <LottieAnimation path='../assets/lottie/nextButton.json' />
+
+            {">"}
+         </button>
         <div className="onboarding-toolbar">
           
           <div className="status-circles">

@@ -1,13 +1,17 @@
 
 export const plans = {
   free: {
-    title: "Free",
+    title: "Free Trial",
     description: "No-cost option that provides basic access to our platform's features for trial purposes",
     price: 0,
     features: [
-      "2 story generations",
+      "10 story generations",
+      "text to speech",
+      "download story pdf",
+      "download mp3 audio",
+      "virtual tutor"
     ],
-    generations: 50,
+    generations: 10,
     textToSpeech: true,
     downloadStoryPDF: true,
     downloadMP3: true,
@@ -37,6 +41,7 @@ export const plans = {
       "text to speech",
       "download story pdf",
       "download mp3 audio",
+      "virtual tutor"
     ],
     generations: 100,
     textToSpeech: true,
