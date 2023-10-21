@@ -25,6 +25,7 @@ export default function Pricing() {
       justify="center"
       align="center"
       pad={{ vertical: "large", horizontal: "small" }}
+      background="#b86e4b"
     >
       <Text weight="bold" size="xlarge" margin={{ bottom: "medium" }}>Pricing</Text>
       <Box direction={size === "small" ? "column" : "row"} gap="12px" >

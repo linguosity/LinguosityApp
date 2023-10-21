@@ -17,11 +17,11 @@ import { Grommet } from 'grommet'
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Landing />
+    element: <Auth />
   },
   {
-    path: "/login",
-    element: <Auth />
+    path: "/landing",
+    element: <Landing />
   },
   {
     path: "/app",

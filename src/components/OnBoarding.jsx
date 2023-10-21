@@ -11,7 +11,7 @@ import difficulty from '../assets/difficulty.png';
 import generateStory from '../assets/story-writer.gif';
 import generateQuestions from '../assets/generate-questions.gif';
 import Tabs from "./Tabs";
-import LottieAnimation from './LottieAnimation'; // Adjust the import path if necessary
+import LottieAnimation from './lottieAnimation'; // Adjust the import path if necessary
 
 
 

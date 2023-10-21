@@ -415,6 +415,76 @@ margin:0px;
   }
 }
 
+.quote-wrap {
+    width: 50vw;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.quote-slider {
+  padding: 50px 0;
+  position: relative;
+  font-family: 'Arial', sans-serif; /* Use desired font-family */
+  height: 100vh;
+}
+
+.quote-icon {
+  display: block;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  width:50px;
+  height:50px;
+}
+
+.quote-wrap h3 {
+    color: #6b6b6b;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 40px;
+    text-align: center;
+}
+
+.quote-attribution {
+  text-align: center;
+}
+
+.quote-attribution p {
+  font-size: 18px; /* Adjust as needed */
+  color: #888; /* Adjust color as needed */
+}
+
+.slider-nav {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+.slider-nav button {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #888;
+  cursor: pointer;
+}
+
+.slider-nav button:first-child {
+  position: absolute;
+  left: 20px;
+}
+
+.slider-nav button:last-child {
+  position: absolute;
+  right: 20px;
+}
+
 
 
 

@@ -4,6 +4,7 @@ import '../styles/Auth.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import createCheckoutSession from '../lib/createCheckoutSession';
 import OnboardingScreen from '../components/OnBoarding';
+import QuoteSlider from '../components/QuoteSlider'; // Import the new component
 import Pricing from './Pricing';
 
 
@@ -58,10 +59,7 @@ export default function Auth() {
   return (
     <>
     <div className="main-container">
-      <div>
-        {showOnboarding && <OnboardingScreen onClose={closeOnboarding} />}
-      </div>
-
+      
       <div className="auth-container">
         <div className="auth-form">
           <h2>Login</h2>
@@ -98,11 +96,17 @@ export default function Auth() {
         </div>
       </div>
 
+      <div>
+        {showOnboarding && <OnboardingScreen onClose={closeOnboarding} />}
+      </div>
+
       <div className="your-main-container">
         {/* Your existing components and content */}
+        <QuoteSlider />
         <Pricing />
         {/* Your existing components and content */}
       </div>
+
 
 
     </div>
