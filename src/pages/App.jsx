@@ -54,6 +54,8 @@ function App() {
   const { setUser, updateDBEntry, user, userData, getDBEntry } = useFirebase()
   const [searchParams, setSearchParams] = useSearchParams()
   const [loadingPage, setLoadingPage] = useState(true)
+  const [isRightColumnVisible, setIsRightColumnVisible] = useState(false);
+  
   useEffect(() => {
 
     const credential = retrieveCredential()
@@ -354,8 +356,11 @@ function App() {
               historyData.post_reading
             ]} /> : undefined
         }
+        
+        isRightColumnVisible={isRightColumnVisible}
+        setIsRightColumnVisible={setIsRightColumnVisible} // Pass setIsRightColumnVisible as a prop to Sidenav
       />
-      <div className="right-column">
+      <div className={`right-column ${isRightColumnVisible ? 'right-column-visible' : 'right-column-hidden'}`}>
         <MainContainer >
           <ChatContainer>
             <MessageList className='message-list' typingIndicator={isTyping ? <TypingIndicator content="" /> : null} >
@@ -395,7 +400,10 @@ function App() {
           </Modal>
         )}
       </div>
-      <div className="tab-wrapper">
+      <div 
+          className="tab-wrapper" 
+          style={{ width: isRightColumnVisible ? 'calc(100vw - 240px)' : '100vw' }}
+      >
         <div className="tab-shadow">
           <Tabs
             activeTab={activeTab}

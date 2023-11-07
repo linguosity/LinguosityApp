@@ -12,7 +12,17 @@ export default function Pricing() {
   const handleOnChoose = (plan) => {
     const credential = retrieveCredential()
     if (!credential) {
-      navigate(`/login?from=pricing&plan=${plan}`)
+       // Scroll to the login section
+    document.getElementById('login').scrollIntoView();
+    // Change the URL to include the plan information
+    history.pushState(null, '', `/login?from=pricing&plan=${plan}`);
+    document.getElementById('email').classList.add('highlight');
+    document.getElementById('password').classList.add('highlight');
+    // Remove the highlight after a few seconds
+    setTimeout(() => {
+      document.getElementById('email').classList.remove('highlight');
+      document.getElementById('password').classList.remove('highlight');
+    }, 2000);
     } else {
       createCheckoutSession(plan, credential.email)
     }
@@ -21,6 +31,7 @@ export default function Pricing() {
 
   return (
     <Box
+      className="Pricing"
       height={size === "small" ? "auto" : "100vh"}
       justify="center"
       align="center"

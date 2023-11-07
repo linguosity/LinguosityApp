@@ -392,7 +392,7 @@ radial-gradient(at 43% 32%, hsla(202,100%,37%,1) 0px, transparent 50%);
   align-items: center;
   margin-top: 20px;
   position:absolute;
-  bottom:0px;
+  bottom:8%;
 }
 
 .onBoardSteps {
@@ -1280,10 +1280,16 @@ body .onboarding-content h2 {
 }
 
 div.your-main-container {
-  background-color:transparent;
-  width: 100vw;
-  min-height: 580px;
+  background-color: tran;
+    width: 100vw;
+    min-height: 580px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
 }
+
 #story-window:-webkit-full-screen,
 #story-window:-moz-full-screen,
 #story-window:fullscreen,
@@ -1337,5 +1343,9 @@ html {
 .inactive-button {
   color: rgb(179, 179, 179);
   cursor:not-allowed;
+}
+
+.Pricing {
+  width:100vw;
 }
 

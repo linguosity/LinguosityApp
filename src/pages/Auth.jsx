@@ -60,12 +60,13 @@ export default function Auth() {
     <>
     <div className="main-container">
       
-      <div className="auth-container">
+      <div className="auth-container" id="login">
         <div className="auth-form">
           <h2>Login</h2>
           {error && <p className="error-message">{error}</p>}
           <h5 className="email-heading">Email</h5>
           <input
+            id="email"
             type="email"
             placeholder=""
             value={email}
@@ -73,6 +74,7 @@ export default function Auth() {
           />
           <h5>Password</h5>
           <input
+            id="password"
             type="password"
             placeholder=""
             value={password}
