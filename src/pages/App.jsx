@@ -113,10 +113,25 @@ function App() {
   
   const addChunk = (chunk) => {
     setMessages(prev => {
-      const newMsgs = [...prev]
-      const lastMsg = newMsgs[newMsgs.length - 1]
-      lastMsg.content += chunk
-      return newMsgs
+      // Log the previous state and the incoming chunk to see if it's received completely
+    console.log('Previous last message:', prev[prev.length - 1]);
+    console.log('Incoming chunk:', chunk);
+
+    const newMsgs = [...prev];
+    const lastMsg = newMsgs[newMsgs.length - 1];
+
+    // Boundary check: If last message is undefined or null, there's an issue
+    if (!lastMsg) {
+      console.error('Last message is undefined or null.');
+      return prev; // Return the previous state to avoid breaking the app
+    }
+
+    lastMsg.content += chunk;
+
+    // After modification, log the updated last message
+    console.log('Updated last message:', lastMsg);
+
+    return newMsgs;
     })
   }
 
