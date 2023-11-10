@@ -11,7 +11,7 @@ export default async function callOpenAI(
   messages,
   functions,
   temperature = 0.9,
-  model = "gpt-4-0613",
+  model = "gpt-4-1106-preview",
   stream = false,
   function_call = "none"
 ) {
@@ -23,7 +23,7 @@ export default async function callOpenAI(
       temperature,
       stream,
       functions,
-      max_tokens: 6700
+      max_tokens: 28700
     });
 
     if (stream) {
