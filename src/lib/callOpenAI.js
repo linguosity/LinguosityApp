@@ -23,7 +23,7 @@ export default async function callOpenAI(
       temperature,
       stream,
       functions,
-      max_tokens: 28700
+      max_tokens: 4096
     });
 
     if (stream) {

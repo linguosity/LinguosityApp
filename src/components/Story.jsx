@@ -44,10 +44,11 @@ const formatTime = (ms) => {
   sec = sec < 10 ? `0${sec}` : sec
   return `${min}:${sec}`
 }
-export default function Story({ story }) {
+export default function Story({ story, imageUrl }) {
   const lines = story.split('\n');
-  const title = lines[0].trim();
-  const paragraphs = lines.slice(1).filter((line) => line.trim() !== '');
+  let title = lines[0].trim();
+  title = title.endsWith('.') ? title : title + '.'; // Add period if not present
+  const paragraphs = lines.slice(1).map(line => line.trim().endsWith('.') ? line.trim() : line.trim() + '.').filter(line => line !== '');
   const { setAudioUrl, handlePlay, handlePause, isGenerating, isPlaying, audioPlayerRef, audioUrl } = useAudioMagnament()
   const [currentTime, setCurrentTime] = useState(0); // State to store current time
   const [audioDuration, setAudioDuration] = useState(0); // State to store audio duration
@@ -106,6 +107,8 @@ export default function Story({ story }) {
       }
       {showFullscreenButton && <button onClick={handleFullScreenClick}>[Fullscreen]</button>}
       <div id="story-window">
+
+      {imageUrl && <img src={imageUrl} alt="Generated" />}  {/* Display the image */}
         {title && <h1>{title}</h1>}
         {paragraphs.map((paragraph, index) => (
           <p key={index}>{paragraph}</p>

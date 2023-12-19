@@ -7,12 +7,13 @@ export default function Tab({
   activeTab,
   story_text,
   pre_reading,
-  post_reading
+  post_reading,
+  imageUrl  
 }) {
   return (
     <div className="tab" >
       {activeTab === "pre_reading" && <PreReading preReading={pre_reading} />}
-      {activeTab === "story_text" && <Story story={story_text} />}
+      {activeTab === "story_text" && <Story story={story_text} imageUrl={imageUrl}/>}
       {activeTab === "post_reading" && <PostReading postReading={post_reading} />}
     </div>
 

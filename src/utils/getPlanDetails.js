@@ -11,7 +11,7 @@ export const plans = {
       "download mp3 audio",
       "virtual tutor"
     ],
-    generations: 15,
+    generations: 50,
     textToSpeech: true,
     downloadStoryPDF: true,
     downloadMP3: true,

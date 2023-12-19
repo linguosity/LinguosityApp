@@ -1,15 +1,25 @@
-export default async function generateImage(client, prompt) {
+export default async function generateImage(prompt) {
   try {
     const additionalText = ` in the style of a graphic novel`;
     const modifiedPrompt = `${prompt} ${additionalText}`;
 
-    const res = await client.createImage({
-      prompt: modifiedPrompt,
-      n: 1,
-      size: "256x256",
+    const res = await fetch('https://api.openai.com/v1/images/generations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${import.meta.env.VITE_APP_OPENAI_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'dall-e-3',
+        prompt: modifiedPrompt,
+        n: 1,
+        size: '1024x1024'
+      })
     });
 
-    return res.data.data[0].url;
+    const data = await res.json();
+
+    return data.data[0].url;
   } catch (error) {
     console.error(`Error: ${error}`);
   }
